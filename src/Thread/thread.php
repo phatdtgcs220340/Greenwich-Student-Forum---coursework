@@ -26,7 +26,7 @@ class Thread
     }
     public function toThreadViewUrl()
     {
-        return "http://localhost/comp1841/coursework/src/Thread/page.php?threadId=" . $this->threadId;
+        return "http://localhost/comp1841/coursework/src/page.php?threadId=" . $this->threadId;
     }
     public function userInfo()
     {
