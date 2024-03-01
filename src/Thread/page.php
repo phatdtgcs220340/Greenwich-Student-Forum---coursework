@@ -42,7 +42,7 @@ if (isset($_GET['threadId'])) {
             <img src="
             <?php 
             if ($thread->getImage() != "")
-                echo "./".$thread->getImage();
+                echo "../".$thread->getImage();
             else 
                 echo "";
             ?>" alt=""/>

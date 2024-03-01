@@ -152,7 +152,7 @@ class Thread
                 </div>
                 <a href="' . $this->toThreadViewUrl() . '">
                     <div class="w-full bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
-                        <img class="rounded-t-lg" src="./thread/' . $this->image . '" alt="" />
+                        <img class="rounded-t-lg" src="./' . $this->image . '" alt="" />
                         <div class="p-5">
                             <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">' . $this->title ." - ".$this->category. '</h5>
                             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">' . $trimmedContent . '</p>
