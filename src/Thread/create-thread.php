@@ -4,6 +4,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user_id'];
     $title = $_POST['title'];
     $content = $_POST['content'];
+    $category = $_POST['category'];
     $target_dir = "images/";
     $target_file = $target_dir . basename($_FILES["image"]["name"]);
     $uploadOk = 1;
@@ -45,8 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $pdo = new PDO('mysql:host=localhost;dbname=cw-student-forum-db', 'root', '');
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $pdo->prepare('INSERT INTO `thread` (title, content, image, user_id) VALUES (?, ?, ?, ?)');
-        $stmt->execute([$title, $content, $target_file, $user_id]);
+        $stmt = $pdo->prepare('INSERT INTO `thread` (title, content, image, user_id, category) VALUES (?, ?, ?, ?, ?)');
+        $stmt->execute([$title, $content, $target_file, $user_id, $category]);
 
         header("Location: ../home-view.php");
     } catch (PDOException $e) {

@@ -17,7 +17,7 @@ if (isset($_GET['threadId'])) {
         $stmt = $pdo->prepare("SELECT * FROM `thread` WHERE thread_id = ?");
         $stmt->execute([$threadId]);
         $threadFetch = $stmt->fetch(PDO::FETCH_ASSOC);
-        $thread = new Thread($threadFetch['thread_id'], $threadFetch['title'], $threadFetch['image'], $threadFetch['content'], $threadFetch['user_id'], $threadFetch['creation_date']);
+        $thread = new Thread($threadFetch['thread_id'], $threadFetch['title'], $threadFetch['image'], $threadFetch['content'], $threadFetch['user_id'], $threadFetch['creation_date'], $threadFetch['category']);
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
@@ -36,7 +36,7 @@ if (isset($_GET['threadId'])) {
 <body>
     <div class="flex flex-col flex-start p-6 gap-2 ">
         <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700"><?php echo $thread->getTitle()?></h5>
-        <h5>Category: Algorithm</h5>
+        <h5>Category: <?php echo $thread->getCategory()?></h5>
         <div class="flex flex-col p-6 w-2/3 h-auto bg-white border-t border-b border-gray-400 gap-2">
             <p><?php echo nl2br($thread->getContent()) ?></p>
             <img src="

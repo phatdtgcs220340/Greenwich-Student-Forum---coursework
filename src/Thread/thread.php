@@ -11,9 +11,10 @@ class Thread
     private $content;
     private $userId;
     private $image;
+    private $category;
     private $creationDate;
 
-    public function __construct($threadId, $title, $image, $content, $userId, $creationDate)
+    public function __construct($threadId, $title, $image, $content, $userId, $creationDate, $category)
     {
         $this->threadId = $threadId;
         $this->title = $title;
@@ -21,6 +22,7 @@ class Thread
         $this->image = $image;
         $this->userId = $userId;
         $this->creationDate = $creationDate;
+        $this->category = $category;
     }
     public function toThreadViewUrl()
     {
@@ -99,6 +101,9 @@ class Thread
     public function getCreationDate()
     {
         return $this->creationDate;
+    }   
+    public function getCategory() {
+        return $this->category;
     }
     public function timeDifference()
     {
@@ -140,16 +145,16 @@ class Thread
             $trimmedContent = implode(' ', array_slice(explode(' ', $trimmedContent), 0, 10)) . " ...";
         }
         echo '
-            <div class= "flex-initial w-96">
+            <div class= "flex-initial w-full">
                 <div class="flex gap-3">
                 <img class="rounded-lg h-8" src="https://p16-tm-sg.tiktokmusic.me/img/tos-alisg-v-2102/oEP71hZqEwA72YkANvBsrV4gAiAAXBciIEIAr~c5_500x500.image">
-                <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700">' . $userInfo['firstName'] . " " . $userInfo['lastName'] . '</h5>
+                <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700">' . $userInfo['firstName'] . " " . $userInfo['lastName'].'</h5>
                 </div>
                 <a href="' . $this->toThreadViewUrl() . '">
-                    <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
+                    <div class="w-full bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
                         <img class="rounded-t-lg" src="./thread/' . $this->image . '" alt="" />
                         <div class="p-5">
-                            <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">' . $this->title . '</h5>
+                            <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">' . $this->title ." - ".$this->category. '</h5>
                             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">' . $trimmedContent . '</p>
                         </div>
                     </div>
