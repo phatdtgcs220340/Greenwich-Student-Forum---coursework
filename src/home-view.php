@@ -121,7 +121,7 @@
 
     // display thread list 
     foreach ($threadList as $threadNode) {
-      $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], $threadNode['image'], $threadNode['content'], $threadNode['user_id']);
+      $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], $threadNode['image'], $threadNode['content'], $threadNode['user_id'], $threadNode['creation_date']);
       echo $thread->toCard();
     }
     ?>
