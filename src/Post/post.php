@@ -75,7 +75,7 @@ use PDO, PDOException;
             echo '
             <div class="flex flex-col gap-2">
             <div class="flex items-start gap-2.5">
-            <img class="w-8 h-8 rounded-full" src="" alt="user image">
+            <img class="w-8 h-8 rounded-full" src="'.$user['image'].'" alt="user image">
             <div class="flex flex-col w-1/2 p-4 border-gray-200 bg-gray-100 rounded-lg rounded-es-xl">
                <div class="flex items-center gap-2">
                   <span class="text-sm font-semibold text-gray-900 dark:text-white">'.$user['firstName']." ".$user['lastName'].'</span>
