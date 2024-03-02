@@ -147,7 +147,7 @@ class Thread
         echo '
             <div class= "flex-initial w-full">
                 <div class="flex gap-3">
-                <img class="rounded-lg h-8" src="https://p16-tm-sg.tiktokmusic.me/img/tos-alisg-v-2102/oEP71hZqEwA72YkANvBsrV4gAiAAXBciIEIAr~c5_500x500.image">
+                <img class="rounded-lg h-8" src="'.$userInfo['image'].'">
                 <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700">' . $userInfo['firstName'] . " " . $userInfo['lastName'].'</h5>
                 </div>
                 <a href="' . $this->toThreadViewUrl() . '">
