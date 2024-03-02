@@ -43,7 +43,7 @@ if (isset($_GET['threadId'])) {
             <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                 <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                     <span class="sr-only">Open user menu</span>
-                    <img class="w-8 h-8 rounded-full" src="https://p16-tm-sg.tiktokmusic.me/img/tos-alisg-v-2102/oEP71hZqEwA72YkANvBsrV4gAiAAXBciIEIAr~c5_500x500.image" alt="user photo">
+                    <img class="w-8 h-8 rounded-full" src="<?php echo $_SESSION['image']?>" alt="user photo">
                 </button>
                 <!-- Dropdown menu -->
                 <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
@@ -109,7 +109,7 @@ if (isset($_GET['threadId'])) {
             <div class="bg-gray-100 p-2 border boreder-gray-400 self-end flex flex-col gap-2">
                 <h2 class="text-xs">asked <?php echo $thread->timeDifference() ?> ago</h2>
                 <div class="flex gap-2">
-                    <img class="w-8 h-8 rounded-lg" src="https://p16-tm-sg.tiktokmusic.me/img/tos-alisg-v-2102/oEP71hZqEwA72YkANvBsrV4gAiAAXBciIEIAr~c5_500x500.image" alt="user photo">
+                    <img class="w-8 h-8 rounded-lg" src="<?php echo $_SESSION['image']?>" alt="user photo">
                     <h2 class="text-sm"><?php
                                         $user = $thread->userInfo();
                                         echo $user['firstName'] . " " . $user['lastName'];

@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['firstName'] = $user['firstName'];
             $_SESSION['lastName'] = $user['lastName'];
             $_SESSION['email'] = $user['email'];
+            $_SESSION['image'] = $user['image'];
             header('Location: ../home-view.php');
             exit;
         } else {
