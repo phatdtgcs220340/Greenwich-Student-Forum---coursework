@@ -1,6 +1,7 @@
 <?php
 
 namespace Src\Thread;
+
 session_start();
 require_once("./Thread/thread.php");
 
@@ -43,7 +44,7 @@ if (isset($_GET['threadId'])) {
             <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                 <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                     <span class="sr-only">Open user menu</span>
-                    <img class="w-10 h-10 rounded-full" src="<?php echo $_SESSION['image']?>" alt="user photo">
+                    <img class="w-10 h-10 rounded-full" src="<?php echo $_SESSION['image'] ?>" alt="user photo">
                 </button>
                 <!-- Dropdown menu -->
                 <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
@@ -94,28 +95,60 @@ if (isset($_GET['threadId'])) {
             </div>
         </div>
     </nav>
-    <div class="flex flex-col flex-start p-6 gap-2 ">
+    <div class="flex flex-col p-6 gap-2 ">
         <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700"><?php echo $thread->getTitle() ?></h5>
         <h5>Category: <?php echo $thread->getCategory() ?></h5>
         <div class="flex flex-col p-6 w-2/3 h-auto bg-white border-t border-b border-gray-400 gap-2">
             <p><?php echo nl2br($thread->getContent()) ?></p>
-            <img src="
-            <?php
-            if ($thread->getImage() != "")
-                echo $thread->getImage();
-            else
-                echo "";
-            ?>" alt="" />
+            <img src="<?php
+                        if ($thread->getImage() != "")
+                            echo $thread->getImage();
+                        else
+                            echo "";
+                        ?>" alt="" />
+
             <div class="bg-gray-100 p-2 border boreder-gray-400 self-end flex flex-col gap-2">
                 <h2 class="text-xs">asked <?php echo $thread->timeDifference() ?> ago</h2>
                 <div class="flex gap-2">
-                    <img class="w-8 h-8 rounded-lg" src="<?php echo $_SESSION['image']?>" alt="user photo">
+                    <img class="w-8 h-8 rounded-lg" src="<?php $user = $thread->userInfo();
+                     echo $user['image'] ?>" 
+                    alt="user photo">
                     <h2 class="text-sm"><?php
                                         $user = $thread->userInfo();
                                         echo $user['firstName'] . " " . $user['lastName'];
                                         ?></h2>
                 </div>
             </div>
+            <?php
+            // if the user is the owner of the thread then display delete and edit method
+            if ($thread->getUserId() == $_SESSION['user_id'])
+                echo '<div class="flex self-start">
+                    <!-- Delete form -->
+                    <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Red</button>
+                    <div id="popup-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                        <div class="relative p-4 w-full max-w-md max-h-full">
+                            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal">
+                                </button>
+                                <div class="p-4 md:p-5 text-center">
+                                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this thread?</h3>
+                                    <form action="./Thread/delete-thread.php" method="post">
+                                        <input type="hidden" name="thread_id" value="'.$_GET['threadId'].'">
+                                        <button data-modal-hide="popup-modal" type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                                            Yes, I\'m sure
+                                        </button>
+                                    </form>
+                                    <button data-modal-hide="popup-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No, cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form action="">
+                        <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Green</button>
+                    </form>
+                </div>'
+            ?>
         </div>
 
         <form action="Post/create-post.php" method="post" class="w-3/4">
