@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Insert the new user
             $stmt = $pdo->prepare('INSERT INTO `user` (firstName, lastName, email, password, role) VALUES (?, ?, ?, ?, \'Student\')');
             $stmt->execute([$firstName, $lastName, $email, $password]);
-            header("Location at: ./login.php");
+            header("Location: login.php");
         }
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
