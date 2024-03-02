@@ -145,7 +145,7 @@ class Thread
             $trimmedContent = implode(' ', array_slice(explode(' ', $trimmedContent), 0, 10)) . " ...";
         }
         echo '
-            <div class= "flex-initial w-full">
+            <div class= "flex-initial w-full mb-4">
                 <div class="flex gap-3">
                 <img class="rounded-lg h-8" src="'.$userInfo['image'].'">
                 <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700">' . $userInfo['firstName'] . " " . $userInfo['lastName'].'</h5>
