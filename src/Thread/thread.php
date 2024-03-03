@@ -137,19 +137,23 @@ class Thread
         // Display the formatted difference
         return $formattedDifference;
     }
-    public function toCard()
-    {
+    public function toCard($displayUser="true")
+    {   
+        if ($displayUser == true) {
         $userInfo = $this->userInfo();
+        $user_card = '
+        <a href="profile.php?userId='.$this->userId.'" class="flex gap-3">
+        <img class="rounded-lg h-8" src="'.$userInfo['image'].'">
+        <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700">' . $userInfo['firstName'] . " " . $userInfo['lastName'].'</h5>
+        </a>';
+        }
+        else $user_card = "";
         $trimmedContent = $this->content;
         if (str_word_count($trimmedContent) > 10) {
             $trimmedContent = implode(' ', array_slice(explode(' ', $trimmedContent), 0, 10)) . " ...";
         }
         echo '
-            <div class= "flex-initial w-full mb-4">
-                <div class="flex gap-3">
-                <img class="rounded-lg h-8" src="'.$userInfo['image'].'">
-                <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700">' . $userInfo['firstName'] . " " . $userInfo['lastName'].'</h5>
-                </div>
+            <div class= "flex-initial w-auto mb-4">'.$user_card.'
                 <a href="' . $this->toThreadViewUrl() . '">
                     <div class="w-full bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
                         <img class="rounded-t-lg" src="./' . $this->image . '" alt="" />
