@@ -18,7 +18,8 @@ if (!isset($_SESSION['user_id'])) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,200&family=Nunito:wght@300;400&family=Open+Sans&display=swap" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  <title>Document</title>
+  <link rel="icon" type="image/x-icon" href="images\favicon.jpg">
+  <title>Greenwich Student Forum</title>
 </head>
 
 <body>
@@ -123,22 +124,30 @@ if (!isset($_SESSION['user_id'])) {
         </button>
       </form>
     </div>
-    <div class="w-1/2 flex flex-col items-center justify-center gap-5">
       <?php
       require_once("Thread/thread.php");
       require_once("Thread/thread-list.php");
 
       use Src\Thread as thread;
+      
+      $threadListAll = thread\threadListAll();
 
-      $threadList = thread\threadListAll();
-
+      echo '
+      <div class="w-1/2 flex flex-col items-center justify-center gap-5">';
       // display thread list 
-      foreach ($threadList as $threadNode) {
+      foreach ($threadListAll['thread_list'] as $threadNode) {
         $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], $threadNode['image'], $threadNode['content'], $threadNode['user_id'], $threadNode['creation_date'], $threadNode['category']);
         echo $thread->toCard();
       }
+      echo '</div>';
+      echo '<ul class="inline-flex -space-x-px text-sm">';
+      for ($i = 1; $i <= $threadListAll['total_pages']; $i++) {
+        echo '<li>
+        <a href="?page='.$i.'" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">'.$i.'</a>
+      </li>';
+    }
       ?>
-    </div>
+  </ul>
   </div>
   <script src="https://flowbite.com/docs/flowbite.min.js?v=2.3.0a"></script>
 </body>
