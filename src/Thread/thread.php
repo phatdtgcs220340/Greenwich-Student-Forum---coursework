@@ -153,7 +153,7 @@ class Thread
             $trimmedContent = implode(' ', array_slice(explode(' ', $trimmedContent), 0, 10)) . " ...";
         }
         echo '
-            <div class= "flex-initial w-auto mb-4">'.$user_card.'
+            <div class= "flex-initial w-full mb-4">'.$user_card.'
                 <a href="' . $this->toThreadViewUrl() . '">
                     <div class="w-full bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
                         <img class="rounded-t-lg" src="./' . $this->image . '" alt="" />
