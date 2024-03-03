@@ -104,11 +104,18 @@ if (isset($_GET['userId'])) {
 
                 use Src\Thread as thread;
 
-                $threadList = thread\threadListUser($userFetch['user_id']);
-                foreach ($threadList as $threadNode) {
+                $threadList = thread\threadListByUser($userId);
+                foreach ($threadList["thread_list"] as $threadNode) {
                     $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], "", "", $threadNode['user_id'], $threadNode['creation_date'], $threadNode['category']);
                     echo $thread->toCard(false);
                 }
+                echo '<ul class="inline-flex -space-x-px text-sm">';
+                for ($i = 1; $i <= $threadList['total_pages']; $i++) {
+                    echo '<li>
+                        <a href="?userId='.$userId.'&page=' . $i . '" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">' . $i . '</a>
+                    </li>';
+                }
+                echo '</ul>'
                 ?>
             </div>
         </div>

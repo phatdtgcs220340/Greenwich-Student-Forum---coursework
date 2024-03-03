@@ -20,7 +20,7 @@ if (!isset($_SESSION['user_id'])) {
 </head>
 
 <body>
-<nav class="border border-gray-200">
+    <nav class="border border-gray-200">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="home-view.php" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src="https://upload.wikimedia.org/wikipedia/vi/b/bf/Official_logo_of_Greenwich_Vietnam.png" class="h-32" alt="Flowbite Logo" />
@@ -67,7 +67,7 @@ if (!isset($_SESSION['user_id'])) {
     </nav>
     <div class="flex flex-col items-center">
         <div class="mt-8 w-2/3 grid grid-cols-2 grid-flow-col gap-4">
-            
+
             <div class="row-span-2">
                 <img class="w-64 h-64 rounded-lg mb-4" src="<?php echo $_SESSION['image'] ?>" alt="">
                 <button onclick="displayForm()" type="button" class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-sm px-1.5 py-1.5 text-center me-2 mb-2">Change avatar</button>
@@ -80,9 +80,9 @@ if (!isset($_SESSION['user_id'])) {
                 <h5 class="text-2xl font-semibold">Full name: <?php echo $_SESSION['firstName'] . ' ' . $_SESSION['lastName'] ?></h5>
                 <h5 class="text-sm font-normal">Email: <?php echo $_SESSION['email'] ?></h5>
             </div>
-            
-            <div class="">
-                <h5 class="text-2xl text-gray-700 mb-4 font-semibold">Threads</h5>
+
+            <div class="flex flex-col items-center">
+                <h5 class="self-start text-2xl text-gray-700 mb-4 font-semibold">Threads</h5>
                 <?php
 
                 require_once("Thread/thread-list.php");
@@ -90,11 +90,20 @@ if (!isset($_SESSION['user_id'])) {
 
                 use Src\Thread as thread;
 
-                $threadList = thread\threadListUser($_SESSION['user_id']);
-                foreach ($threadList as $threadNode) {
+                $threadList = thread\threadListByUser($_SESSION['user_id']);
+                echo "<div>";
+                foreach ($threadList["thread_list"] as $threadNode) {
                     $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], "", "", $threadNode['user_id'], $threadNode['creation_date'], $threadNode['category']);
                     echo $thread->toCard(false);
                 }
+                echo "</div>";
+                echo '<ul class="inline-flex -space-x-px text-sm">';
+                for ($i = 1; $i <= $threadList['total_pages']; $i++) {
+                    echo '<li>
+                        <a href="?page=' . $i . '" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">' . $i . '</a>
+                    </li>';
+                }
+                echo '</ul>'
                 ?>
             </div>
         </div>
@@ -104,11 +113,11 @@ if (!isset($_SESSION['user_id'])) {
             var form = document.getElementById("update-avatar");
             if (form.classList.contains("hidden"))
                 form.classList.remove("hidden");
-            else 
+            else
                 form.classList.add("hidden");
         }
     </script>
-      <script src="https://flowbite.com/docs/flowbite.min.js?v=2.3.0a"></script>
+    <script src="https://flowbite.com/docs/flowbite.min.js?v=2.3.0a"></script>
 </body>
 
 </html>
