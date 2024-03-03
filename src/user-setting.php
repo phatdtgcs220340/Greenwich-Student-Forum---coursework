@@ -81,7 +81,7 @@ if (!isset($_SESSION['user_id'])) {
                 <h5 class="text-sm font-normal">Email: <?php echo $_SESSION['email'] ?></h5>
             </div>
 
-            <div class="flex flex-col items-center">
+            <div class="">
                 <h5 class="self-start text-2xl text-gray-700 mb-4 font-semibold">Threads</h5>
                 <?php
 
@@ -91,12 +91,10 @@ if (!isset($_SESSION['user_id'])) {
                 use Src\Thread as thread;
 
                 $threadList = thread\threadListByUser($_SESSION['user_id']);
-                echo "<div>";
                 foreach ($threadList["thread_list"] as $threadNode) {
                     $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], "", "", $threadNode['user_id'], $threadNode['creation_date'], $threadNode['category']);
                     echo $thread->toCard(false);
                 }
-                echo "</div>";
                 echo '<ul class="inline-flex -space-x-px text-sm">';
                 for ($i = 1; $i <= $threadList['total_pages']; $i++) {
                     echo '<li>
