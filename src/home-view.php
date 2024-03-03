@@ -128,7 +128,7 @@ if (!isset($_SESSION['user_id'])) {
         echo '<li>
         <a href="?page='.$i.'" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">'.$i.'</a>
       </li>';
-    }
+      }
       ?>
   </ul>
   </div>
