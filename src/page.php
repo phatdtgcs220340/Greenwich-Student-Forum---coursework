@@ -100,7 +100,7 @@ if (isset($_GET['threadId'])) {
 
             <div class="bg-gray-100 p-2 border boreder-gray-400 self-end flex flex-col gap-2">
                 <h2 class="text-xs">asked <?php echo $thread->timeDifference() ?> ago</h2>
-                <div class="flex gap-2">
+                <a href="profile.php?userId=<?php echo $thread->getUserId()?>" class="flex gap-2">
                     <img class="w-8 h-8 rounded-lg" src="<?php $user = $thread->userInfo();
                      echo $user['image'] ?>" 
                     alt="user photo">
@@ -108,7 +108,7 @@ if (isset($_GET['threadId'])) {
                                         $user = $thread->userInfo();
                                         echo $user['firstName'] . " " . $user['lastName'];
                                         ?></h2>
-                </div>
+                </a>
             </div>
             <?php
             // if the user is the owner of the thread then display delete and edit method
