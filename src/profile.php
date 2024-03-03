@@ -95,7 +95,7 @@ if (isset($_GET['userId'])) {
                 <h5 class="text-sm font-normal">Email: <?php echo $userFetch['email'] ?></h5>
             </div>
             
-            <div class="flex flex-col items-center">
+            <div>
                 <h5 class="self-start text-2xl text-gray-700 mb-4 font-semibold">Threads</h5>
                 <?php
 
@@ -104,17 +104,15 @@ if (isset($_GET['userId'])) {
 
                 use Src\Thread as thread;
 
-                $threadList = thread\threadListByUser($_SESSION['user_id']);
-                echo "<div>";
+                $threadList = thread\threadListByUser($userId);
                 foreach ($threadList["thread_list"] as $threadNode) {
                     $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], "", "", $threadNode['user_id'], $threadNode['creation_date'], $threadNode['category']);
                     echo $thread->toCard(false);
                 }
-                echo "</div>";
                 echo '<ul class="inline-flex -space-x-px text-sm">';
                 for ($i = 1; $i <= $threadList['total_pages']; $i++) {
                     echo '<li>
-                        <a href="?page=' . $i . '" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">' . $i . '</a>
+                        <a href="?userId='.$userId.'&page=' . $i . '" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">' . $i . '</a>
                     </li>';
                 }
                 echo '</ul>'
