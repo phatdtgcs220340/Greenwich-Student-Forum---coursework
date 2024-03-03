@@ -39,7 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,200&family=Nunito:wght@300;400&family=Open+Sans&display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-    <title>Login</title>
+    <link rel="icon" type="image/x-icon" href="..\images\favicon.jpg">
+    <title>Greenwich Student Forum</title>
 </head>
 
 <body>
