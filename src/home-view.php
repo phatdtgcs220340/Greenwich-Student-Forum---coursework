@@ -98,7 +98,7 @@ if (!isset($_SESSION['user_id'])) {
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
               </div>
               <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
-              <select id="category" name="category" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/3 p-1">
+              <select required id="category" name="category" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/3 p-1">
                 <option selected>Choose a category</option>
                 <option value="Algorithm">Algorithm</option>
                 <option value="Data Science">Data Science</option>
@@ -110,13 +110,13 @@ if (!isset($_SESSION['user_id'])) {
               </select>
               <div class="flex flex-wrap items-center rtl:space-x-reverse sm:ps-4">
                 <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-                <input type="text" id="title" name="title" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-white text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600">
+                <input required type="text" id="title" name="title" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-white text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600">
               </div>
             </div>
           </div>
           <div class="px-2 py-2 bg-white rounded-b-lg dark:bg-gray-800">
             <label for="content" class="sr-only">Publish post</label>
-            <textarea id="content" name="content" rows="8" class="w-full px-0 text-sm text-gray-800 bg-white" placeholder="Write an article..."></textarea>
+            <textarea required id="content" name="content" rows="8" class="w-full px-0 text-sm text-gray-800 bg-white" placeholder="Write an article..."></textarea>
           </div>
         </div>
         <button type="submit" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
