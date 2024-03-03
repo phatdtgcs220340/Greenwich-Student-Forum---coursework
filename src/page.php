@@ -5,6 +5,7 @@ namespace Src\Thread;
 session_start();
 require_once("./Thread/thread.php");
 
+use Exception;
 use PDO, PDOException;
 
 if (isset($_GET['threadId'])) {
@@ -18,6 +19,10 @@ if (isset($_GET['threadId'])) {
         $stmt = $pdo->prepare("SELECT * FROM `thread` WHERE thread_id = ?");
         $stmt->execute([$threadId]);
         $threadFetch = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (empty($threadFetch)) {
+            header("HTTP/1.0 404 Not Found");
+            exit;
+        }
         $thread = new Thread($threadFetch['thread_id'], $threadFetch['title'], $threadFetch['image'], $threadFetch['content'], $threadFetch['user_id'], $threadFetch['creation_date'], $threadFetch['category']);
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
