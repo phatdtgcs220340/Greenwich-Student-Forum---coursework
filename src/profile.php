@@ -1,11 +1,30 @@
 <?php
 
 namespace Src;
-
+use PDO, PDOException;
 session_start();
 if (!isset($_SESSION['user_id'])) {
     header('Location: ./auth/login.php');
     exit;
+}
+if (isset($_GET['userId'])) {
+    $userId = $_GET['userId'];
+    try {
+        // Connect to your database
+        $pdo = new PDO('mysql:host=localhost;dbname=cw-student-forum-db', 'root', '');
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        // Retrieve the thread content based on the threadId
+        $stmt = $pdo->prepare("SELECT * FROM `user` WHERE user_id = ?");
+        $stmt->execute([$userId]);
+        $userFetch = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (empty($userFetch)) {
+            header("HTTP/1.0 404 Not Found");
+            exit;
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -20,7 +39,7 @@ if (!isset($_SESSION['user_id'])) {
 </head>
 
 <body>
-<nav class="border border-gray-200">
+    <nav class="border border-gray-200">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="home-view.php" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src="https://upload.wikimedia.org/wikipedia/vi/b/bf/Official_logo_of_Greenwich_Vietnam.png" class="h-32" alt="Flowbite Logo" />
@@ -69,16 +88,11 @@ if (!isset($_SESSION['user_id'])) {
         <div class="mt-8 w-2/3 grid grid-cols-2 grid-flow-col gap-4">
             
             <div class="row-span-2">
-                <img class="w-64 h-64 rounded-lg mb-4" src="<?php echo $_SESSION['image'] ?>" alt="">
-                <button onclick="displayForm()" type="button" class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-sm px-1.5 py-1.5 text-center me-2 mb-2">Change avatar</button>
-                <form id="update-avatar" action="update-user.php" method="post" class="hidden" enctype="multipart/form-data">
-                    <input class="text-sm border border-gray-50 rounded" id="user_image" name="user_image" type="file">
-                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1.5 py-1.5 me-2 mb-2">Submit</button>
-                </form>
+                <img class="w-64 h-64 rounded-lg mb-4" src="<?php echo $userFetch['image'] ?>" alt="">
             </div>
             <div class="">
-                <h5 class="text-2xl font-semibold">Full name: <?php echo $_SESSION['firstName'] . ' ' . $_SESSION['lastName'] ?></h5>
-                <h5 class="text-sm font-normal">Email: <?php echo $_SESSION['email'] ?></h5>
+                <h5 class="text-2xl font-semibold">Full name: <?php echo $userFetch['firstName'] . ' ' . $userFetch['lastName'] ?></h5>
+                <h5 class="text-sm font-normal">Email: <?php echo $userFetch['email'] ?></h5>
             </div>
             
             <div class="">
@@ -90,7 +104,7 @@ if (!isset($_SESSION['user_id'])) {
 
                 use Src\Thread as thread;
 
-                $threadList = thread\threadListUser($_SESSION['user_id']);
+                $threadList = thread\threadListUser($userFetch['user_id']);
                 foreach ($threadList as $threadNode) {
                     $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], "", "", $threadNode['user_id'], $threadNode['creation_date'], $threadNode['category']);
                     echo $thread->toCard(false);
@@ -99,15 +113,6 @@ if (!isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
-    <script>
-        function displayForm() {
-            var form = document.getElementById("update-avatar");
-            if (form.classList.contains("hidden"))
-                form.classList.remove("hidden");
-            else 
-                form.classList.add("hidden");
-        }
-    </script>
       <script src="https://flowbite.com/docs/flowbite.min.js?v=2.3.0a"></script>
 </body>
 
