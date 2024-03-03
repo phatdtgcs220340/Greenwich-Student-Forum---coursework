@@ -23,7 +23,7 @@ function threadListAll()
         $stmt->bindParam(':results_per_page', $results_per_page, PDO::PARAM_INT);
         $stmt->execute();
         $thread_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            // Pagination links
+        // Pagination links
         $stmt = $pdo->query("SELECT COUNT(*) AS total FROM `thread`");
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         $total_pages = ceil($row["total"] / $results_per_page);
@@ -32,15 +32,32 @@ function threadListAll()
         echo "Error: " . $e->getMessage();
     }
 }
-function threadListUser($userId)
+function threadListByUser($userId)
 {
     try {
         $pdo = new PDO('mysql:host=localhost;dbname=cw-student-forum-db', 'root', '');
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $pdo->prepare('SELECT * FROM `thread` WHERE user_id = ? ORDER BY creation_date DESC');
-        $stmt->execute([$userId]);
+        $results_per_page = 4;
+        // Determine the current page
+        if (!isset($_GET['page'])) {
+            $page = 1;
+        } else {
+            $page = $_GET['page'];
+        }
+        // Calculate the starting limit for the query
+        $start_limit = ($page - 1) * $results_per_page;
+        $stmt = $pdo->prepare('SELECT * FROM `thread` WHERE user_id = :user_id ORDER BY creation_date DESC LIMIT :start_limit, :results_per_page');
+        $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->bindParam(':start_limit', $start_limit, PDO::PARAM_INT);
+        $stmt->bindParam(':results_per_page', $results_per_page, PDO::PARAM_INT);
+        $stmt->execute();
         $thread_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $thread_list;
+        // Pagination links
+        $stmt = $pdo->prepare("SELECT COUNT(*) AS total FROM `thread` WHERE user_id= ?");
+        $stmt->execute([$userId]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $total_pages = ceil($row["total"] / $results_per_page);
+        return ["thread_list" => $thread_list, "total_pages" => $total_pages];
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
