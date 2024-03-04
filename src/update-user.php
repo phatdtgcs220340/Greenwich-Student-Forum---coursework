@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare('UPDATE `user` SET image = ? WHERE user_id = ?');
         $stmt->execute([$target_file, $user_id]);
         $_SESSION['image'] = $target_file;
-        header("Location: user-setting.php");
+        header("Location: profile.php?userId=".$user_id);
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
