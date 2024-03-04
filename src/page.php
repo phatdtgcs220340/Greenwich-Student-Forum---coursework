@@ -97,6 +97,7 @@ if (isset($_GET['threadId'])) {
             <form id="update-form" class="hidden" action="./Thread/update-thread.php" method="post" enctype="multipart/form-data">
                 <input name="thread_id" type="text" class="hidden" value="<?php echo $threadId?>">
                 <textarea class="block p-2.5 w-full font-lg rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" id="edited-content" name="content"></textarea>
+                <h5 id="note" class="hidden text-xs font-lg italic">Leave nothing for delete</h5>
                 <input disabled id="edited-image" class="hidden block w-full text-sm text-gray-900 border border-gray-300 cusor-pointer bg-white focus:outline-none" accept="image/png, image/jpeg, image/svg" placeholder="Leave nothing for delete" raria-describedby="file_input_help" id="thread-image" name="image" type="file">
                 <br>
                 <button type="button" onclick="changeImage()" class="py-2.5 px-5 me-2 mx-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">changeImage</button>
@@ -192,14 +193,17 @@ if (isset($_GET['threadId'])) {
         function changeImage() {
             var destination = document.getElementById("thread-image");
             var source = document.getElementById("edited-image");
+            var note = document.getElementById("note")
             if (source.classList.contains("hidden"))
             {
                 source.classList.remove("hidden");
+                note.classList.remove("hidden");
                 destination.classList.add("hidden");
                 source.disabled = false;
             }
             else {
                 source.classList.add("hidden");
+                note.classList.add("hidden");
                 source.disabled = true;
                 destination.classList.remove("hidden");
             }
