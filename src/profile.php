@@ -96,7 +96,7 @@ if (isset($_GET['userId'])) {
                         '
                         <button onclick="displayForm()" type="button" class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-sm px-1.5 py-1.5 text-center me-2 mb-2">Change avatar</button>
                         <form id="update-avatar" action="update-user.php" method="post" class="hidden" enctype="multipart/form-data">
-                        <input class="text-sm border border-gray-50 rounded" id="user_image" name="user_image" type="file">
+                        <input class="text-sm border border-gray-50 rounded" id="user_image" name="user_image" accept="image/png, image/jpeg, image/svg" type="file">
                         <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1.5 py-1.5 me-2 mb-2">Submit</button>
                     </form>';
                     }

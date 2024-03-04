@@ -20,11 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
     // Allow certain file formats
-    if (
-        $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-        && $imageFileType != "gif"
-    ) {
-        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+    if ($imageFileType != "jpg" && $imageFileType != "png"
+                && $imageFileType != "svg") {
+        echo "Sorry, only JPG, PNG & SVG files are allowed.";
         $uploadOk = 0;
     }
 

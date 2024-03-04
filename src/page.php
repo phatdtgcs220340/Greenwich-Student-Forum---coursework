@@ -97,7 +97,7 @@ if (isset($_GET['threadId'])) {
             <form id="update-form" class="hidden" action="./Thread/update-thread.php" method="post" enctype="multipart/form-data">
                 <input name="thread_id" type="text" class="hidden" value="<?php echo $threadId?>">
                 <textarea class="block p-2.5 w-full font-lg rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" id="edited-content" name="content"></textarea>
-                <input disabled id="edited-image" class="hidden block w-full text-sm text-gray-900 border border-gray-300 cusor-pointer bg-white focus:outline-none" raria-describedby="file_input_help" id="thread-image" name="image" type="file">
+                <input disabled id="edited-image" class="hidden block w-full text-sm text-gray-900 border border-gray-300 cusor-pointer bg-white focus:outline-none" accept="image/png, image/jpeg, image/svg" placeholder="Leave nothing for delete" raria-describedby="file_input_help" id="thread-image" name="image" type="file">
                 <br>
                 <button type="button" onclick="changeImage()" class="py-2.5 px-5 me-2 mx-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">changeImage</button>
                 <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mx-8">submit</button>
@@ -146,7 +146,7 @@ if (isset($_GET['threadId'])) {
                         </div>
                     </div>
 
-                    <button id="edit-button" type="button" onclick="displayForm()" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Green</button>
+                    <button id="edit-button" type="button" onclick="displayForm()" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mx-4 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Update thread</button>
 
                 </div>'
             ?>

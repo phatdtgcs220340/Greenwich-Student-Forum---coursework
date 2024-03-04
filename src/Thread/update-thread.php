@@ -4,7 +4,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $content = $_POST['content'];
     $target_dir = "images/thread/";
     $updateImage = true;
-    if (isset($_FILES["image"])){
+    if (isset($_FILES["image"])) {
         $file = $_FILES["image"];
         $target_file = $target_dir . basename($file["name"]);
         $uploadOk = 1;
@@ -19,16 +19,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo "File is not an image.";
                 $uploadOk = 0;
             }
-    
+
             // Allow certain file formats
             if (
-                $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-                && $imageFileType != "gif"
+                $imageFileType != "jpg" && $imageFileType != "png"
+                && $imageFileType != "svg"
             ) {
-                echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                echo "Sorry, only JPG, PNG & SVG files are allowed.";
                 $uploadOk = 0;
             }
-    
+
             // Check if $uploadOk is set to 0 by an error
             if ($uploadOk == 0) {
                 echo "Sorry, your file was not uploaded.";
@@ -40,25 +40,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     echo "Sorry, there was an error uploading your file.";
                 }
             }
-        }
-        else $target_file = "";
-    }
-    else $updateImage = false;
-    
+        } else $target_file = "";
+    } else $updateImage = false;
+
     try {
         $pdo = new PDO('mysql:host=localhost;dbname=cw-student-forum-db', 'root', '');
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        
+
         if ($updateImage) {
             $stmt = $pdo->prepare('UPDATE `thread` SET content = ?, image = ?  WHERE thread_id = ?  ');
             $stmt->execute([$content, $target_file, $thread_id]);
-        }
-        else {
+        } else {
             $stmt = $pdo->prepare('UPDATE `thread` SET content = ? WHERE thread_id = ?  ');
             $stmt->execute([$content, $thread_id]);
         }
-        header("Location: ../page.php?threadId=".$thread_id);
-
+        header("Location: ../page.php?threadId=" . $thread_id);
     } catch (PDOException $e) {
         header("HTTP/1.0 500 Internal Server Error");
         exit;

@@ -70,15 +70,15 @@ if (!isset($_SESSION['user_id'])) {
     </nav>
 
   <div class="p-12 flex items-center justify-center flex-col gap-3 bg-white">
-    <div class="mx-auto mb-8 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div class="w-1/2 mx-auto mb-8 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <form action="./Thread/create-thread.php" method="post" enctype="multipart/form-data">
         <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
           <div class="flex items-center justify-between px-3 py-2 border-b dark:border-gray-600">
             <div class="flex flex-col items-start">
               <div class="flex flex-wrap items-center rtl:space-x-reverse sm:ps-4">
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload file</label>
-                <input class="block w-full text-sm text-gray-900 border border-gray-300  cusor-pointer bg-white focus:outline-none" raria-describedby="file_input_help" id="postImage" name="image" type="file">
-                <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
+                <input class="block w-full text-sm text-gray-900 border border-gray-300  cusor-pointer bg-white focus:outline-none" accept="image/png, image/jpeg, image/svg" raria-describedby="file_input_help" id="postImage" name="image" type="file">
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG.</p>
               </div>
               <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
               <select required id="category" name="category" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/3 p-1">
