@@ -30,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: ../home-view.php");
 
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        header("HTTP/1.0 500 Internal Server Error");
+        exit;
     }
 }

@@ -4,7 +4,7 @@ namespace Src;
 use PDO, PDOException;
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    header('Location: ./auth/login.php');
+    header("HTTP/1.1 401 Unauthorized");
     exit;
 }
 if (isset($_GET['userId'])) {
@@ -23,7 +23,8 @@ if (isset($_GET['userId'])) {
             exit;
         }
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        header("HTTP/1.0 500 Internal Server Error");
+        exit;
     }
 }
 ?>
@@ -99,8 +100,9 @@ if (isset($_GET['userId'])) {
                         <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1.5 py-1.5 me-2 mb-2">Submit</button>
                     </form>';
                     }
+                    echo '<h5 class="text-sm font-lg text-gray-900">('.$userFetch['role'].')</h5>';
                     if ($userFetch['role'] == 'Admin') {
-                        echo nl2br('<h5 class="text-lg text-gray-900">Social profile</h5><a href="https://github.com/phatdtgcs220340" class="text-base font-light text-gray-800">Github</a>
+                        echo nl2br('<h5 class="text-gray-900">Social profile</h5><a href="https://github.com/phatdtgcs220340" class="text-base font-light text-gray-800">Github</a>
                             <a href="https://www.linkedin.com/in/dotanphat/" class="text-base font-light text-indigo-400">Linkedin</a>
                         ');
                     }

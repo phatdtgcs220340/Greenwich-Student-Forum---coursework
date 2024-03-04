@@ -38,7 +38,8 @@ class Thread
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             return $user;
         } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
+            header("HTTP/1.0 500 Internal Server Error");
+            exit;
         }
     }
     public function setTitle($title)

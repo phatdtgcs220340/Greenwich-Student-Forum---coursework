@@ -29,7 +29,8 @@ function threadListAll()
         $total_pages = ceil($row["total"] / $results_per_page);
         return ["thread_list" => $thread_list, "total_pages" => $total_pages];
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        header("HTTP/1.0 500 Internal Server Error");
+        exit;
     }
 }
 function threadListByUser($userId)
@@ -59,7 +60,8 @@ function threadListByUser($userId)
         $total_pages = ceil($row["total"] / $results_per_page);
         return ["thread_list" => $thread_list, "total_pages" => $total_pages];
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        header("HTTP/1.0 500 Internal Server Error");
+        exit;
     }
 }
 function threadListCategory($category)
@@ -72,6 +74,7 @@ function threadListCategory($category)
         $thread_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $thread_list;
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        header("HTTP/1.0 500 Internal Server Error");
+        exit;
     }
 }

@@ -47,7 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['image'] = $target_file;
         header("Location: profile.php?userId=".$user_id);
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        header("HTTP/1.0 500 Internal Server Error");
+        exit;
     }
 }
 ?>
