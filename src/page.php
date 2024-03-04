@@ -103,7 +103,9 @@ if (isset($_GET['threadId'])) {
                 <button type="button" onclick="changeImage()" class="py-2.5 px-5 me-2 mx-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">changeImage</button>
                 <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mx-8">submit</button>
             </form>
-            <p id="thread-content" class="font-lg"><?php echo nl2br($thread->getContent()) ?></p>
+            <p id="thread-content" class="font-lg"><?php 
+            $content = $thread->getContent();
+            echo substr_count($content,"<br>") == 0 ? nl2br($content) : $content ?></p>
             <img id="thread-image" class="" src="<?php
                         if ($thread->getImage() != "")
                             echo $thread->getImage();
