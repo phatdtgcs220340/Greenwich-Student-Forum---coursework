@@ -58,7 +58,7 @@ if (isset($_GET['userId'])) {
                     </div>
                     <ul class="py-2" aria-labelledby="user-menu-button">
                         <li>
-                            <a href="user-setting.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                        <a href="profile.php?userId=<?php echo $_SESSION['user_id']?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
                         </li>
                         <li>
                             <a href="./auth/logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
@@ -89,6 +89,22 @@ if (isset($_GET['userId'])) {
             
             <div class="row-span-2">
                 <img class="w-64 h-64 rounded-lg mb-4" src="<?php echo $userFetch['image'] ?>" alt="">
+                <?php
+                    if ($userId == $_SESSION['user_id']) {
+                        echo 
+                        '
+                        <button onclick="displayForm()" type="button" class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-sm px-1.5 py-1.5 text-center me-2 mb-2">Change avatar</button>
+                        <form id="update-avatar" action="update-user.php" method="post" class="hidden" enctype="multipart/form-data">
+                        <input class="text-sm border border-gray-50 rounded" id="user_image" name="user_image" type="file">
+                        <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1.5 py-1.5 me-2 mb-2">Submit</button>
+                    </form>';
+                    }
+                    if ($userFetch['role'] == 'Admin') {
+                        echo nl2br('<h5 class="text-lg text-gray-900">Social profile</h5><a href="https://github.com/phatdtgcs220340" class="text-base font-light text-gray-800">Github</a>
+                            <a href="https://www.linkedin.com/in/dotanphat/" class="text-base font-light text-indigo-400">Linkedin</a>
+                        ');
+                    }
+                ?>
             </div>
             <div class="">
                 <h5 class="text-2xl font-semibold">Full name: <?php echo $userFetch['firstName'] . ' ' . $userFetch['lastName'] ?></h5>
@@ -120,6 +136,16 @@ if (isset($_GET['userId'])) {
             </div>
         </div>
     </div>
+    
+    <script>
+        function displayForm() {
+            var form = document.getElementById("update-avatar");
+            if (form.classList.contains("hidden"))
+                form.classList.remove("hidden");
+            else
+                form.classList.add("hidden");
+        }
+    </script>
       <script src="https://flowbite.com/docs/flowbite.min.js?v=2.3.0a"></script>
 </body>
 
