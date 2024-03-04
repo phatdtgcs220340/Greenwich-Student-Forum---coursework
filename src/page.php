@@ -5,9 +5,12 @@ namespace Src\Thread;
 session_start();
 require_once("./Thread/thread.php");
 
-use Exception;
 use PDO, PDOException;
 
+if (!isset($_SESSION['user_id'])) {
+    header("HTTP/1.1 401 Unauthorized");
+    exit;
+}
 if (isset($_GET['threadId'])) {
     $threadId = $_GET['threadId'];
     try {
@@ -25,7 +28,8 @@ if (isset($_GET['threadId'])) {
         }
         $thread = new Thread($threadFetch['thread_id'], $threadFetch['title'], $threadFetch['image'], $threadFetch['content'], $threadFetch['user_id'], $threadFetch['creation_date'], $threadFetch['category']);
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        header("HTTP/1.0 500 Internal Server Error");
+        exit;
     }
 }
 ?>
@@ -40,7 +44,7 @@ if (isset($_GET['threadId'])) {
     <title>Greenwich Student Forum</title>
 </head>
 
-<body>
+<body id="body">
 <nav class="border border-gray-200">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="home-view.php" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -90,14 +94,21 @@ if (isset($_GET['threadId'])) {
         <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700"><?php echo $thread->getTitle() ?></h5>
         <h5>Category: <?php echo $thread->getCategory() ?></h5>
         <div class="flex flex-col p-6 w-2/3 h-auto bg-white border-t border-b border-gray-400 gap-2">
-            <p><?php echo nl2br($thread->getContent()) ?></p>
-            <img src="<?php
+            <form id="update-form" class="hidden" action="./Thread/update-thread.php" method="post" enctype="multipart/form-data">
+                <input name="thread_id" type="text" class="hidden" value="<?php echo $threadId?>">
+                <textarea class="block p-2.5 w-full font-lg rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" id="edited-content" name="content"></textarea>
+                <input disabled id="edited-image" class="hidden block w-full text-sm text-gray-900 border border-gray-300 cusor-pointer bg-white focus:outline-none" raria-describedby="file_input_help" id="thread-image" name="image" type="file">
+                <br>
+                <button type="button" onclick="changeImage()" class="py-2.5 px-5 me-2 mx-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">changeImage</button>
+                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mx-8">submit</button>
+            </form>
+            <p id="thread-content" class="font-lg"><?php echo nl2br($thread->getContent()) ?></p>
+            <img id="thread-image" class="" src="<?php
                         if ($thread->getImage() != "")
                             echo $thread->getImage();
                         else
                             echo "";
                         ?>" alt="" />
-
             <div class="bg-gray-100 p-2 border boreder-gray-400 self-end flex flex-col gap-2">
                 <h2 class="text-xs">asked <?php echo $thread->timeDifference() ?> ago</h2>
                 <a href="profile.php?userId=<?php echo $thread->getUserId()?>" class="flex gap-2">
@@ -135,9 +146,8 @@ if (isset($_GET['threadId'])) {
                         </div>
                     </div>
 
-                    <form action="">
-                        <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Green</button>
-                    </form>
+                    <button id="edit-button" type="button" onclick="displayForm()" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Green</button>
+
                 </div>'
             ?>
         </div>
@@ -162,9 +172,40 @@ if (isset($_GET['threadId'])) {
         }
         ?>
     </div>
-    <script src="https://flowbite.com/docs/flowbite.min.js?v=2.3.0a"></script>
-    <script src="https://flowbite.com/docs/datepicker.min.js?v=2.3.0a"></script>
-    <script src="https://flowbite.com/docs/docs.js?v=2.3.0a"></script>
+    <script>
+        function displayForm() {
+            var form = document.getElementById("update-form");
+            var content = document.getElementById("thread-content");
+            var textarea = document.getElementById("edited-content");
+            if (form.classList.contains("hidden"))
+            {
+                form.classList.remove("hidden");
+                textarea.value = content.innerHTML;
+                document.getElementById("body").scrollIntoView({ behavior: 'smooth' });
+                content.classList.add("hidden");
+            }
+            else {
+                form.classList.add("hidden");
+                content.classList.remove("hidden");
+            }
+        }
+        function changeImage() {
+            var destination = document.getElementById("thread-image");
+            var source = document.getElementById("edited-image");
+            if (source.classList.contains("hidden"))
+            {
+                source.classList.remove("hidden");
+                destination.classList.add("hidden");
+                source.disabled = false;
+            }
+            else {
+                source.classList.add("hidden");
+                source.disabled = true;
+                destination.classList.remove("hidden");
+            }
+        }
+    </script>
+    <script src="https://flowbite.com/docs/flowbite.min.js?v=2.3.0a"></script>\
 </body>
 
 </html>
