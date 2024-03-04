@@ -35,7 +35,7 @@ if (!isset($_SESSION['user_id'])) {
                     <img class="w-10 h-10 rounded-full" src="./<?php echo $_SESSION['image'] ?>" alt="user photo">
                 </button>
                 <!-- Dropdown menu -->
-                <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg" id="user-dropdown">
+                <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg border border-gray-100" id="user-dropdown">
                     <div class="px-4 py-3">
                         <span class="block text-sm text-gray-900"><?php echo $_SESSION['firstName'] . " " . $_SESSION['lastName'] ?></span>
                         <span class="block text-sm  text-gray-500 truncate"><?php echo $_SESSION['email'] ?></span>
