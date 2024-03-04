@@ -82,7 +82,7 @@ if (!isset($_SESSION['user_id'])) {
               </div>
               <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
               <select required id="category" name="category" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/3 p-1">
-                <option selected>Choose a category</option>
+                <option selected>No Category</option>
                 <option value="Algorithm">Algorithm</option>
                 <option value="Data Science">Data Science</option>
                 <option value="Front-end">Front-end</option>
