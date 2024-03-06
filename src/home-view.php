@@ -22,8 +22,8 @@ if (!isset($_SESSION['user_id'])) {
   <title>Greenwich Student Forum</title>
 </head>
 
-<body>
-<nav class="border border-gray-200">
+<body class="bg-gray-200">
+<nav class="rounded-lg border-b border-gray-300 bg-white">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="home-view.php" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src="https://upload.wikimedia.org/wikipedia/vi/b/bf/Official_logo_of_Greenwich_Vietnam.png" class="h-32" alt="Flowbite Logo" />
@@ -42,7 +42,7 @@ if (!isset($_SESSION['user_id'])) {
                     </div>
                     <ul class="py-2" aria-labelledby="user-menu-button">
                         <li>
-                        <a href="profile.php?userId=<?php echo $_SESSION['user_id']?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                        <a href="./profile/profile.php?userId=<?php echo $_SESSION['user_id']?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
                         </li>
                         <li>
                             <a href="./auth/logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
@@ -69,7 +69,7 @@ if (!isset($_SESSION['user_id'])) {
         </div>
     </nav>
 
-  <div class="p-12 flex items-center justify-center flex-col gap-3 bg-white">
+  <div class="p-12 flex items-center justify-center flex-col gap-3 bg-gray-200">
     <div class="w-1/2 mx-auto mb-8 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <form action="./Thread/create-thread.php" method="post" enctype="multipart/form-data">
         <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
@@ -120,7 +120,7 @@ if (!isset($_SESSION['user_id'])) {
       // display thread list 
       foreach ($threadListAll['thread_list'] as $threadNode) {
         $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], $threadNode['image'], $threadNode['content'], $threadNode['user_id'], $threadNode['creation_date'], $threadNode['category']);
-        echo $thread->toCard();
+        echo $thread->toCard(true, "Thread");
       }
       echo '</div>';
       echo '<ul class="inline-flex -space-x-px text-sm">';
