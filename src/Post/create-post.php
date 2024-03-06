@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare('INSERT INTO `post` (content, user_id, thread_id) VALUES (?, ?, ?)');
         $stmt->execute([$content, $user_id, $thread_id]);
 
-        header("Location: ../page.php?threadId=".$thread_id);
+        header("Location: ../Thread/page.php?threadId=".$thread_id);
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }

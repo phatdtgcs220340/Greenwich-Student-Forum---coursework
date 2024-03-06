@@ -26,7 +26,7 @@ class Thread
     }
     public function toThreadViewUrl()
     {
-        return "page.php?threadId=" . $this->threadId;
+        return "/page.php?threadId=" . $this->threadId;
     }
     public function userInfo()
     {
@@ -138,12 +138,12 @@ class Thread
         // Display the formatted difference
         return $formattedDifference;
     }
-    public function toCard($displayUser="true")
+    public function toCard($displayUser="true", $currentPath)
     {   
         if ($displayUser == true) {
         $userInfo = $this->userInfo();
         $user_card = '
-        <a href="profile.php?userId='.$this->userId.'" class="flex gap-3">
+        <a href="./profile/profile.php?userId='.$this->userId.'" class="flex gap-3">
         <img class="rounded-lg h-8" src="'.$userInfo['image'].'">
         <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700">' . $userInfo['firstName'] . " " . $userInfo['lastName'].'</h5>
         </a>';
@@ -155,7 +155,7 @@ class Thread
         }
         echo '
             <div class= "flex-initial w-full mb-4">'.$user_card.'
-                <a href="' . $this->toThreadViewUrl() . '">
+                <a href="' .$currentPath.$this->toThreadViewUrl() . '">
                     <div class="w-full bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
                         <img class="rounded-t-lg" src="./' . $this->image . '" alt="" />
                         <div class="p-5">
