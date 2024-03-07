@@ -95,6 +95,7 @@ if (isset($_GET['threadId'])) {
         <h5>Category: <?php echo $thread->getCategory() ?></h5>
         <div class="flex flex-col p-6 w-2/3 h-auto bg-white border-t border-b border-gray-400 gap-2">
             <form id="update-form" class="hidden" action="update-thread.php" method="post" enctype="multipart/form-data">
+                <input name="user_id" class="hidden" value="<?php echo $thread->getUserId()?>">
                 <input name="thread_id" type="text" class="hidden" value="<?php echo $threadId?>">
                 <textarea class="block p-2.5 w-full font-lg rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" id="edited-content" name="content"></textarea>
                 <h5 id="note" class="hidden text-xs font-lg italic">Leave nothing for delete</h5>
@@ -138,7 +139,8 @@ if (isset($_GET['threadId'])) {
                                 <div class="p-4 md:p-5 text-center">
                                     <h3 class="mb-5 text-lg font-normal text-gray-500">Are you sure you want to delete this thread?</h3>
                                     <form action="delete-thread.php" method="post">
-                                        <input type="hidden" name="thread_id" value="'.$_GET['threadId'].'">
+                                        <input class="hidden" name="user_id" value="'.$thread->getUserId().'">
+                                        <input class="hidden" name="thread_id" value="'.$_GET['threadId'].'">
                                         <button data-modal-hide="popup-modal" type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                                             Yes, I\'m sure
                                         </button>
