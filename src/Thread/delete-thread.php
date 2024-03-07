@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             echo "File $fileToDelete does not exist.";
         }
-        header("Location: ../home-view.php");
+        header("Location: ../index.php");
 
     } catch (PDOException $e) {
         header("HTTP/1.0 500 Internal Server Error");
