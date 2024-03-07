@@ -67,7 +67,7 @@ if (isset($_GET['threadId'])) {
                         <a href="../profile/profile.php?userId=<?php echo $_SESSION['user_id']?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
                         </li>
                         <li>
-                            <a href="./auth/logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
+                            <a href="../auth/logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
                         </li>
                     </ul>
                 </div>
@@ -90,16 +90,31 @@ if (isset($_GET['threadId'])) {
             </div>
         </div>
     </nav>
-    <div class="flex flex-col p-6 gap-2 ">
+    <div class="p-6 gap-2">
+        <div class="flex flex-col w-2/3">
         <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700"><?php echo $thread->getTitle() ?></h5>
         <h5>Category: <?php echo $thread->getCategory() ?></h5>
+        <?php if ($_SESSION['user_id'] == $thread->getUserId()) echo '
+                <button class="text-gray-500 text-base font-bold self-end hover:text-gray-900" data-dropdown-toggle="thread-dropdown" data-dropdown-placement="bottom">⁝</button>
+                <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg border border-gray-100" id="thread-dropdown">
+                                <ul class="py-2" aria-labelledby="thread-menu-button">
+                                    <li>
+                                    <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Delete</button>
+                                    </li>
+                                    <li>
+                                    <button onclick="displayForm()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</a>
+                                    </li>
+                                </ul>
+                </div>'
+        ?>
+        </div>
         <div class="flex flex-col p-6 w-2/3 h-auto bg-white border-t border-b border-gray-400 gap-2">
             <form id="update-form" class="hidden" action="update-thread.php" method="post" enctype="multipart/form-data">
                 <input name="user_id" class="hidden" value="<?php echo $thread->getUserId()?>">
                 <input name="thread_id" type="text" class="hidden" value="<?php echo $threadId?>">
-                <textarea class="block p-2.5 w-full font-lg rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" id="edited-content" name="content"></textarea>
+                <textarea rows="4" class="block p-2.5 w-full font-lg rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" id="edit-content" name="content"></textarea>
                 <h5 id="note" class="hidden text-xs font-lg italic">Leave nothing for delete</h5>
-                <input disabled id="edited-image" class="hidden block w-full text-sm text-gray-900 border border-gray-300 cusor-pointer bg-white focus:outline-none" accept="image/png, image/jpeg, image/svg" placeholder="Leave nothing for delete" raria-describedby="file_input_help" id="thread-image" name="image" type="file">
+                <input disabled id="edit-image" class="hidden block w-full text-sm text-gray-900 border border-gray-300 cusor-pointer bg-white focus:outline-none" accept="image/png, image/jpeg, image/svg" placeholder="Leave nothing for delete" raria-describedby="file_input_help" id="thread-image" name="image" type="file">
                 <br>
                 <button type="button" onclick="changeImage()" class="py-2.5 px-5 me-2 mx-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">changeImage</button>
                 <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mx-8">submit</button>
@@ -113,8 +128,8 @@ if (isset($_GET['threadId'])) {
                         else
                             echo "";
                         ?>" alt="" />
-            <div class="bg-gray-100 p-2 border boreder-gray-400 self-end flex flex-col gap-2">
-                <h2 class="text-xs">asked <?php echo $thread->timeDifference() ?> ago</h2>
+            <div class="bg-gray-100 p-2 border boreder-gray-400 self-end">
+                <h2 class="text-xs mb-2">asked <?php echo $thread->timeDifference() ?> ago</h2>
                 <a href="../profile/profile.php?userId=<?php echo $thread->getUserId()?>" class="flex gap-2">
                     <img class="w-8 h-8 rounded-lg" src="<?php $user = $thread->userInfo();
                      echo "../".$user['image'] ?>" 
@@ -130,7 +145,6 @@ if (isset($_GET['threadId'])) {
             if ($thread->getUserId() == $_SESSION['user_id'])
                 echo '<div class="flex self-start">
                     <!-- Delete form -->
-                    <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete Thread</button>
                     <div id="popup-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                         <div class="relative p-4 w-full max-w-md max-h-full">
                             <div class="relative bg-white rounded-lg shadow">
@@ -150,9 +164,6 @@ if (isset($_GET['threadId'])) {
                             </div>
                         </div>
                     </div>
-
-                    <button id="edit-button" type="button" onclick="displayForm()" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mx-4 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Update thread</button>
-
                 </div>'
             ?>
         </div>
@@ -181,12 +192,11 @@ if (isset($_GET['threadId'])) {
         function displayForm() {
             var form = document.getElementById("update-form");
             var content = document.getElementById("thread-content");
-            var textarea = document.getElementById("edited-content");
+            var textarea = document.getElementById("edit-content");
             if (form.classList.contains("hidden"))
             {
                 form.classList.remove("hidden");
                 textarea.value = content.innerHTML;
-                document.getElementById("body").scrollIntoView({ behavior: 'smooth' });
                 content.classList.add("hidden");
             }
             else {
@@ -196,7 +206,7 @@ if (isset($_GET['threadId'])) {
         }
         function changeImage() {
             var destination = document.getElementById("thread-image");
-            var source = document.getElementById("edited-image");
+            var source = document.getElementById("edit-image");
             var note = document.getElementById("note")
             if (source.classList.contains("hidden"))
             {
