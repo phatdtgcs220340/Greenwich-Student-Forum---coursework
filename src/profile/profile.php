@@ -40,7 +40,7 @@ if (isset($_GET['userId'])) {
 </head>
 
 <body>
-    <nav class="border border-gray-200">
+    <nav class="border border-gray-200 bg-white">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="../index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src="https://upload.wikimedia.org/wikipedia/vi/b/bf/Official_logo_of_Greenwich_Vietnam.png" class="h-32" alt="Flowbite Logo" />
@@ -114,7 +114,7 @@ if (isset($_GET['userId'])) {
             </div>
             
             <div>
-                <h5 class="self-start text-2xl text-gray-700 mb-4 font-semibold">Threads</h5>
+                <h5 class="self-start text-2xl mb-4 font-semibold">Threads</h5>
                 <?php
 
                 require_once("../Thread/thread-list.php");
