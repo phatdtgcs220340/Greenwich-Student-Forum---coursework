@@ -69,7 +69,7 @@ if (!isset($_SESSION['user_id'])) {
         </div>
     </nav>
 
-  <div class="p-12 flex items-center justify-center flex-col gap-3 bg-indigo-200">
+  <div class="p-12 flex items-center justify-center flex-col gap-3 bg-gray-200">
     <div class="w-1/2 mx-auto mb-8 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <form action="./Thread/create-thread.php" method="post" enctype="multipart/form-data">
         <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
