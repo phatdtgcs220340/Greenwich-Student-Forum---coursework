@@ -1,5 +1,11 @@
 <?php
+session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SESSION['user_id'] != $_POST['user_id']) {
+        header("HTTP/1.0 401 Unauthorized");
+        exit;
+    }
+        
     $thread_id = $_POST['thread_id'];
     $content = $_POST['content'];
     $target_dir = "images/thread/";

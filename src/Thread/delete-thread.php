@@ -5,6 +5,10 @@ if (!isset($_SESSION['user_id'])) {
   exit;
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SESSION['user_id'] != $_POST['user_id']) {
+        header("HTTP/1.0 401 Unauthorized");
+        exit;
+    }
     $thread_id = $_POST['thread_id'];
     
     try {
