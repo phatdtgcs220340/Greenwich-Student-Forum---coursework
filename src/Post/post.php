@@ -102,27 +102,30 @@ class Post
     {
         $user = $this->userInfo();
         $thread = $this->threadInfo();
-        $permission = $_SESSION['user_id'] == $this->userId || $_SESSION['user_id'] == $thread['user_id'];
-        if ($permission) {
-            $edit = '
-                    <button class="text-base text-gray-500 font-bold hover:text-gray-900" id="post' . $this->postId . '-menu-button" aria-expanded="false" data-dropdown-toggle="post' . $this->postId . '-dropdown" data-dropdown-placement="bottom">⁝</button>
-                    <div class="z-50 hidden my-4 text-base list-none bg-white rounded-lg border border-gray-100" id="post' . $this->postId . '-dropdown">
-                            <ul class="py-2" aria-labelledby="post' . $this->postId . '-menu-button">
-                                <li>
-                                <form action="../Post/delete-post.php" method="post">
-                                <input class="hidden" name="thread_id" value="' . $this->threadId . '">
-                                <input class="hidden" name="post_id" value="' . $this->postId . '">
-                                <button class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                Delete
-                                </button>
-                                </form>
-                                </li>
-                                <li>
-                                <button onclick="toggleUpdateForm(\'content-' . $this->postId . '\',\'edit-form-' . $this->postId . '\',\'edit-content-' . $this->postId . '\')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</a>
-                                </li>
+        $edit = '
+        <button class="text-base text-gray-500 font-bold hover:text-gray-900" id="post' . $this->postId . '-menu-button" aria-expanded="false" data-dropdown-toggle="post' . $this->postId . '-dropdown" data-dropdown-placement="bottom">⁝</button>
+        <div class="z-50 hidden my-4 text-base list-none bg-white rounded-lg border border-gray-100" id="post' . $this->postId . '-dropdown">
+                <ul class="py-2" aria-labelledby="post' . $this->postId . '-menu-button">
+                    <li>
+                    <form action="../Post/delete-post.php" method="post">
+                    <input class="hidden" name="thread_id" value="' . $this->threadId . '">
+                    <input class="hidden" name="post_id" value="' . $this->postId . '">
+                    <button class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    Delete
+                    </button>
+                    </form>
+                    </li>';
+        if ($_SESSION['user_id'] == $this->userId) {
+            $edit = $edit.'<li>
+                            <button onclick="toggleUpdateForm(\'content-' . $this->postId . '\',\'edit-form-' . $this->postId . '\',\'edit-content-' . $this->postId . '\')" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</a>
+                            </li>
                             </ul>
-                        </div>';
-        } else $edit = "";
+                </div>';
+        }
+        else if ($_SESSION['user_id'] == $thread['user_id']) 
+                    $edit = $edit.'</ul>
+                </div>';
+        else $edit = "";
         echo '<div class="mb-2">
             <div class="flex items-start gap-2.5">
             <a href="../profile/profile.php?userId=' . $this->userId . '">
