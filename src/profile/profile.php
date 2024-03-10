@@ -126,7 +126,7 @@ if (isset($_GET['userId'])) {
 
                 $threadList = thread\threadListByUser($userId);
                 foreach ($threadList["thread_list"] as $threadNode) {
-                    $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], "", "", $threadNode['user_id'], $threadNode['creation_date'], $threadNode['category']);
+                    $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], "", "", $threadNode['user_id'], $threadNode['creation_date']);
                     echo $thread->toCard(false, "../Thread");
                 }
                 echo '<ul class="inline-flex -space-x-px text-sm">';

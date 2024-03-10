@@ -4,7 +4,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user_id'];
     $title = $_POST['title'];
     $content = $_POST['content'];
-    $category = $_POST['category'];
+    $module = $_POST['module'];
     $target_dir = "images/thread/";
     $target_file = $target_dir . basename($_FILES["image"]["name"]);
     $uploadOk = 1;
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo = new PDO('mysql:host=localhost;dbname=cw-student-forum-db', 'root', '');
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-        $stmt = $pdo->prepare('INSERT INTO `thread` (title, content, image, user_id, category) VALUES (?, ?, ?, ?, ?)');
+        $stmt = $pdo->prepare('INSERT INTO `thread` (title, content, image, user_id, module_id) VALUES (?, ?, ?, ?, ?)');
         if (!empty($_FILES["image"]["name"])) {
             // Check if image file is a actual image or fake image
             $check = getimagesize($_FILES["image"]["tmp_name"]);
@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         else {
             $target_file = "";
         }
-        $stmt->execute([$title, $content, $target_file, $user_id, $category]);
+        $stmt->execute([$title, $content, $target_file, $user_id, $module]);
 
         header("Location: ../index.php");
     } catch (PDOException $e) {

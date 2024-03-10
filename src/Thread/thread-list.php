@@ -79,21 +79,21 @@ function threadListCategory($latest = true)
         } else {
             $page = $_GET['page'];
         }
-        $category = $_GET['filterBy'];
+        $module_id = $_GET['filterBy'];
         // Calculate the starting limit for the query
         $start_limit = ($page - 1) * $results_per_page;
         if ($latest)
-            $stmt = $pdo->prepare('SELECT * FROM `thread` WHERE category = :category ORDER BY creation_date DESC LIMIT :start_limit, :results_per_page');
+            $stmt = $pdo->prepare('SELECT m.module_name, t.* FROM `module` m RIGHT JOIN `thread` t ON t.module_id = m.module_id WHERE m.module_id = :module_id ORDER BY creation_date DESC LIMIT :start_limit, :results_per_page');
         else 
-            $stmt = $pdo->prepare('SELECT * FROM `thread` WHERE category = :category ORDER BY creation_date ASC LIMIT :start_limit, :results_per_page');
-        $stmt->bindParam(':category', $category, PDO::PARAM_STR);
+            $stmt = $pdo->prepare('SELECT m.module_name, t.* FROM `module` m RIGHT JOIN `thread` t ON t.module_id = m.module_id WHERE m.module_id = :module_id  ORDER BY creation_date DESC LIMIT :start_limit, :results_per_page');
+        $stmt->bindParam(':module_id', $module_id, PDO::PARAM_STR);
         $stmt->bindParam(':start_limit', $start_limit, PDO::PARAM_INT);
         $stmt->bindParam(':results_per_page', $results_per_page, PDO::PARAM_INT);
         $stmt->execute();
         $thread_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
         // Pagination links
-        $stmt = $pdo->prepare("SELECT COUNT(*) AS total FROM `thread` WHERE category = ?");
-        $stmt->execute([$category]);
+        $stmt = $pdo->prepare("SELECT COUNT(*) AS total FROM `module` WHERE module_id = ?");
+        $stmt->execute([$module_id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         $total_pages = ceil($row["total"] / $results_per_page);
         return ["thread_list" => $thread_list, "total_pages" => $total_pages];

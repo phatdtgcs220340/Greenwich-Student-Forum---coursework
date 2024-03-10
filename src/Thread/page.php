@@ -19,14 +19,14 @@ if (isset($_GET['threadId'])) {
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Retrieve the thread content based on the threadId
-        $stmt = $pdo->prepare("SELECT * FROM `thread` WHERE thread_id = ?");
+        $stmt = $pdo->prepare("SELECT m.module_name, t.* FROM `module` m RIGHT JOIN `thread` t ON t.module_id = m.module_id WHERE thread_id = ?");
         $stmt->execute([$threadId]);
         $threadFetch = $stmt->fetch(PDO::FETCH_ASSOC);
         if (empty($threadFetch)) {
             header("HTTP/1.0 404 Not Found");
             exit;
         }
-        $thread = new Thread($threadFetch['thread_id'], $threadFetch['title'], $threadFetch['image'], $threadFetch['content'], $threadFetch['user_id'], $threadFetch['creation_date'], $threadFetch['category']);
+        $thread = new Thread($threadFetch['thread_id'], $threadFetch['title'], $threadFetch['image'], $threadFetch['content'], $threadFetch['user_id'], $threadFetch['creation_date']);
     } catch (PDOException $e) {
         header("HTTP/1.0 500 Internal Server Error");
         exit;
@@ -95,7 +95,7 @@ if (isset($_GET['threadId'])) {
     <div class="p-6 gap-2">
         <div class="flex flex-col w-2/3">
         <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700"><?php echo $thread->getTitle() ?></h5>
-        <h5>Category: <?php echo $thread->getCategory() ?></h5>
+        <h5>Category: <?php echo $threadFetch['module_name'] ?></h5>
         <?php if ($_SESSION['user_id'] == $thread->getUserId()) echo '
                 <button class="text-gray-500 text-base font-bold self-end hover:text-gray-900" data-dropdown-toggle="thread-dropdown" data-dropdown-placement="bottom">⁝</button>
                 <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg border border-gray-100" id="thread-dropdown">
