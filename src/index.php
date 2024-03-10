@@ -79,16 +79,16 @@ if (!isset($_SESSION['user_id'])) {
                 <input class="block w-full text-sm text-gray-900 border border-gray-300  cusor-pointer bg-white focus:outline-none" accept="image/png, image/jpeg, image/svg" raria-describedby="file_input_help" id="postImage" name="image" type="file">
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG.</p>
               </div>
-              <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
-              <select required id="category" name="category" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/3 p-1">
-                <option selected>No Category</option>
-                <option value="Algorithm">Algorithm</option>
-                <option value="Data Science">Data Science</option>
-                <option value="Front-end">Front-end</option>
-                <option value="Back-end">Back-end</option>
-                <option value="Database">Database</option>
-                <option value="Network">Network</option>
-                <option value="Blockchain">Blockchain</option>
+              <label for="module" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
+              <select required id="module" name="module" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/3 p-1">
+                  <?php
+                    require_once("module/module-list.php");
+                    use Src\Module as module;
+                    $moduleList = module\moduleList();
+                    foreach($moduleList as $node) { 
+                        echo '<option value='.$node['module_id'].'>'.$node['module_name'].'</option>';
+                   }
+                  ?>
               </select>
               <div class="flex flex-wrap items-center rtl:space-x-reverse sm:ps-4">
                 <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
@@ -111,15 +111,13 @@ if (!isset($_SESSION['user_id'])) {
       <div>
       <h5 class="mb-2 font-semibold">Filter By</h5>
       <select id="filter_category" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-1">
-                <option selected>Default</option>
-                <option value="No Category">No Category</option>
-                <option value="Algorithm">Algorithm</option>
-                <option value="Data Science">Data Science</option>
-                <option value="Front-end">Front-end</option>
-                <option value="Back-end">Back-end</option>
-                <option value="Database">Database</option>
-                <option value="Network">Network</option>
-                <option value="Blockchain">Blockchain</option>
+        <option selected>Default</option>
+        <?php
+          $moduleList = module\moduleList();
+          foreach($moduleList as $node) { 
+          echo '<option value='.$node['module_id'].'>'.$node['module_name'].'</option>';
+          }
+        ?>
       </select>
       </div>
       <div>
@@ -154,7 +152,7 @@ if (!isset($_SESSION['user_id'])) {
       <div class="w-1/2 flex flex-col items-center justify-center gap-5">';
       // display thread list 
       foreach ($threadList['thread_list'] as $threadNode) {
-        $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], $threadNode['image'], $threadNode['content'], $threadNode['user_id'], $threadNode['creation_date'], $threadNode['category']);
+        $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], $threadNode['image'], $threadNode['content'], $threadNode['user_id'], $threadNode['creation_date']);
         echo $thread->toCard(true, "Thread");
       }
       echo '</div>';
