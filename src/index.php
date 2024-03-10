@@ -107,32 +107,80 @@ if (!isset($_SESSION['user_id'])) {
         </button>
       </form>
     </div>
+    
+    <div class="w-1/2 p-4 grid grid-cols-2 bg-white rounded-lg shadow">
+      <div>
+      <h5 class="mb-2 font-semibold">Filter By</h5>
+      <select id="filter_category" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-1">
+                <option selected>Default</option>
+                <option value="No Category">No Category</option>
+                <option value="Algorithm">Algorithm</option>
+                <option value="Data Science">Data Science</option>
+                <option value="Front-end">Front-end</option>
+                <option value="Back-end">Back-end</option>
+                <option value="Database">Database</option>
+                <option value="Network">Network</option>
+                <option value="Blockchain">Blockchain</option>
+      </select>
+      </div>
+      <div>
+      <h5 class="mb-2 font-semibold">Sort By</h5>
+      <select id="sort" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-1">
+                <option selected value="latest">Latest (default)</option>
+                <option value="oldest">Oldest</option>
+      </select>
+      </div>
+      <a id="filter_link" href="#" onclick="filter()" class="mt-4 p-2 bg-blue-500 rounded-lg font-semibold text-white col-span-2 text-center hover:bg-blue-700 hover:text-gray-100">Filter</a>
+      </div>
       <?php
       require_once("Thread/thread.php");
       require_once("Thread/thread-list.php");
 
       use Src\Thread as thread;
-      
-      $threadListAll = thread\threadListAll();
+      $uriParam = '';
+      $latest = true;
+      if (isset($_GET['orderBy'])) {
+        $uriParam = $uriParam.'&orderBy='.$_GET['orderBy'];
+        if ($_GET['orderBy'] == 'oldest')
+          $latest = false;
+      }
+      if (!isset($_GET['filterBy']))
+        $threadList = thread\threadListAll($latest);
+      else {
+        $threadList = thread\threadListCategory($latest);
+        $uriParam = $uriParam.'&filterBy='.$_GET['filterBy'];
+      }
 
       echo '
       <div class="w-1/2 flex flex-col items-center justify-center gap-5">';
       // display thread list 
-      foreach ($threadListAll['thread_list'] as $threadNode) {
+      foreach ($threadList['thread_list'] as $threadNode) {
         $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], $threadNode['image'], $threadNode['content'], $threadNode['user_id'], $threadNode['creation_date'], $threadNode['category']);
         echo $thread->toCard(true, "Thread");
       }
       echo '</div>';
       echo '<ul class="inline-flex -space-x-px text-sm">';
-      for ($i = 1; $i <= $threadListAll['total_pages']; $i++) {
+      for ($i = 1; $i <= $threadList['total_pages']; $i++) {
         echo '<li>
-        <a href="?page='.$i.'" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">'.$i.'</a>
+        <a href="?page='.$i.$uriParam.'" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">'.$i.'</a>
       </li>';
       }
       ?>
   </ul>
   </div>
   <script src="https://flowbite.com/docs/flowbite.min.js?v=2.3.0a"></script>
+  <script>
+    function filter() {
+      var link = document.getElementById("filter_link");
+      var category = document.getElementById("filter_category").value;
+      var sort = document.getElementById("sort").value;
+      var destination = "index.php?orderBy="+sort;
+      if (category != "Default") {
+        destination+="&filterBy="+category;
+      }
+      link.setAttribute("href", destination);
+    }
+  </script>
 </body>
 
 </html>
