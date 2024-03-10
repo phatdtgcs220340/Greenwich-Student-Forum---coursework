@@ -6,7 +6,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $content = $_POST['content'];
     $module = $_POST['module'];
     $target_dir = "images/thread/";
-    $target_file = $target_dir . basename($_FILES["image"]["name"]);
+    // prevent overwrite when using the same img name
+    $target_file = $target_dir .$user_id. basename($_FILES["image"]["name"]);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 

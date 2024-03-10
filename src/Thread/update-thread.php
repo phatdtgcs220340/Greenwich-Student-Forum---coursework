@@ -12,7 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $updateImage = true;
     if (isset($_FILES["image"])) {
         $file = $_FILES["image"];
-        $target_file = $target_dir . basename($file["name"]);
+        // prevent overwrite when using the same img name
+        $target_file = $target_dir .$_SESSION['user_id']. basename($file["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         if (!empty($file["name"])) {
