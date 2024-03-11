@@ -26,7 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: login.php");
         }
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+      header("Location: ../error/database-connection-failed.php");
+      exit;
     }
 }
 ?>

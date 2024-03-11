@@ -32,7 +32,7 @@ function threadListAll($latest = true)
         $total_pages = ceil($row["total"] / $results_per_page);
         return ["thread_list" => $thread_list, "total_pages" => $total_pages];
     } catch (PDOException $e) {
-        header("HTTP/1.0 500 Internal Server Error");
+        header("Location: ../error/database-connection-failed.php");
         exit;
     }
 }
@@ -63,7 +63,7 @@ function threadListByUser($userId)
         $total_pages = ceil($row["total"] / $results_per_page);
         return ["thread_list" => $thread_list, "total_pages" => $total_pages];
     } catch (PDOException $e) {
-        header("HTTP/1.0 500 Internal Server Error");
+        header("Location: ../error/database-connection-failed.php");
         exit;
     }
 }
@@ -98,7 +98,7 @@ function threadListCategory($latest = true)
         $total_pages = ceil($row["total"] / $results_per_page);
         return ["thread_list" => $thread_list, "total_pages" => $total_pages];
     } catch (PDOException $e) {
-        header("HTTP/1.0 500 Internal Server Error");
+        header("Location: ../error/database-connection-failed.php");
         exit;
     }
 }

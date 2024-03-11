@@ -2,7 +2,7 @@
 session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($_SESSION['user_id'] != $_POST['user_id']) {
-        header("HTTP/1.0 401 Unauthorized");
+        header("Location: ../error/access-denied.php");
         exit;
     }
         
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         header("Location: page.php?threadId=" . $thread_id);
     } catch (PDOException $e) {
-        header("HTTP/1.0 500 Internal Server Error");
+        header("Location: ../error/database-connection-failed.php");
         exit;
     }
 }

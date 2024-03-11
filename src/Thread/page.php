@@ -23,12 +23,12 @@ if (isset($_GET['threadId'])) {
         $stmt->execute([$threadId]);
         $threadFetch = $stmt->fetch(PDO::FETCH_ASSOC);
         if (empty($threadFetch)) {
-            header("HTTP/1.0 404 Not Found");
-            exit;
+            header("Location: ../error/404.php");
+        exit;
         }
         $thread = new Thread($threadFetch['thread_id'], $threadFetch['title'], $threadFetch['image'], $threadFetch['content'], $threadFetch['user_id'], $threadFetch['creation_date']);
     } catch (PDOException $e) {
-        header("HTTP/1.0 500 Internal Server Error");
+        header("Location: ../error/database-connection-failed.php");
         exit;
     }
 }

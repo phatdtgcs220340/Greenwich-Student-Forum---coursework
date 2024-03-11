@@ -36,7 +36,7 @@ class Thread
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             return $user;
         } catch (PDOException $e) {
-            header("HTTP/1.0 500 Internal Server Error");
+            header("Location: ../error/database-connection-failed.php");
             exit;
         }
     }

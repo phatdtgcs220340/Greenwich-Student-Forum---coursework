@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         header("Location: ../index.php");
     } catch (PDOException $e) {
-        header("HTTP/1.0 500 Internal Server Error");
+        header("Location: ../error/database-connection-failed.php");
         exit;
     }
 }

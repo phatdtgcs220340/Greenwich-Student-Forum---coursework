@@ -19,11 +19,11 @@ if (isset($_GET['userId'])) {
         $stmt->execute([$userId]);
         $userFetch = $stmt->fetch(PDO::FETCH_ASSOC);
         if (empty($userFetch)) {
-            header("HTTP/1.0 404 Not Found");
+            header("Location: ../error/404.php");
             exit;
         }
     } catch (PDOException $e) {
-        header("HTTP/1.0 500 Internal Server Error");
+        header("Location: ../error/database-connection-failed.php");
         exit;
     }
 }

@@ -19,13 +19,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['lastName'] = $user['lastName'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['image'] = $user['image'];
+            $_SESSION['role'] = $user['role'];
             header('Location: ../index.php');
             exit;
         } else {
             $error = "authentication failed";
         }
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        header("Location: ../error/database-connection-failed.php");
+        exit;
     }
 }
 ?>
