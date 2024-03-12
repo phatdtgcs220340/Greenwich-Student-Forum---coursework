@@ -170,9 +170,9 @@ if (isset($_GET['threadId'])) {
         </div>
 
         <form action="../Post/create-post.php" method="post" class="w-3/4">
-            <input class="hidden" id="threadId" name="threadId" value="<?php echo $thread->getThreadId() ?>">
+            <input class="hidden" id="thread_id" name="thread_id" value="<?php echo $thread->getThreadId() ?>">
             <label for="content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your answer</label>
-            <textarea id="content" name="content" rows="4" class="block mb-2 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Leave a comment..."></textarea>
+            <textarea required id="content" name="content" rows="4" class="block mb-2 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Leave a comment..."></textarea>
             <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mt-px mb-2">Answer</button>
         </form>
         <?php

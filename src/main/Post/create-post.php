@@ -3,7 +3,7 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user_id'];
     $content = $_POST['content'];
-    $thread_id = $_POST['threadId'];
+    $thread_id = $_POST['thread_id'];
     
     try {
         $pdo = new PDO('mysql:host=localhost;dbname=cw-student-forum-db', 'root', '');
