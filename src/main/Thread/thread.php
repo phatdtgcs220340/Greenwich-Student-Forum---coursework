@@ -33,10 +33,11 @@ class Thread
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $stmt = $pdo->prepare('SELECT * FROM `user` WHERE user_id = ?');
             $stmt->execute([$this->userId]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt = $pdo->prepare('SELECT COUNT(*) AS comments FROM `post` WHERE thread_id = ?');
             $stmt->execute([$this->threadId]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $user;
+            $comment = $stmt->fetch(PDO::FETCH_ASSOC);
+            return ["user" => $user, "comment" => $comment];
         } catch (PDOException $e) {
             header("Location: ../error/database-connection-failed.php");
             exit;
@@ -138,11 +139,11 @@ class Thread
     public function toCard($displayUser="true", $currentPath)
     {   
         if ($displayUser == true) {
-        $userInfo = $this->userInfo();
+        $extraInfo = $this->extraInfo();
         $user_card = '
         <a href="./profile/profile.php?userId='.$this->userId.'" class="flex gap-3">
-        <img class="rounded-lg h-8" src="'.$userInfo['image'].'">
-        <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700">' . $userInfo['firstName'] . " " . $userInfo['lastName'].'</h5>
+        <img class="rounded-lg h-8" src="../'.$extraInfo['user']['image'].'">
+        <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700">' . $extraInfo['user']['firstName'] . " " . $extraInfo['user']['lastName'].'</h5>
         </a>';
         }
         else $user_card = "";
@@ -154,7 +155,7 @@ class Thread
             <div class= "flex-initial w-full mb-4">'.$user_card.'
                 <a href="' .$currentPath.$this->toThreadViewUrl() . '">
                     <div class="w-full bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
-                        <img class="rounded-t-lg" src="./' . $this->image . '" alt="" />
+                        <img class="rounded-t-lg" src="../../' . $this->image . '" alt="" />
                         <div class="p-5">
                             <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">' . $this->title. '</h5>
                             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">' . $trimmedContent . '</p>

@@ -18,7 +18,7 @@ if (!isset($_SESSION['user_id'])) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cherry+Swash:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  <link rel="icon" type="image/x-icon" href="images\favicon.jpg">
+  <link rel="icon" type="image/x-icon" href="../resource/static/images/favicon.jpg">
   <title>Greenwich Student Forum</title>
 </head>
 
@@ -31,7 +31,7 @@ if (!isset($_SESSION['user_id'])) {
             <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                 <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                     <span class="sr-only">Open user menu</span>
-                    <img class="w-9 h-9 rounded-full" src="./<?php echo $_SESSION['image'] ?>" alt="user photo">
+                    <img class="w-9 h-9 rounded-full" src="../<?php echo $_SESSION['image'] ?>" alt="user photo">
                 </button>
                 <!-- Dropdown menu -->
                 <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg border border-gray-100" id="user-dropdown">

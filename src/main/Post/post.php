@@ -129,7 +129,7 @@ class Post
         echo '<div class="mb-2">
             <div class="flex items-start gap-2.5">
             <a href="../profile/profile.php?userId=' . $this->userId . '">
-            <img class="w-8 h-8 rounded-full" src="../' . $user['image'] . '" alt="user image">
+            <img class="w-8 h-8 rounded-full" src="../../' . $user['image'] . '" alt="user image">
             </a>
             <div class="flex flex-col w-1/2 p-4 border-gray-200 bg-gray-100 rounded-lg rounded-es-xl">
                <div class="flex items-center gap-2">

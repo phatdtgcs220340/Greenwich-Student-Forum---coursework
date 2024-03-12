@@ -43,7 +43,7 @@ if (isset($_GET['threadId'])) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cherry+Swash:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-    <link rel="icon" type="image/x-icon" href="../images/favicon.jpg">
+    <link rel="icon" type="image/x-icon" href="../../resource/static/images/favicon.jpg">
     <title>Greenwich Student Forum</title>
 </head>
 
@@ -56,7 +56,7 @@ if (isset($_GET['threadId'])) {
             <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                 <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                     <span class="sr-only">Open user menu</span>
-                    <img class="w-9 h-9 rounded-full" src="../<?php echo $_SESSION['image'] ?>" alt="user photo">
+                    <img class="w-9 h-9 rounded-full" src="../../<?php echo $_SESSION['image'] ?>" alt="user photo">
                 </button>
                 <!-- Dropdown menu -->
                 <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg border border-gray-100" id="user-dropdown">
@@ -124,7 +124,7 @@ if (isset($_GET['threadId'])) {
             <p id="thread-content" class="font-lg"><?php 
             $content = $thread->getContent();
             echo substr_count($content,"<br>") == 0 ? nl2br($content) : $content ?></p>
-            <img id="thread-image" class="" src="../<?php
+            <img id="thread-image" class="" src="../../<?php
                         if ($thread->getImage() != "")
                             echo $thread->getImage();
                         else
@@ -133,11 +133,10 @@ if (isset($_GET['threadId'])) {
             <div class="bg-gray-100 p-2 border boreder-gray-400 self-end">
                 <h2 class="text-xs mb-2">asked <?php echo $thread->timeDifference() ?> ago</h2>
                 <a href="../profile/profile.php?userId=<?php echo $thread->getUserId()?>" class="flex gap-2">
-                    <img class="w-8 h-8 rounded-lg" src="<?php $user = $thread->userInfo();
-                     echo "../".$user['image'] ?>" 
+                    <img class="w-8 h-8 rounded-lg" src="<?php $user = $thread->extraInfo()['user'];
+                     echo "../../".$user['image'] ?>" 
                     alt="user photo">
                     <h2 class="text-sm"><?php
-                                        $user = $thread->userInfo();
                                         echo $user['firstName'] . " " . $user['lastName'];
                                         ?></h2>
                 </a>

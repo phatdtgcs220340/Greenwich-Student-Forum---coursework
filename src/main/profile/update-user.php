@@ -3,7 +3,7 @@ session_start();
 // Check if the request method is PUT
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user_id'];
-    $target_dir = "images/user/";
+    $target_dir = "resource/static/images/user/";
     $target_file = $target_dir . basename($_FILES["user_image"]["name"]);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Sorry, your file was not uploaded.";
         // if everything is ok, try to upload file
     } else {
-        if (move_uploaded_file($_FILES["user_image"]["tmp_name"],"../".$target_file)) {
+        if (move_uploaded_file($_FILES["user_image"]["tmp_name"],"../../".$target_file)) {
             echo "The file " . htmlspecialchars(basename($_FILES["user_image"]["name"])) . " has been uploaded.";
         } else {
             echo "Sorry, there was an error uploading your file.";

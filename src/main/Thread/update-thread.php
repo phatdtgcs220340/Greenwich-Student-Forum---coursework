@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
     $thread_id = $_POST['thread_id'];
     $content = $_POST['content'];
-    $target_dir = "images/thread/";
+    $target_dir = "resource/static/images/thread/";
     $updateImage = true;
     if (isset($_FILES["image"])) {
         $file = $_FILES["image"];
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo "Sorry, your file was not uploaded.";
                 // if everything is ok, try to upload file
             } else {
-                if (move_uploaded_file($file["tmp_name"], "../" . $target_file)) {
+                if (move_uploaded_file($file["tmp_name"], "../../" . $target_file)) {
                     echo "The file " . htmlspecialchars(basename($file["name"])) . " has been uploaded.";
                 } else {
                     echo "Sorry, there was an error uploading your file.";

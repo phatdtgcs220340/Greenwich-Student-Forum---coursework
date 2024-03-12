@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $stmt = $pdo->prepare('SELECT * FROM `thread` WHERE thread_id = ?');
         $stmt->execute([$thread_id]);
-        $fileToDelete = '../'.$stmt->fetch(PDO::FETCH_ASSOC)['image'];
+        $fileToDelete = '../../'.$stmt->fetch(PDO::FETCH_ASSOC)['image'];
         $stmt = $pdo->prepare('DELETE FROM `thread` WHERE thread_id = ?');
         $stmt->execute([$thread_id]);
 
