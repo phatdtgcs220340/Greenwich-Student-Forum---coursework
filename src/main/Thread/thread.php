@@ -36,8 +36,8 @@ class Thread
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt = $pdo->prepare('SELECT COUNT(*) AS comments FROM `post` WHERE thread_id = ?');
             $stmt->execute([$this->threadId]);
-            $comment = $stmt->fetch(PDO::FETCH_ASSOC);
-            return ["user" => $user, "comment" => $comment];
+            $totalComment = $stmt->fetch(PDO::FETCH_ASSOC)['comments'];
+            return ["user" => $user, "comment" => $totalComment];
         } catch (PDOException $e) {
             header("Location: ../error/database-connection-failed.php");
             exit;
@@ -152,17 +152,22 @@ class Thread
             $trimmedContent = implode(' ', array_slice(explode(' ', $trimmedContent), 0, 10)) . " ...";
         }
         echo '
-            <div class= "flex-initial w-full mb-4">'.$user_card.'
+            <div class= "p-4 flex-initial w-full mb-4 bg-red-200 rounded-lg shadow">'.$user_card.'
                 <a href="' .$currentPath.$this->toThreadViewUrl() . '">
-                    <div class="w-full bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
-                        <img class="rounded-t-lg" src="../../' . $this->image . '" alt="" />
+                    <div class="w-full bg-yellow-100 hover:bg-red-100 rounded-lg shadow hover:bg-gray-100">
+                        <img class="rounded-t-lg" src="../' . $this->image . '" alt="" />
                         <div class="p-5">
                             <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">' . $this->title. '</h5>
                             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">' . $trimmedContent . '</p>
                         </div>
                     </div>
-                </a>
-            </div>
-            ';
+                </a>';
+            if ($displayUser)
+                echo '
+                <div class="flex items-end mt-2 gap-2">
+                    <img class="h-5" src="../resource/static/images/icon/comment.png">
+                    <h5 class="text-sm font-medium">'.$extraInfo['comment'].'</h5>
+                </div>';
+            echo '</div>';
     }
 }
