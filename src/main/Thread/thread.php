@@ -26,13 +26,15 @@ class Thread
     {
         return "/page.php?threadId=" . $this->threadId;
     }
-    public function userInfo()
+    public function extraInfo()
     {
         try {
             $pdo = new PDO('mysql:host=localhost;dbname=cw-student-forum-db', 'root', '');
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $stmt = $pdo->prepare('SELECT * FROM `user` WHERE user_id = ?');
             $stmt->execute([$this->userId]);
+            $stmt = $pdo->prepare('SELECT COUNT(*) AS comments FROM `post` WHERE thread_id = ?');
+            $stmt->execute([$this->threadId]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             return $user;
         } catch (PDOException $e) {
