@@ -19,11 +19,17 @@ if (!isset($_SESSION['user_id'])) {
   <link href="https://fonts.googleapis.com/css2?family=Cherry+Swash:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="icon" type="image/x-icon" href="../resource/static/images/favicon.jpg">
+  <style>
+    #plate {
+    background-image: url('../resource/static/images/background-image.svg'); /* Specify the path to your image */
+    background-repeat: repeat; /* Prevent the image from repeating */
+  }
+  </style>
   <title>Greenwich Student Forum</title>
 </head>
 
 <body>
-<nav class="border-b border-gray-300 bg-white">
+<nav class="border-b border-gray-300 bg-yellow-50">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
               <h5 class="mb-2 text-2xl tracking-tight text-blue-400" style="font-family: 'Cherry Swash', serif; font-weight: 700; font-style: normal;">Student Forum</h5>
@@ -56,22 +62,22 @@ if (!isset($_SESSION['user_id'])) {
                 </button>
             </div>
             <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
-                <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white">
+                <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
                     <li>
-                        <a href="index.php" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0" aria-current="page">Home</a>
+                        <a href="index.php" class="block py-2 px-3 text-white bg-gray-100 rounded md:bg-transparent md:text-gray-900 md:p-0" aria-current="page">Home</a>
                     </li>
                     <li>
-                        <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">My Feedback</a>
+                        <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-600 md:p-0">My Feedback</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-  <div class="p-12 flex items-center justify-center flex-col gap-3 bg-gray-200">
-    <div class="w-1/2 mx-auto mb-8 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+  <div id="plate" class="p-12 flex items-center justify-center flex-col gap-3 bg-white">
+    <div class="w-1/2 mx-auto mb-8 p-6 bg-red-200 rounded-lg shadow">
       <form action="./Thread/create-thread.php" method="post" enctype="multipart/form-data">
-        <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+        <div class="w-full mb-4 rounded-lg bg-red-100 dark:bg-gray-700 dark:border-gray-600">
           <div class="flex items-center justify-between px-3 py-2 border-b dark:border-gray-600">
             <div class="flex flex-col items-start">
               <div class="flex flex-wrap items-center rtl:space-x-reverse sm:ps-4">
@@ -101,13 +107,13 @@ if (!isset($_SESSION['user_id'])) {
             <textarea required id="content" name="content" rows="8" class="w-full px-0 text-sm text-gray-800 bg-white" placeholder="Write an article..."></textarea>
           </div>
         </div>
-        <button type="submit" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+        <button type="submit" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-gray-900 bg-yellow-100 shadow hover:bg-blue-100 rounded-lg">
           Publish post
         </button>
       </form>
     </div>
     
-    <div class="mb-4 w-1/2 p-4 grid grid-cols-2 bg-white rounded-lg shadow">
+    <div class="mb-4 w-1/2 p-4 grid grid-cols-2 bg-red-100 rounded-lg shadow">
       <div>
       <h5 class="mb-2 font-semibold">Filter By</h5>
       <select id="filter_category" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-1">
@@ -127,7 +133,7 @@ if (!isset($_SESSION['user_id'])) {
                 <option value="oldest">Oldest</option>
       </select>
       </div>
-      <a id="filter_link" href="#" onclick="filter()" class="mt-4 p-2 bg-blue-500 rounded-lg font-semibold text-white col-span-2 text-center hover:bg-blue-700 hover:text-gray-100">Filter</a>
+      <a id="filter_link" href="#" onclick="filter()" class="mt-4 p-2 bg-yellow-100 hover:bg-blue-100 shadow rounded-lg font-semibold text-gray-700 col-span-2 text-center hover:text-gray-900">Filter</a>
       </div>
       <?php
       require_once("Thread/thread.php");
@@ -159,12 +165,17 @@ if (!isset($_SESSION['user_id'])) {
       echo '<ul class="inline-flex -space-x-px text-sm">';
       for ($i = 1; $i <= $threadList['total_pages']; $i++) {
         echo '<li>
-        <a href="?page='.$i.$uriParam.'" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">'.$i.'</a>
+        <a href="?page='.$i.$uriParam.'" class="mr-1 font-semibold rounded-lg flex items-center justify-center px-3 h-8 leading-tight text-gray-800 bg-yellow-100 border border-gray-300 hover:bg-yellow-200 hover:text-gray-900">'.$i.'</a>
       </li>';
       }
       ?>
   </ul>
+      <h5 class="text-sm font-semibold">Page <?php 
+      $page = isset($_GET['page']) ? $_GET['page'] : 1;
+      echo $page?>
+      </h5>
   </div>
+  
   <script src="https://flowbite.com/docs/flowbite.min.js?v=2.3.0a"></script>
   <script>
     function filter() {

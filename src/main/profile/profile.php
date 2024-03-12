@@ -132,7 +132,7 @@ if (isset($_GET['userId'])) {
                 echo '<ul class="inline-flex -space-x-px text-sm">';
                 for ($i = 1; $i <= $threadList['total_pages']; $i++) {
                     echo '<li>
-                        <a href="?userId='.$userId.'&page=' . $i . '" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">' . $i . '</a>
+                        <a href="?userId='.$userId.'&page=' . $i . '" class="mr-1 rounded-lg flex items-center justify-center px-3 h-8 leading-tight text-gray-800 bg-yellow-100 border border-gray-300 hover:bg-yellow-200 hover:text-gray-900">' . $i . '</a>
                     </li>';
                 }
                 echo '</ul>'
