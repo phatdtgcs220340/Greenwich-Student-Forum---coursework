@@ -6,7 +6,7 @@
     <title>test</title>
 </head>
 <body>
-    <form action="main/module/create-module.php" method="post">
+    <form action="../main/module/create-module.php" method="post">
         <input type="text" name="module_name">
         <button type="submit">submit</button>
     </form>
