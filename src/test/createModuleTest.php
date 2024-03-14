@@ -6,8 +6,8 @@
     <title>test</title>
 </head>
 <body>
-    <form action="../module/create-module.php" method="post">
-        <input type="text" name="module_name" value="Java">
+    <form action="main/module/create-module.php" method="post">
+        <input type="text" name="module_name">
         <button type="submit">submit</button>
     </form>
 </body>

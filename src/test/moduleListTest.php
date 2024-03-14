@@ -1,6 +1,6 @@
 <?php
     namespace Src\Test;
-    require_once("../module/module-list.php");
+    require_once("main/module/module-list.php");
     use Src\Module as module;
    $moduleList = module\moduleList();
    foreach($moduleList as $node) { 

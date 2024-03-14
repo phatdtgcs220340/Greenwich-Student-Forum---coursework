@@ -9,7 +9,7 @@
             echo $node['comments'].'<br>';
         }
     } catch (PDOException $e) {
-        header("Location: ../error/database-connection-failed.php");
+        header("Location: main/error/database-connection-failed.php");
         exit;
     }
 ?>
