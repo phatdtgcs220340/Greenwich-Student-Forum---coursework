@@ -96,7 +96,7 @@ if (isset($_GET['threadId'])) {
     <div class="p-6 gap-2 bg-blue-100">
         <div class="flex flex-col w-2/3 p-4 bg-gray-50 rounded-lg ">
         <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-900"><?php echo $thread->getTitle() ?></h5>
-        <h5>Category: <?php echo $threadFetch['module_name'] ?></h5>
+        <h5>Module: <?php echo $threadFetch['module_name'] ?></h5>
         <?php if ($_SESSION['user_id'] == $thread->getUserId()) echo '
                 <button class="text-gray-500 text-base font-bold self-end hover:text-gray-900" data-dropdown-toggle="thread-dropdown" data-dropdown-placement="bottom">⁝</button>
                 <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg border border-gray-100" id="thread-dropdown">
@@ -177,6 +177,7 @@ if (isset($_GET['threadId'])) {
             <textarea required id="content" name="content" rows="4" class="block mb-2 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Leave a comment..."></textarea>
             <button type="submit" class="text-gray-900 bg-yellow-100 hover:bg-red-100 border border-gray-300 shadow focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mt-px mb-2">Answer</button>
         </form>
+        <hr class="m-4">
         <?php
         require_once("../Post/post.php");
         require_once("../Post/post-list.php");

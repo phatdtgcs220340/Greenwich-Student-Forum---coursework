@@ -108,7 +108,7 @@ if (!isset($_SESSION['user_id'])) {
           </div>
         </div>
         <button type="submit" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-gray-900 bg-yellow-100 shadow hover:bg-blue-100 rounded-lg">
-          Publish post
+          Publish question
         </button>
       </form>
     </div>
