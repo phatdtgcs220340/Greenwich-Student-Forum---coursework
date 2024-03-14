@@ -48,7 +48,7 @@ if (isset($_GET['threadId'])) {
 </head>
 
 <body id="body">
-<nav class="border border-gray-200">
+<nav class="border-b-2 border-yellow-100 bg-yellow-50">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="../index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
               <h5 class="mb-2 text-2xl tracking-tight text-blue-400" style="font-family: 'Cherry Swash', serif; font-weight: 700; font-style: normal;">Student Forum</h5>
@@ -81,20 +81,21 @@ if (isset($_GET['threadId'])) {
                 </button>
             </div>
             <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
-                <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white">
+                <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
                     <li>
-                        <a href="../index.php" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0" aria-current="page">Home</a>
+                        <a href="../index.php" class="block py-2 px-3 text-white bg-gray-100 rounded md:bg-transparent md:text-gray-900 md:p-0" aria-current="page">Home</a>
                     </li>
                     <li>
-                        <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">My Feedback</a>
+                        <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-600 md:p-0">My Feedback</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="p-6 gap-2">
-        <div class="flex flex-col w-2/3">
-        <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700"><?php echo $thread->getTitle() ?></h5>
+
+    <div class="p-6 gap-2 bg-blue-100">
+        <div class="flex flex-col w-2/3 p-4 bg-gray-50 rounded-lg ">
+        <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-900"><?php echo $thread->getTitle() ?></h5>
         <h5>Category: <?php echo $threadFetch['module_name'] ?></h5>
         <?php if ($_SESSION['user_id'] == $thread->getUserId()) echo '
                 <button class="text-gray-500 text-base font-bold self-end hover:text-gray-900" data-dropdown-toggle="thread-dropdown" data-dropdown-placement="bottom">⁝</button>
@@ -110,7 +111,7 @@ if (isset($_GET['threadId'])) {
                 </div>'
         ?>
         </div>
-        <div class="flex flex-col p-6 w-2/3 h-auto bg-white border-t border-b border-gray-400 gap-2">
+        <div class="flex flex-col p-6 w-2/3 h-auto rounded-lg bg-white border-t border-b border-gray-400 gap-2">
             <form id="update-form" class="hidden" action="update-thread.php" method="post" enctype="multipart/form-data">
                 <input name="user_id" class="hidden" value="<?php echo $thread->getUserId()?>">
                 <input name="thread_id" type="text" class="hidden" value="<?php echo $threadId?>">
@@ -169,11 +170,12 @@ if (isset($_GET['threadId'])) {
             ?>
         </div>
 
-        <form action="../Post/create-post.php" method="post" class="w-3/4">
+        <div class="w-2/3 bg-white rounded-lg p-4 mt-2 shadow">
+        <form action="../Post/create-post.php" method="post" >
             <input class="hidden" id="thread_id" name="thread_id" value="<?php echo $thread->getThreadId() ?>">
             <label for="content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your answer</label>
             <textarea required id="content" name="content" rows="4" class="block mb-2 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Leave a comment..."></textarea>
-            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mt-px mb-2">Answer</button>
+            <button type="submit" class="text-gray-900 bg-yellow-100 hover:bg-red-100 border border-gray-300 shadow focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mt-px mb-2">Answer</button>
         </form>
         <?php
         require_once("../Post/post.php");
@@ -188,6 +190,7 @@ if (isset($_GET['threadId'])) {
             echo $post->toCard();
         }
         ?>
+    </div>
     </div>
     <script>
         function displayForm() {

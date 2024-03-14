@@ -131,7 +131,7 @@ class Post
             <a href="../profile/profile.php?userId=' . $this->userId . '">
             <img class="w-8 h-8 rounded-full" src="../../' . $user['image'] . '" alt="user image">
             </a>
-            <div class="flex flex-col w-1/2 p-4 border-gray-200 bg-gray-100 rounded-lg rounded-es-xl">
+            <div class="flex flex-col w-1/2 p-4 border-gray-200 bg-gray-100 rounded-lg rounded-es-xl shadow">
                <div class="flex items-center gap-2">
                   <span class="text-sm font-semibold text-gray-900 dark:text-white">' . $user['firstName'] . " " . $user['lastName'] . '</span>
                   <span class="text-sm font-normal text-gray-500 dark:text-gray-400">' . $this->creationDate . '</span>

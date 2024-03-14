@@ -177,7 +177,7 @@ class Thread
                         <!-- Modal content -->
                         <div class="relative bg-blue-100 rounded-lg shadow">
                             <!-- Modal header -->
-                            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                            <div class="flex items-center justify-between p-4 md:p-5 border-b-2 border-yellow-100 rounded-t">
                                 <h3 class="text-xl font-semibold text-gray-900">
                                     Fast answer
                                 </h3>

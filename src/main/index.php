@@ -29,7 +29,7 @@ if (!isset($_SESSION['user_id'])) {
 </head>
 
 <body>
-<nav class="border-b border-gray-300 bg-yellow-50">
+<nav class="border-b-2 border-yellow-100 bg-yellow-50">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
               <h5 class="mb-2 text-2xl tracking-tight text-blue-400" style="font-family: 'Cherry Swash', serif; font-weight: 700; font-style: normal;">Student Forum</h5>
