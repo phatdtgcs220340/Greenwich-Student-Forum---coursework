@@ -117,11 +117,15 @@ if (!isset($_SESSION['user_id'])) {
       <div>
       <h5 class="mb-2 font-semibold">Filter By</h5>
       <select id="filter_category" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-1">
-        <option selected>Default</option>
         <?php
+          if (!isset($_GET['filterBy']))
+            echo "<option selected>Default</option>";
+          else echo "<option>Default</option>";
           $moduleList = module\moduleList();
           foreach($moduleList as $node) { 
-          echo '<option value='.$node['module_id'].'>'.$node['module_name'].'</option>';
+          if ($node['module_id'] == $_GET['filterBy'])
+            echo '<option selected value='.$node['module_id'].'>'.$node['module_name'].'</option>';
+          else echo '<option value='.$node['module_id'].'>'.$node['module_name'].'</option>';
           }
         ?>
       </select>
