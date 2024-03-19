@@ -7,6 +7,6 @@ CREATE TABLE `thread` (
     user_id INT(11),
     module_id INT(11),
     PRIMARY KEY (thread_id),
-    FOREIGN KEY (user_id) REFERENCES `user`(user_id) ON DELETE CASCADE
-    FOREIGN KEY (module_id) REFERENCES `module`(user_id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES `user`(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (module_id) REFERENCES `module`(module_id) ON DELETE CASCADE
 );
