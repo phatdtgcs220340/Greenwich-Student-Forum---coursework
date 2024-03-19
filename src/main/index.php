@@ -96,9 +96,12 @@ if (!isset($_SESSION['user_id'])) {
                    }
                   ?>
               </select>
-              <div class="flex flex-wrap items-center rtl:space-x-reverse sm:ps-4">
-                <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-                <input required type="text" id="title" name="title" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-white text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600">
+              <div class="rtl:space-x-reverse sm:ps-4">
+                <label for="title" class="block mt-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+                <div class="flex gap-4">
+                <input required oninput="countWord('title', 'title-limit')" type="text" id="title" name="title" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-white text-sm">
+                <p class="text-xs">Word counts: <span id="title-limit">0/10</span></p>
+                </div>
               </div>
             </div>
           </div>
@@ -133,8 +136,17 @@ if (!isset($_SESSION['user_id'])) {
       <div>
       <h5 class="mb-2 font-semibold">Sort By</h5>
       <select id="sort" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-1">
-                <option selected value="latest">Latest (default)</option>
-                <option value="oldest">Oldest</option>
+        <?php
+          if (isset($_GET['orderBy'])) {
+            if ($_GET['orderBy'] == 'oldest')
+              echo '<option value="latest">Latest (default)</option>
+              <option selected value="oldest">Oldest</option>';
+            else echo '<option selected value="latest">Latest (default)</option>
+            <option value="oldest">Oldest</option>';
+          }
+          else echo '<option selected value="latest">Latest (default)</option>
+                <option value="oldest">Oldest</option>';
+        ?>
       </select>
       </div>
       <a id="filter_link" href="#" onclick="filter()" class="mt-4 p-2 bg-yellow-100 hover:bg-blue-100 shadow rounded-lg font-semibold text-gray-700 col-span-2 text-center hover:text-gray-900">Filter</a>
@@ -193,6 +205,7 @@ if (!isset($_SESSION['user_id'])) {
       link.setAttribute("href", destination);
     }
   </script>
+  <script src="../resource/static/script/word_count.js"></script>
 </body>
 
 </html>
