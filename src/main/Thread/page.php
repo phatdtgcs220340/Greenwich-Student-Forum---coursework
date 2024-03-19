@@ -94,6 +94,9 @@ if (isset($_GET['threadId'])) {
                     <li>
                         <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-600 md:p-0">My Feedback</a>
                     </li>
+                    <li>
+                        <a href="../admin/" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-600 md:p-0">Admin</a>
+                    </li>
                 </ul>
             </div>
         </div>
