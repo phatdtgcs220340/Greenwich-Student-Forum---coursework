@@ -148,8 +148,8 @@ class Thread
         }
         else $user_card = "";
         $trimmedContent = $this->content;
-        if (str_word_count($trimmedContent) > 10) {
-            $trimmedContent = implode(' ', array_slice(explode(' ', $trimmedContent), 0, 10)) . " ...";
+        if (strlen($trimmedContent) > 50) {
+            $trimmedContent = substr($trimmedContent,0, 50)."...";
         }
         echo '
             <div class= "p-4 flex-initial w-full mb-4 bg-red-200 rounded-lg shadow">'.$user_card.'
