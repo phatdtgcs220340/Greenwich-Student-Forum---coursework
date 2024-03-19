@@ -44,11 +44,17 @@ if (isset($_GET['threadId'])) {
     <link href="https://fonts.googleapis.com/css2?family=Cherry+Swash:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="../../resource/static/images/favicon.jpg">
+    <style>
+        #plate {
+        background-image: url('../../resource/static/images/thread-background-image.jpg'); /* Specify the path to your image */
+        background-repeat: repeat; /* Prevent the image from repeating */
+        }
+    </style>
     <title>Greenwich Student Forum</title>
 </head>
 
 <body id="body">
-<nav class="border-b-2 border-yellow-100 bg-yellow-50">
+<nav class="border-b-2 border-white bg-green-50">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="../index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
               <h5 class="mb-2 text-2xl tracking-tight text-blue-400" style="font-family: 'Cherry Swash', serif; font-weight: 700; font-style: normal;">Student Forum</h5>
@@ -93,7 +99,7 @@ if (isset($_GET['threadId'])) {
         </div>
     </nav>
 
-    <div class="p-6 gap-2 bg-blue-100">
+    <div id="plate" class="p-6 gap-2">
         <div class="flex flex-col w-2/3 p-4 bg-gray-50 rounded-lg ">
         <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-900"><?php echo $thread->getTitle() ?></h5>
         <h5>Module: <?php echo $threadFetch['module_name'] ?></h5>

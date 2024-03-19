@@ -39,11 +39,17 @@ if (isset($_GET['userId'])) {
     <link href="https://fonts.googleapis.com/css2?family=Cherry+Swash:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="../../resource/static/images/favicon.jpg">
+    <style>
+        #plate {
+        background-image: url('../../resource/static/images/profile-background-image.jpg'); /* Specify the path to your image */
+        background-repeat: repeat; /* Prevent the image from repeating */
+        }
+    </style>
     <title>Greenwich Student Forum</title>
 </head>
 
 <body>
-<nav class="border-b-2 border-yellow-100 bg-yellow-50">
+<nav class="border-b-2 border-white bg-green-50">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="../index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
               <h5 class="mb-2 text-2xl tracking-tight text-blue-400" style="font-family: 'Cherry Swash', serif; font-weight: 700; font-style: normal;">Student Forum</h5>
@@ -87,11 +93,11 @@ if (isset($_GET['userId'])) {
             </div>
         </div>
     </nav>
-    <div class="flex flex-col items-center">
+    <div id="plate" class="flex flex-col items-center h-1/2">
         <div class="mt-8 w-2/3 grid grid-cols-2 grid-flow-col gap-4">
             
             <div class="row-span-2">
-                <img class="w-64 h-64 rounded-lg mb-4" src="../../<?php echo $userFetch['image'] ?>" alt="">
+                <img class="w-64 h-64 rounded-lg mb-4 bg-white p-1" src="../../<?php echo $userFetch['image'] ?>" alt="">
                 <?php
                     if ($userId == $_SESSION['user_id']) {
                         echo 

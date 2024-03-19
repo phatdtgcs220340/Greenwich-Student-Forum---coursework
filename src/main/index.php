@@ -21,7 +21,7 @@ if (!isset($_SESSION['user_id'])) {
   <link rel="icon" type="image/x-icon" href="../resource/static/images/favicon.jpg">
   <style>
     #plate {
-    background-image: url('../resource/static/images/background-image.svg'); /* Specify the path to your image */
+    background-image: url('../resource/static/images/home-background-image.jpg'); /* Specify the path to your image */
     background-repeat: repeat; /* Prevent the image from repeating */
   }
   </style>
@@ -29,7 +29,7 @@ if (!isset($_SESSION['user_id'])) {
 </head>
 
 <body>
-<nav class="border-b-2 border-yellow-100 bg-yellow-50">
+<nav class="border-b-2 border-white bg-green-50">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
               <h5 class="mb-2 text-2xl tracking-tight text-blue-400" style="font-family: 'Cherry Swash', serif; font-weight: 700; font-style: normal;">Student Forum</h5>
@@ -137,15 +137,16 @@ if (!isset($_SESSION['user_id'])) {
       <h5 class="mb-2 font-semibold">Sort By</h5>
       <select id="sort" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-1">
         <?php
+          $flag = 0;
           if (isset($_GET['orderBy'])) {
             if ($_GET['orderBy'] == 'oldest')
               echo '<option value="latest">Latest (default)</option>
               <option selected value="oldest">Oldest</option>';
-            else echo '<option selected value="latest">Latest (default)</option>
-            <option value="oldest">Oldest</option>';
+            else $flag = 1;
           }
-          else echo '<option selected value="latest">Latest (default)</option>
-                <option value="oldest">Oldest</option>';
+          else $flag = 1;
+          if ($flag == 1) echo '<option selected value="latest">Latest (default)</option>
+          <option value="oldest">Oldest</option>'
         ?>
       </select>
       </div>
