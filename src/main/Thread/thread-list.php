@@ -85,7 +85,7 @@ function threadListCategory($latest = true)
         if ($latest)
             $stmt = $pdo->prepare('SELECT m.module_name, t.* FROM `module` m RIGHT JOIN `thread` t ON t.module_id = m.module_id WHERE m.module_id = :module_id ORDER BY creation_date DESC LIMIT :start_limit, :results_per_page');
         else 
-            $stmt = $pdo->prepare('SELECT m.module_name, t.* FROM `module` m RIGHT JOIN `thread` t ON t.module_id = m.module_id WHERE m.module_id = :module_id  ORDER BY creation_date DESC LIMIT :start_limit, :results_per_page');
+            $stmt = $pdo->prepare('SELECT m.module_name, t.* FROM `module` m RIGHT JOIN `thread` t ON t.module_id = m.module_id WHERE m.module_id = :module_id  ORDER BY creation_date ASC LIMIT :start_limit, :results_per_page');
         $stmt->bindParam(':module_id', $module_id, PDO::PARAM_STR);
         $stmt->bindParam(':start_limit', $start_limit, PDO::PARAM_INT);
         $stmt->bindParam(':results_per_page', $results_per_page, PDO::PARAM_INT);
