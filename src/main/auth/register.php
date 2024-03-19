@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lastName = $_POST['lastName'];
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
+    $role = $email == "admin@gmail.com" ? "Admin" : "Student";
     try {
         $pdo = new PDO('mysql:host=localhost;dbname=cw-student-forum-db', 'root', '');
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -21,8 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = "authentication failed";
         } else {
             // Insert the new user
-            $stmt = $pdo->prepare('INSERT INTO `user` (firstName, lastName, email, password, role) VALUES (?, ?, ?, ?, \'Student\')');
-            $stmt->execute([$firstName, $lastName, $email, $password]);
+            $stmt = $pdo->prepare('INSERT INTO `user` (firstName, lastName, email, password, role) VALUES (?, ?, ?, ?, ?)');
+            $stmt->execute([$firstName, $lastName, $email, $password, $role]);
             header("Location: login.php");
         }
     } catch (PDOException $e) {
