@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare('UPDATE `thread` SET content = ? WHERE thread_id = ?  ');
             $stmt->execute([$content, $thread_id]);
         }
-        header("Location: page.php?threadId=" . $thread_id);
+        header("Location: ./?threadId=" . $thread_id);
     } catch (PDOException $e) {
         header("Location: ../error/database-connection-failed.php");
         exit;
