@@ -96,7 +96,7 @@ if (isset($_GET['userId'])) {
             </div>
         </div>
     </nav>
-    <div id="plate" class="flex flex-col items-center h-1/2">
+    <div id="plate" class="flex flex-col items-center">
         <div class="mt-8 w-2/3 grid grid-cols-2 grid-flow-col gap-4">
             
             <div class="row-span-2">
@@ -148,6 +148,7 @@ if (isset($_GET['userId'])) {
                 ?>
             </div>
         </div>
+        <div class="h-96"></div>
     </div>
     
     <script>
