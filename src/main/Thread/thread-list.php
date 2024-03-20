@@ -79,7 +79,7 @@ function threadListCategory($latest = true)
         } else {
             $page = $_GET['page'];
         }
-        $module_id = $_GET['filterBy'];
+        $module_id = $_GET['module'];
         // Calculate the starting limit for the query
         $start_limit = ($page - 1) * $results_per_page;
         if ($latest)
