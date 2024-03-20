@@ -47,7 +47,7 @@ if (!isset($_SESSION['user_id'])) {
                     </div>
                     <ul class="py-2" aria-labelledby="user-menu-button">
                         <li>
-                        <a href="./profile/profile.php?userId=<?php echo $_SESSION['user_id']?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                        <a href="./profile/?userId=<?php echo $_SESSION['user_id']?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
                         </li>
                         <li>
                             <a href="./auth/logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
@@ -124,12 +124,12 @@ if (!isset($_SESSION['user_id'])) {
       <h5 class="mb-2 font-semibold">Filter By</h5>
       <select id="filter_category" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-1">
         <?php
-          if (!isset($_GET['filterBy']))
+          if (!isset($_GET['module']))
             echo "<option selected>Default</option>";
           else echo "<option>Default</option>";
           $moduleList = module\moduleList();
           foreach($moduleList as $node) { 
-          if ($node['module_id'] == $_GET['filterBy'])
+          if ($node['module_id'] == $_GET['module'])
             echo '<option selected value='.$node['module_id'].'>'.$node['module_name'].'</option>';
           else echo '<option value='.$node['module_id'].'>'.$node['module_name'].'</option>';
           }
@@ -167,11 +167,11 @@ if (!isset($_SESSION['user_id'])) {
         if ($_GET['orderBy'] == 'oldest')
           $latest = false;
       }
-      if (!isset($_GET['filterBy']))
+      if (!isset($_GET['module']))
         $threadList = thread\threadListAll($latest);
       else {
         $threadList = thread\threadListCategory($latest);
-        $uriParam = $uriParam.'&filterBy='.$_GET['filterBy'];
+        $uriParam = $uriParam.'&module='.$_GET['module'];
       }
 
       echo '
@@ -204,7 +204,7 @@ if (!isset($_SESSION['user_id'])) {
       var sort = document.getElementById("sort").value;
       var destination = "index.php?orderBy="+sort;
       if (category != "Default") {
-        destination+="&filterBy="+category;
+        destination+="&module="+category;
       }
       link.setAttribute("href", destination);
     }
