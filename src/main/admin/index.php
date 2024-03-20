@@ -70,5 +70,8 @@
     <div class="mx-1 bg-gray-50 p-4">
         <a class="text-2xl" href="module-manager.php">Module manager</a>
     </div>
+    <div class="mx-1 bg-gray-50 p-4">
+        <a class="text-2xl" href="user-manager.php">User manager</a>
+    </div>
 </body>
 </html>
