@@ -108,15 +108,26 @@
                         </div>
                     </div>
             </div> 
-        
+        <h4 class="text-red-600 font-semibold ml-2">Caution: Remove module lead to removing all related threads and posts</h4>
         <div class="m-4">
             <?php 
                 require_once("../module/module-list.php");
                 foreach(moduleList() as $module) {
-                    echo '<div class="w-full mb-1 p-2 bg-blue-300 rounded-lg">
+                    echo '<div class="w-full flex flex-col my-2 p-2 bg-blue-300 rounded-lg">
                         <h4 class="font-semibold">Module: <span class="font-normal">'.$module['module_name'].'</span></h4>
                         <h4 class="font-semibold">Description: <span class="text-sm font-normal">'.$module['description'].'</span></h4>
-                    </div>';
+                        <div class="flex items-start mt-2 gap-2">
+                            <a class="bg-indigo-500 p-0.5 rounded-sm hover:bg-indigo-700" href="../?filterBy='.$module['module_id'].'">
+                                <img class="h-5" src="../../resource/static/images/icon/join.png">
+                            </a>
+                            <form action="../module/delete-module.php" method="POST">
+                                <input class="hidden" name="module_id" value="'.$module['module_id'].'">
+                                <button class="bg-red-400 p-0.5 rounded-sm hover:bg-red-600" type="submit">
+                                    <img class="h-5" src="../../resource/static/images/icon/remove.png">
+                                </button>
+                            </form>
+                        </div>               
+                        </div>';
                 }
             ?>
         </div>
