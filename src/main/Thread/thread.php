@@ -24,7 +24,7 @@ class Thread
     }
     public function toThreadViewUrl()
     {
-        return "/page.php?threadId=" . $this->threadId;
+        return "/?threadId=" . $this->threadId;
     }
     public function extraInfo()
     {
@@ -141,7 +141,7 @@ class Thread
         if ($displayUser == true) {
         $extraInfo = $this->extraInfo();
         $user_card = '
-        <a href="./profile/profile.php?userId='.$this->userId.'" class="flex gap-3">
+        <a href="./profile/?userId='.$this->userId.'" class="flex gap-3">
         <img class="rounded-lg h-8" src="../'.$extraInfo['user']['image'].'">
         <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700">' . $extraInfo['user']['firstName'] . " " . $extraInfo['user']['lastName'].'</h5>
         </a>';

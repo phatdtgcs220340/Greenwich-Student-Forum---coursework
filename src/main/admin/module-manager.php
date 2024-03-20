@@ -41,7 +41,7 @@
                     </div>
                     <ul class="py-2" aria-labelledby="user-menu-button">
                         <li>
-                        <a href="../profile/profile.php?userId=<?php echo $_SESSION['user_id']?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                        <a href="../profile/?userId=<?php echo $_SESSION['user_id']?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
                         </li>
                         <li>
                             <a href="../auth/logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
@@ -117,7 +117,7 @@
                         <h4 class="font-semibold">Module: <span class="font-normal">'.$module['module_name'].'</span></h4>
                         <h4 class="font-semibold">Description: <span class="text-sm font-normal">'.$module['description'].'</span></h4>
                         <div class="flex items-start mt-2 gap-2">
-                            <a class="bg-indigo-500 p-0.5 rounded-sm hover:bg-indigo-700" href="../?filterBy='.$module['module_id'].'">
+                            <a class="bg-indigo-500 p-0.5 rounded-sm hover:bg-indigo-700" href="../?module='.$module['module_id'].'">
                                 <img class="h-5" src="../../resource/static/images/icon/join.png">
                             </a>
                             <form action="../module/delete-module.php" method="POST">
