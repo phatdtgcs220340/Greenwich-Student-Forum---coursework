@@ -23,7 +23,10 @@ if (!isset($_SESSION['user_id'])) {
     #plate {
     background-image: url('../resource/static/images/home-background-image.jpg'); /* Specify the path to your image */
     background-repeat: repeat; /* Prevent the image from repeating */
-  }
+    }
+    textarea:focus, input:focus{
+    outline: none;
+    }
   </style>
   <title>Greenwich Student Forum</title>
 </head>
@@ -62,7 +65,15 @@ if (!isset($_SESSION['user_id'])) {
                 </button>
             </div>
             <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
-                <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
+                <ul class="flex flex-col items-center font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
+                    <li>
+                      <form class="bg-white p-2 rounded-full flex items-center" action="./" method="GET">
+                        <input class="text-sm" type="search" name="start_with" id="" placeholder="search...">
+                        <button type="submit">
+                          <img class="h-4" src="../resource/static/images/icon/search.png" alt="">
+                        </button>
+                      </form>
+                    </li>
                     <li>
                         <a href="index.php" class="block py-2 px-3 text-white bg-gray-100 rounded md:bg-transparent md:text-gray-900 md:p-0" aria-current="page">Home</a>
                     </li>
@@ -176,6 +187,11 @@ if (!isset($_SESSION['user_id'])) {
 
       echo '
       <div class="w-1/2 flex flex-col items-center justify-center gap-5">';
+      // handle search 
+      if (isset($_GET['start_with'])) {
+        $threadList = thread\threadStartWith();
+        $uriParam = '&start_with='.$_GET['start_with'];
+      }
       // display thread list 
       foreach ($threadList['thread_list'] as $threadNode) {
         $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], $threadNode['image'], $threadNode['content'], $threadNode['user_id'], $threadNode['creation_date']);
