@@ -92,7 +92,7 @@ function threadListCategory($latest = true)
         $stmt->execute();
         $thread_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
         // Pagination links
-        $stmt = $pdo->prepare("SELECT COUNT(*) AS total FROM `module` WHERE module_id = ?");
+        $stmt = $pdo->prepare("SELECT COUNT(*) AS total FROM `thread` WHERE module_id = ?");
         $stmt->execute([$module_id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         $total_pages = ceil($row["total"] / $results_per_page);
@@ -102,6 +102,37 @@ function threadListCategory($latest = true)
         exit;
         }
     }
+
+    function threadStartWith() {
+        try {
+            $pdo = new PDO('mysql:host=localhost;dbname=cw-student-forum-db', 'root', '');
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $results_per_page = 5;
+            // Determine the current page
+            if (!isset($_GET['page'])) {
+                $page = 1;
+            } else {
+                $page = $_GET['page'];
+            }
+            // Calculate the starting limit for the query
+            $start_limit = ($page - 1) * $results_per_page;
+            $stmt = $pdo->prepare('SELECT * FROM `thread` WHERE title LIKE :start_with ORDER BY creation_date DESC LIMIT :start_limit, :results_per_page');
+            $stmt->bindValue(':start_with', $_GET['start_with'] . '%', PDO::PARAM_STR);
+            $stmt->bindParam(':start_limit', $start_limit, PDO::PARAM_INT);
+            $stmt->bindParam(':results_per_page', $results_per_page, PDO::PARAM_INT);
+            $stmt->execute();
+            $thread_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            // Pagination links
+            $stmt = $pdo->query("SELECT COUNT(*) AS total FROM `thread` WHERE title LIKE '".$_GET['start_with']."%'");
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $total_pages = ceil($row["total"] / $results_per_page);
+            return ["thread_list" => $thread_list, "total_pages" => $total_pages];
+        } catch (PDOException $e) {
+            header("Location: ../error/database-connection-failed.php");
+            exit;
+        }
+    }
+    // Handle later
     function threadListByStatus($solved = true) {
 
     }
