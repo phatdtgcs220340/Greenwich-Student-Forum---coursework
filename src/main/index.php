@@ -89,17 +89,17 @@ if (!isset($_SESSION['user_id'])) {
     </nav>
 
   <div id="plate" class="p-12 flex items-center justify-center flex-col gap-3 bg-white">
-    <div class="w-1/2 mx-auto mb-8 p-6 bg-red-200 rounded-lg shadow">
+    <div class="w-3/5 h-1/2 mx-auto mb-8 p-6 bg-red-200 rounded-lg shadow">
       <form action="./Thread/create-thread.php" method="post" enctype="multipart/form-data">
         <div class="w-full mb-4 rounded-lg bg-red-100 dark:bg-gray-700 dark:border-gray-600">
           <div class="flex items-center justify-between px-3 py-2 border-b dark:border-gray-600">
             <div class="flex flex-col items-start">
               <div class="flex flex-wrap items-center rtl:space-x-reverse sm:ps-4">
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload file</label>
+                <label class="block text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload file</label>
                 <input class="block w-full text-sm text-gray-900 border border-gray-300  cusor-pointer bg-white focus:outline-none" accept="image/png, image/jpeg, image/svg" raria-describedby="file_input_help" id="postImage" name="image" type="file">
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG.</p>
               </div>
-              <label for="module" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
+              <label for="module" class="block text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
               <select required id="module" name="module" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/3 p-1">
                   <?php
                     require_once("module/module-list.php");
@@ -121,7 +121,7 @@ if (!isset($_SESSION['user_id'])) {
           </div>
           <div class="px-2 py-2 bg-white rounded-b-lg dark:bg-gray-800">
             <label for="content" class="sr-only">Publish post</label>
-            <textarea required id="content" name="content" rows="8" class="w-full px-0 text-sm text-gray-800 bg-white" placeholder="Write an article..."></textarea>
+            <textarea required id="content" name="content" rows="5" class="w-full px-0 text-sm text-gray-800 bg-white" placeholder="Write an article..."></textarea>
           </div>
         </div>
         <button type="submit" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-gray-900 bg-yellow-100 shadow hover:bg-blue-100 rounded-lg">
