@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare('UPDATE `user` SET image = ? WHERE user_id = ?');
         $stmt->execute([$target_file, $user_id]);
         $_SESSION['image'] = $target_file;
-        header("Location: profile.php?userId=".$user_id);
+        header("Location: ./?userId=".$user_id);
     } catch (PDOException $e) {
         header("Location: ../error/database-connection-failed.php");
         exit;

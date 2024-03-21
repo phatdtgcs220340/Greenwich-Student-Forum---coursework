@@ -13,7 +13,7 @@
             $stmt = $pdo->prepare('DELETE FROM `post` WHERE post_id = ?');
             $stmt->execute([$post_id]);
     
-            header("Location: ../Thread/page.php?threadId=".$thread_id);
+            header("Location: ../Thread/?threadId=".$thread_id);
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }

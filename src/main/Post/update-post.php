@@ -15,7 +15,7 @@
             $stmt = $pdo->prepare('UPDATE `post` SET content = ?, creation_date = ? WHERE post_id = ?');
             $stmt->execute([$content, date('Y-m-d H:i:s'), $post_id]);
     
-            header("Location: ../Thread/page.php?threadId=".$thread_id);
+            header("Location: ../Thread/?threadId=".$thread_id);
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
