@@ -17,14 +17,14 @@ if (!isset($_SESSION['user_id'])) {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cherry+Swash:wght@400;700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" type="image/x-icon" href="../resource/static/images/favicon.jpg">
   <style>
     #plate {
     background-image: url('../resource/static/images/home-background-image.jpg'); /* Specify the path to your image */
     background-repeat: repeat; /* Prevent the image from repeating */
     }
-    textarea:focus, input:focus{
+    textarea:focus, input:focus, select:focus{
     outline: none;
     }
   </style>
@@ -50,7 +50,7 @@ if (!isset($_SESSION['user_id'])) {
                     </div>
                     <ul class="py-2" aria-labelledby="user-menu-button">
                         <li>
-                        <a href="./profile/?userId=<?php echo $_SESSION['user_id']?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                        <a href="./profile?userId=<?php echo $_SESSION['user_id']?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
                         </li>
                         <li>
                             <a href="./auth/logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
@@ -67,39 +67,41 @@ if (!isset($_SESSION['user_id'])) {
             <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
                 <ul class="flex flex-col items-center font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
                     <li>
-                      <form class="bg-white p-2 rounded-full flex items-center" action="./" method="GET">
-                        <input class="text-sm" type="search" name="start_with" id="" placeholder="search...">
-                        <button type="submit">
-                          <img class="h-4" src="../resource/static/images/icon/search.png" alt="">
-                        </button>
-                      </form>
-                    </li>
-                    <li>
                         <a href="index.php" class="block py-2 px-3 text-white bg-gray-100 rounded md:bg-transparent md:text-gray-900 md:p-0" aria-current="page">Home</a>
                     </li>
-                    <li>
-                        <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-600 md:p-0">My Feedback</a>
-                    </li>
-                    <li>
-                        <a href="admin/" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-600 md:p-0">Admin</a>
-                    </li>
+                    <?php if ($_SESSION['role'] == 'Student') 
+                          echo '
+                          <li>
+                              <a href="feedback/" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-600 md:p-0">My Feedback</a>
+                          </li>';
+                          else echo '<li>
+                          <a href="admin/" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-600 md:p-0">Admin</a>
+                      </li>'?>
+                    
                 </ul>
             </div>
         </div>
     </nav>
 
   <div id="plate" class="p-12 flex items-center justify-center flex-col gap-3 bg-white">
-    <div class="w-3/5 h-1/2 mx-auto mb-8 p-6 bg-red-200 rounded-lg shadow">
-      <form action="./Thread/create-thread.php" method="post" enctype="multipart/form-data">
-        <div class="w-full mb-4 rounded-lg bg-red-100 dark:bg-gray-700 dark:border-gray-600">
-          <div class="flex items-center justify-between px-3 py-2 border-b dark:border-gray-600">
+    <div class="w-3/5 h-1/2 mx-auto mb-8">
+      <button id="question-button" onclick="displayForm()" 
+        class="bg-cyan-200 mb-2 p-2 rounded-lg font-semibold text-sm">Ask someth...</button>
+      <form id="question-form" class="p-6 bg-red-200 rounded-lg shadow hidden" action="./Thread/create-thread.php" method="post" enctype="multipart/form-data">
+        <div class="w-full mb-4 rounded-lg bg-red-100">
+          <div class="flex items-center justify-between px-3 py-2 border-b">
             <div class="flex flex-col items-start">
-              <div class="flex flex-wrap items-center rtl:space-x-reverse sm:ps-4">
-                <label class="block text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload file</label>
-                <input class="block w-full text-sm text-gray-900 border border-gray-300  cusor-pointer bg-white focus:outline-none" accept="image/png, image/jpeg, image/svg" raria-describedby="file_input_help" id="postImage" name="image" type="file">
-                <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG.</p>
+              <div class="flex flex-wrap items-center rtl:space-x-reverse">
+                <label class="block text-sm font-medium text-gray-900" for="file_input">Upload file</label>
+                <input class="block w-full bg-white mt-1 rounded-full text-sm text-slate-500 
+                  file:py-2 file:px-4
+                  file:rounded-full file:border-0
+                  file:text-sm file:font-semibold
+                  file:bg-violet-50 file:text-blue-400
+                  hover:file:bg-violet-100 focus:outline-none" 
+                  accept="image/png, image/jpeg, image/svg" raria-describedby="file_input_help" id="postImage" name="image" type="file">
               </div>
-              <label for="module" class="block text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
+              <label for="module" class="block text-sm font-medium text-gray-900">Select an option</label>
               <select required id="module" name="module" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/3 p-1">
                   <?php
                     require_once("module/module-list.php");
@@ -110,8 +112,8 @@ if (!isset($_SESSION['user_id'])) {
                    }
                   ?>
               </select>
-              <div class="rtl:space-x-reverse sm:ps-4">
-                <label for="title" class="block mt-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+              <div class="rtl:space-x-reverse">
+                <label for="title" class="block mt-2 text-sm font-medium text-gray-900">Title</label>
                 <div class="flex gap-4">
                 <input required oninput="countWord('title', 'title-limit')" type="text" id="title" name="title" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-white text-sm">
                 <p class="text-xs">Word counts: <span id="title-limit">0/10</span></p>
@@ -119,7 +121,7 @@ if (!isset($_SESSION['user_id'])) {
               </div>
             </div>
           </div>
-          <div class="px-2 py-2 bg-white rounded-b-lg dark:bg-gray-800">
+          <div class="px-2 py-2 bg-white rounded-b-lg">
             <label for="content" class="sr-only">Publish post</label>
             <textarea required id="content" name="content" rows="5" class="w-full px-0 text-sm text-gray-800 bg-white" placeholder="Write an article..."></textarea>
           </div>
@@ -133,7 +135,7 @@ if (!isset($_SESSION['user_id'])) {
     <div class="mb-4 w-1/2 p-4 grid grid-cols-2 bg-red-100 rounded-lg shadow">
       <div>
       <h5 class="mb-2 font-semibold">Filter By</h5>
-      <select id="filter_category" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-1">
+      <select id="filter_category" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-auto p-1">
         <?php
           if (!isset($_GET['module']))
             echo "<option selected>Default</option>";
@@ -149,7 +151,7 @@ if (!isset($_SESSION['user_id'])) {
       </div>
       <div>
       <h5 class="mb-2 font-semibold">Sort By</h5>
-      <select id="sort" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-1">
+      <select id="sort" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-auto p-1">
         <?php
           $flag = 0;
           if (isset($_GET['orderBy'])) {
@@ -187,11 +189,6 @@ if (!isset($_SESSION['user_id'])) {
 
       echo '
       <div class="w-1/2 flex flex-col items-center justify-center gap-5">';
-      // handle search 
-      if (isset($_GET['start_with'])) {
-        $threadList = thread\threadStartWith();
-        $uriParam = '&start_with='.$_GET['start_with'];
-      }
       // display thread list 
       foreach ($threadList['thread_list'] as $threadNode) {
         $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], $threadNode['image'], $threadNode['content'], $threadNode['user_id'], $threadNode['creation_date']);
@@ -224,6 +221,21 @@ if (!isset($_SESSION['user_id'])) {
       }
       link.setAttribute("href", destination);
     }
+  </script>
+  <script>
+    function displayForm() {
+            const form = document.getElementById("question-form");
+            const button = document.getElementById("question-button");
+            if (form.classList.contains("hidden"))
+            {
+                form.classList.remove("hidden");
+                button.innerHTML = "Cancel"
+            }
+            else {
+                form.classList.add("hidden");
+                button.innerHTML = "Ask someth..."
+            }
+        }
   </script>
   <script src="../resource/static/script/word_count.js"></script>
 </body>

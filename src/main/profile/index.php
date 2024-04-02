@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     header("HTTP/1.1 401 Unauthorized");
     exit;
 }
-if (isset($_GET['userId'])) {
+if (!isset($_GET['userId'])) $_GET['userId'] = $_SESSION['user_id'];
     $userId = $_GET['userId'];
     try {
         // Connect to your database
@@ -26,7 +26,6 @@ if (isset($_GET['userId'])) {
         header("Location: ../error/database-connection-failed.php");
         exit;
     }
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +36,7 @@ if (isset($_GET['userId'])) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cherry+Swash:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/x-icon" href="../../resource/static/images/favicon.jpg">
     <style>
         #plate {
@@ -67,7 +66,7 @@ if (isset($_GET['userId'])) {
                     </div>
                     <ul class="py-2" aria-labelledby="user-menu-button">
                         <li>
-                        <a href="../profile/?userId=<?php echo $_SESSION['user_id']?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                        <a href="../profile?userId=<?php echo $_SESSION['user_id']?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
                         </li>
                         <li>
                             <a href="../auth/logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
@@ -86,12 +85,14 @@ if (isset($_GET['userId'])) {
                     <li>
                         <a href="../index.php" class="block py-2 px-3 text-white bg-gray-100 rounded md:bg-transparent md:text-gray-900 md:p-0" aria-current="page">Home</a>
                     </li>
-                    <li>
-                        <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-600 md:p-0">My Feedback</a>
-                    </li>
-                    <li>
-                        <a href="../admin/" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-600 md:p-0">Admin</a>
-                    </li>
+                    <?php if ($_SESSION['role'] == 'Student') 
+                          echo '
+                          <li>
+                              <a href="../feedback/" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-600 md:p-0">My Feedback</a>
+                          </li>';
+                          else echo '<li>
+                          <a href="../admin/" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-600 md:p-0">Admin</a>
+                      </li>'?>
                 </ul>
             </div>
         </div>
