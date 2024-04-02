@@ -24,7 +24,7 @@ class Thread
     }
     public function toThreadViewUrl()
     {
-        return "/?threadId=" . $this->threadId;
+        return "?threadId=" . $this->threadId;
     }
     public function extraInfo()
     {
@@ -141,7 +141,7 @@ class Thread
         if ($displayUser == true) {
         $extraInfo = $this->extraInfo();
         $user_card = '
-        <a href="./profile/?userId='.$this->userId.'" class="flex gap-3">
+        <a href="./profile?userId='.$this->userId.'" class="flex gap-3">
         <img class="rounded-lg h-8" src="../'.$extraInfo['user']['image'].'">
         <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700">' . $extraInfo['user']['firstName'] . " " . $extraInfo['user']['lastName'].'</h5>
         </a>';
@@ -157,8 +157,8 @@ class Thread
                     <div class="w-full bg-yellow-100 hover:bg-blue-100 rounded-lg shadow hover:bg-gray-100">
                         <img class="rounded-t-lg" src="../' . $this->image . '" alt="" />
                         <div class="p-5">
-                            <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">' . $this->title. '</h5>
-                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">' . $trimmedContent . '</p>
+                            <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900">' . $this->title. '</h5>
+                            <p class="mb-3 font-normal text-gray-700">' . $trimmedContent . '</p>
                         </div>
                     </div>
                 </a>';

@@ -11,7 +11,7 @@ class Post
     private $userId;
     private $threadId;
     private $creationDate;
-
+    
     public function __construct($postId, $content, $userId, $threadId, $creationDate)
     {
         $this->postId = $postId;
@@ -20,7 +20,6 @@ class Post
         $this->threadId = $threadId;
         $this->creationDate = $creationDate;
     }
-
     // Getter methods
     public function getPostId()
     {
@@ -126,17 +125,19 @@ class Post
                     $edit = $edit.'</ul>
                 </div>';
         else $edit = "";
-        echo '<div class="mb-2">
+        echo '
+            <div class="my-2">
             <div class="flex items-start gap-2.5">
             <a href="../profile/?userId=' . $this->userId . '">
             <img class="w-8 h-8 rounded-full" src="../../' . $user['image'] . '" alt="user image">
             </a>
-            <div class="flex flex-col w-1/2 p-4 border-gray-200 bg-gray-100 rounded-lg rounded-es-xl shadow">
-               <div class="flex items-center gap-2">
-                  <span class="text-sm font-semibold text-gray-900 dark:text-white">' . $user['firstName'] . " " . $user['lastName'] . '</span>
-                  <span class="text-sm font-normal text-gray-500 dark:text-gray-400">' . $this->creationDate . '</span>
-               </div>
-               <p id="content-' . $this->postId . '" class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">' . $this->content . '</p>
+            <div class="flex flex-col w-2/3 p-4 border-gray-200 bg-gray-100 rounded-lg rounded-es-xl shadow">
+               <div class="flex items-center gap-2 w-full">
+                  <span class="text-sm font-semibold text-gray-900">' . $user['firstName'] . " " . $user['lastName'] . '</span>
+                  <span class="text-sm font-normal text-gray-500">' . $this->creationDate . '</span>
+                  
+                </div>
+               <p id="content-' . $this->postId . '" class="text-sm font-normal py-2.5 text-gray-900">' . $this->content . '</p>
                <form id="edit-form-' . $this->postId . '" class="hidden" action="../Post/update-post.php" method="post"> 
                <input name="post_id" class="hidden" value="' . $this->postId . '">
                <input name="thread_id" class="hidden" value="' . $this->threadId . '">
@@ -144,23 +145,9 @@ class Post
                <button type="submit" class="focus:outline-none w-full text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-base px-5 py-2.5 me-2 mb-2">Save</button>
                </form>
             </div>
-            ' . $edit . '
+            '.$edit.'
             </div>
             </div>';
     }
 }
 ?>
-<script>
-    function toggleUpdateForm(_content, _updateForm, _editContent) {
-        var content = document.getElementById(_content);
-        var form = document.getElementById(_updateForm);
-        document.getElementById(_editContent).value = content.innerHTML;
-        if (form.classList.contains("hidden")) {
-            form.classList.remove("hidden");
-            content.classList.add("hidden");
-        } else {
-            form.classList.add("hidden");
-            content.classList.remove("hidden");
-        }
-    }
-</script>
