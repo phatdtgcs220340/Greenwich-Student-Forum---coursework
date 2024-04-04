@@ -1,6 +1,10 @@
 <?php
 session_start();
-
+// if already login then redirect to the home page
+if (isset($_SESSION['user_id'])) {
+    header("Location: ../index.php");
+    exit;
+}
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -14,12 +18,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
+            if (!$user['is_enabled']) {
+                header("Location: ../error/global-ban.php");
+                exit;
+            }
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['firstName'] = $user['firstName'];
             $_SESSION['lastName'] = $user['lastName'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['image'] = $user['image'];
             $_SESSION['role'] = $user['role'];
+            
             header('Location: ../index.php');
             exit;
         } else {

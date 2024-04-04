@@ -73,24 +73,37 @@
     <div class="w-full flex flex-wrap items-center justify-center mt-4">
         <div class="flex flex-col w-full bg-blue-200 shadow mx-4">
         <h1 class="self-center m-2 bg-blue-100 px-3 py-1 shadow rounded-lg text-white text-3xl font-semibold font-sans">I'm god</h1>
-        <h4 class="text-red-600 font-semibold ml-2">Caution: Remove user lead to removing all related threads and posts</h4>
         <div class="m-4">
             <?php 
                 require_once("../profile/user-list.php");
                 foreach(userList() as $user) {
                     echo '<div class="w-full flex flex-col my-2 p-2 bg-blue-300 rounded-lg">
-                        <img class="h-10 w-10" src="../../'.$user['image'].'">
+                        <img class="h-10 w-10" src="../../'.$user['image'].'">';
+                    if (!$user['is_enabled'])
+                    echo '<h4 class="text-sm">(Global ban)</h4>';
+                    echo '
                         <h4 class="font-semibold">Fullname: <span class="font-normal">'.$user['firstName'].' '.$user['lastName'].'</span></h4>
                         <h4 class="font-semibold">Email: <span class="text-sm font-normal">'.$user['email'].'</span></h4>
                         <div class="flex items-start mt-2 gap-2">
-                            <a class="border-2 border-white shadow bg-yellow-300 p-0.5 rounded-sm hover:bg-yellow-500" href="../profile/?userId='.$user['user_id'].'">
-                                <img class="h-5" src="../../resource/static/images/icon/look.png">
+                            <a class="flex items-center gap-1 border-2 border-white shadow bg-yellow-300 p-0.5 rounded-sm hover:bg-yellow-500" href="../profile/?userId='.$user['user_id'].'">
+                                <img class="h-4" src="../../resource/static/images/icon/look.png">
+                                <h4 class="text-sm font-semibold">View profile</h4>
                             </a>
-                            <form action="../profile/delete-user.php" method="POST">
+                            <form action="../profile/ban-user.php" method="POST">
                                 <input class="hidden" name="user_id" value="'.$user['user_id'].'">
-                                <button class="border-2 border-white bg-red-400 p-0.5 rounded-sm hover:bg-red-600" type="submit">
-                                    <img class="h-5" src="../../resource/static/images/icon/kick.png">
-                                </button>
+                                <input class="hidden" name="banned" value="'.$user['is_enabled'].'">';
+                                if ($user['is_enabled'])
+                                    echo '
+                                    <button class="flex items-center gap-1 border-2 border-white bg-red-400 p-0.5 rounded-sm hover:bg-red-600" type="submit">
+                                        <img class="h-4" src="../../resource/static/images/icon/lock.png">
+                                        <h4 class="text-sm font-semibold">Ban</h4>
+                                    </button>';
+                                else echo '
+                                    <button class="flex items-center gap-1 border-2 border-white bg-green-400 p-0.5 rounded-sm hover:bg-green-600" type="submit">
+                                        <img class="h-4" src="../../resource/static/images/icon/unlock.png">
+                                        <h4 class="text-sm font-semibold">Unban</h4>
+                                    </button>';
+                                echo '
                             </form>
                         </div>               
                         </div>';
