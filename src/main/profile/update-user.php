@@ -2,48 +2,64 @@
 session_start();
 // Check if the request method is PUT
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_id = $_SESSION['user_id'];
-    $target_dir = "resource/static/images/user/";
-    $target_file = $target_dir . basename($_FILES["user_image"]["name"]);
+    $userId = $_SESSION['user_id'];
+    $firstName = $_POST['first_name'];
+    $lastName = $_POST['last_name'];
+    $targetDir = "resource/static/images/user/";
     $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    $target_file = $target_dir . basename("user".$user_id."_"."avatar".".".$imageFileType);
+    $updateImage = true;
+    if (isset($_FILES["image"])) {
+        $file = $_FILES["image"];
+        $targetFile = $target_dir . basename($file["name"]);
+        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+        $uploadOk = 1;
+        $targetFile = $target_dir . basename("user".$userId."_"."avatar".".".$imageFileType);
+        if (!empty($file["name"])) {
+            // Check if image file is a actual image or fake image
+            $check = getimagesize($file["tmp_name"]);
+            if ($check !== false) {
+                echo "File is an image - " . $check["mime"] . ".";
+                $uploadOk = 1;
+            } else {
+                echo "File is not an image.";
+                $uploadOk = 0;
+            }
 
-    // Check if image file is a actual image or fake image
-        $check = getimagesize($_FILES["user_image"]["tmp_name"]);
-        if ($check !== false) {
-            echo "File is an image - " . $check["mime"] . ".";
-            $uploadOk = 1;
-        } else {
-            echo "File is not an image.";
-            $uploadOk = 0;
-        }
+            // Allow certain file formats
+            if (
+                $imageFileType != "jpg" && $imageFileType != "png"
+                && $imageFileType != "svg"
+            ) {
+                echo "Sorry, only JPG, PNG & SVG files are allowed.";
+                $uploadOk = 0;
+            }
 
-    // Allow certain file formats
-    if ($imageFileType != "jpg" && $imageFileType != "png"
-                && $imageFileType != "svg") {
-        echo "Sorry, only JPG, PNG & SVG files are allowed.";
-        $uploadOk = 0;
-    }
+            // Check if $uploadOk is set to 0 by an error
+            if ($uploadOk == 0) {
+                echo "Sorry, your file was not uploaded.";
+                // if everything is ok, try to upload file
+            } else {
+                if (move_uploaded_file($file["tmp_name"], "../../" . $targetFile)) {
+                    echo "The file " . htmlspecialchars(basename($file["name"])) . " has been uploaded.";
+                } else {
+                    echo "Sorry, there was an error uploading your file.";
+                }
+            }
+        } else $targetFile = "resource/static/images/user/default_avatar.jpg";
+    } else $updateImage = false;
 
-    // Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.";
-        // if everything is ok, try to upload file
-    } else {
-        if (move_uploaded_file($_FILES["user_image"]["tmp_name"],"../../".$target_file)) {
-            echo "The file " . htmlspecialchars(basename($_FILES["user_image"]["name"])) . " has been uploaded.";
-        } else {
-            echo "Sorry, there was an error uploading your file.";
-        }
-    }
     try {
         $pdo = new PDO('mysql:host=localhost;dbname=cw-student-forum-db', 'root', '');
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $pdo->prepare('UPDATE `user` SET image = ? WHERE user_id = ?');
-        $stmt->execute([$target_file, $user_id]);
-        $_SESSION['image'] = $target_file;
-        header("Location: ./?userId=".$user_id);
+
+        if ($updateImage) {
+            $stmt = $pdo->prepare('UPDATE `user` SET firstName = ?, lastName = ?, image = ?  WHERE user_id = ?  ');
+            $stmt->execute([$firstName, $lastName, $targetFile, $userId]);
+        } else {
+            $stmt = $pdo->prepare('UPDATE `user` SET firstName = ?, lastName = ? WHERE user_id = ?  ');
+            $stmt->execute([$firstName, $lastName, $userId]);
+        }
+        header("Location: index.php");
     } catch (PDOException $e) {
         header("Location: ../error/database-connection-failed.php");
         exit;
