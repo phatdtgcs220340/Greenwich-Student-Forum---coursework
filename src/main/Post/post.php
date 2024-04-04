@@ -102,7 +102,7 @@ class Post
         $user = $this->userInfo();
         $thread = $this->threadInfo();
         $edit = '
-        <button class="text-base text-gray-500 font-bold hover:text-gray-900" id="post' . $this->postId . '-menu-button" aria-expanded="false" data-dropdown-toggle="post' . $this->postId . '-dropdown" data-dropdown-placement="bottom">⁝</button>
+        <button class="text-base text-gray-500 font-bold hover:text-gray-900" id="post' . $this->postId . '-menu-button" aria-expanded="false" data-dropdown-toggle="post' . $this->postId . '-dropdown" data-dropdown-placement="bottom">...</button>
         <div class="z-50 hidden my-4 text-base list-none bg-white rounded-lg border border-gray-100" id="post' . $this->postId . '-dropdown">
                 <ul class="py-2" aria-labelledby="post' . $this->postId . '-menu-button">
                     <li>
