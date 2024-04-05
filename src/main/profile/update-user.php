@@ -10,10 +10,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $updateImage = true;
     if (isset($_FILES["image"])) {
         $file = $_FILES["image"];
-        $targetFile = $target_dir . basename($file["name"]);
+        $targetFile = $targetDir . basename($file["name"]);
         $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
         $uploadOk = 1;
-        $targetFile = $target_dir . basename("user".$userId."_"."avatar".".".$imageFileType);
+        $targetFile = $targetDir . basename("user".$userId."_"."avatar".".".$imageFileType);
         if (!empty($file["name"])) {
             // Check if image file is a actual image or fake image
             $check = getimagesize($file["tmp_name"]);
@@ -55,10 +55,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($updateImage) {
             $stmt = $pdo->prepare('UPDATE `user` SET firstName = ?, lastName = ?, image = ?  WHERE user_id = ?  ');
             $stmt->execute([$firstName, $lastName, $targetFile, $userId]);
+            $_SESSION['image'] = $targetFile;
         } else {
             $stmt = $pdo->prepare('UPDATE `user` SET firstName = ?, lastName = ? WHERE user_id = ?  ');
             $stmt->execute([$firstName, $lastName, $userId]);
         }
+        $_SESSION['firstName'] = $firstName;
+        $_SESSION['lastName'] = $lastName;
         header("Location: index.php");
     } catch (PDOException $e) {
         header("Location: ../error/database-connection-failed.php");

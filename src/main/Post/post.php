@@ -121,7 +121,7 @@ class Post
                             </ul>
                 </div>';
         }
-        else if ($_SESSION['user_id'] == $thread['user_id']) 
+        else if ($_SESSION['user_id'] == $thread['user_id'] || $_SESSION['role'] == 'Admin') 
                     $edit = $edit.'</ul>
                 </div>';
         else $edit = "";
@@ -137,7 +137,7 @@ class Post
                   <span class="text-sm font-normal text-gray-500">' . $this->creationDate . '</span>
                   
                 </div>
-               <p id="content-' . $this->postId . '" class="text-sm font-normal py-2.5 text-gray-900">' . $this->content . '</p>
+               <p id="content-' . $this->postId . '" class="text-sm font-normal py-2.5 text-gray-900">' . nl2br($this->content) . '</p>
                <form id="edit-form-' . $this->postId . '" class="hidden" action="../Post/update-post.php" method="post"> 
                <input name="post_id" class="hidden" value="' . $this->postId . '">
                <input name="thread_id" class="hidden" value="' . $this->threadId . '">
