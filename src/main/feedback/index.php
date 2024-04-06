@@ -78,11 +78,41 @@ use Src\Message\Message as MessageMessage;
         </button>                
         <div class="m-4">
             <?php 
-                foreach(messageByUser($_SESSION['user_id']) as $message) {
+                $messageMap = messageByUser($_SESSION['user_id']);
+                foreach($messageMap['message_list'] as $message) {
                     $messageObject = new MessageMessage($message['message_id'], $message['title'], $message['content'], $message['user_id'], $message['creation_date']);
                     echo $messageObject->toModal();
                 }
             ?>
+        </div>
+        <div class="flex flex-col items-center mb-1">
+            <span class="text-sm text-gray-700">
+                Page <?php  
+                    if (!isset($_GET['page'])) {
+                        $page = 1;
+                    } else {
+                        $page = $_GET['page'];
+                    }
+                    echo $page.'/'.$messageMap['total_pages'];
+                ?>
+            </span>
+            <div class="inline-flex mt-2 xs:mt-0">
+                <a class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-800 bg-gray-50 rounded-s hover:bg-gray-200" href="./<?php 
+                    
+                    if ($page > 1 && $page < $messageMap['total_pages']) 
+                        echo '?page='.$page - 1;
+                    else echo '';
+                ?>">
+                    Prev
+                </a>
+                <a class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-800 bg-gray-50 rounded-e hover:bg-gray-200" href="./<?php 
+                    if ($page >= 1 && $page < $messageMap['total_pages'] && $messageMap['total_pages'] > 1) 
+                        echo '?page='.$page + 1;
+                    else echo '';
+                ?>">
+                    Next
+                </a>
+            </div>
         </div>
     </div>
     <div id="create-module-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
