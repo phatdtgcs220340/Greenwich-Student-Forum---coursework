@@ -5,9 +5,12 @@
     use function Src\Module\moduleList;
 
     session_start();
-    if ($_SESSION['role'] != 'Admin') {
-        header("Location: ../error/access-denied.php");
-        exit;
+    if (!isset($_SESSION['user_id'])) {
+      if($_SESSION['role'] != 'Admin')
+        header('Location: ../error/access-denied.php');
+      else 
+        header('Location: ../auth/login.php');
+      exit;
     }
 ?>
 <!DOCTYPE html>

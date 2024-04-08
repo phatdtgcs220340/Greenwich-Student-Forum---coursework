@@ -6,8 +6,8 @@ use PDO, PDOException;
 
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    header("HTTP/1.1 401 Unauthorized");
-    exit;
+  header('Location: ./auth/login.php');
+  exit;
 }
 if (!isset($_GET['userId'])) $_GET['userId'] = $_SESSION['user_id'];
 $userId = $_GET['userId'];

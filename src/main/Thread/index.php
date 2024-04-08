@@ -8,8 +8,8 @@ require_once("thread.php");
 use PDO, PDOException;
 
 if (!isset($_SESSION['user_id'])) {
-    header("HTTP/1.1 401 Unauthorized");
-    exit;
+  header('Location: ./auth/login.php');
+  exit;
 }
 if (isset($_GET['threadId'])) {
     $threadId = $_GET['threadId'];
@@ -115,18 +115,22 @@ else {
         <div class="flex flex-col w-2/3 p-4 bg-gray-50 rounded-lg ">
         <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-900"><?php echo $thread->getTitle() ?></h5>
         <h5>Module: <?php echo $threadFetch['module_name'] ?></h5>
-        <?php if ($_SESSION['user_id'] == $thread->getUserId()) echo '
-                <button class="text-gray-500 text-base font-bold self-end hover:text-gray-900" data-dropdown-toggle="thread-dropdown" data-dropdown-placement="bottom">⁝</button>
+        <?php if ($_SESSION['user_id'] == $thread->getUserId() || $_SESSION['role'] == 'Admin') {echo '
+                <button class="text-gray-500 text-base font-bold self-end hover:text-gray-900" data-dropdown-toggle="thread-dropdown" data-dropdown-placement="bottom">...</button>
                 <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg border border-gray-100" id="thread-dropdown">
                                 <ul class="py-2" aria-labelledby="thread-menu-button">
                                     <li>
                                     <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Delete</button>
-                                    </li>
+                                    </li>'; 
+                                    if ($_SESSION['role'] != 'Admin') 
+                                    echo '
                                     <li>
                                     <button onclick="displayForm()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</a>
-                                    </li>
+                                    </li>';
+                                    echo '
                                 </ul>
-                </div>'
+                </div>';
+            }
         ?>
         </div>
         <div class="flex flex-col p-6 w-2/3 h-auto rounded-lg bg-white border-t border-b border-gray-400 gap-2">

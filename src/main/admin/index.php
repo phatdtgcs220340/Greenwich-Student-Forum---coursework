@@ -1,9 +1,12 @@
 <?php 
   session_start();
-  if ($_SESSION['role'] != 'Admin') {
-    header("Location: ../error/access-denied.php");
+  if (!isset($_SESSION['user_id'])) {
+    if($_SESSION['role'] != 'Admin')
+      header('Location: ../error/access-denied.php');
+    else 
+      header('Location: ../auth/login.php');
     exit;
-}
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
