@@ -50,7 +50,7 @@ if (!isset($_SESSION['user_id'])) {
                     </div>
                     <ul class="py-2" aria-labelledby="user-menu-button">
                         <li>
-                        <a href="./profile?userId=<?php echo $_SESSION['user_id']?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                        <a href="./profile?userId=<?php echo $_SESSION['user_id']?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
                         </li>
                         <li>
                             <a href="./auth/logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
@@ -84,7 +84,8 @@ if (!isset($_SESSION['user_id'])) {
     </nav>
 
   <div id="plate" class="p-12 flex items-center justify-center flex-col gap-3 bg-white">
-    <div class="w-3/5 h-1/2 mx-auto mb-8">
+
+    <div class="w-3/5 h-1/2 mx-auto mb-8 <?php if ($_SESSION['role'] == 'Admin') echo "hidden";?>">
       <button id="question-button" onclick="displayForm()" 
         class="bg-cyan-200 mb-2 p-2 rounded-lg font-semibold text-sm">Ask someth...</button>
       <form id="question-form" class="p-6 bg-red-200 rounded-lg shadow hidden" action="./Thread/create-thread.php" method="post" enctype="multipart/form-data">
