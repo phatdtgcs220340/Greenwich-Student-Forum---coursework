@@ -4,11 +4,13 @@
 
     session_start();
     if (!isset($_SESSION['user_id'])) {
-      if($_SESSION['role'] != 'Admin')
-        header('Location: ../error/access-denied.php');
-      else 
         header('Location: ../auth/login.php');
-      exit;
+        exit;
+    }
+
+    if($_SESSION['role'] != 'Admin') {
+        header('Location: ../error/access-denied.php');
+        exit;
     }
 ?>
 <!DOCTYPE html>

@@ -19,14 +19,14 @@ if (isset($_GET['threadId'])) {
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Retrieve the thread content based on the threadId
-        $stmt = $pdo->prepare("SELECT m.module_name, t.* FROM `module` m RIGHT JOIN `thread` t ON t.module_id = m.module_id WHERE thread_id = ?");
+        $stmt = $pdo->prepare("SELECT m.module_name, m.module_id, t.* FROM `module` m RIGHT JOIN `thread` t ON t.module_id = m.module_id WHERE thread_id = ?");
         $stmt->execute([$threadId]);
         $threadFetch = $stmt->fetch(PDO::FETCH_ASSOC);
         if (empty($threadFetch)) {
             header("Location: ../error/404.php");
-        exit;
+            exit;
         }
-        $thread = new Thread($threadFetch['thread_id'], $threadFetch['title'], $threadFetch['image'], $threadFetch['content'], $threadFetch['user_id'], $threadFetch['creation_date']);
+        $thread = new Thread($threadFetch['thread_id'], $threadFetch['title'], $threadFetch['image'], $threadFetch['content'], $threadFetch['user_id'], $threadFetch['creation_date'], $threadFetch['module_id'], $threadFetch['module_name']);
     } catch (PDOException $e) {
         header("Location: ../error/database-connection-failed.php");
         exit;
@@ -114,7 +114,8 @@ else {
     <div id="plate" class="p-6 gap-2">
         <div class="flex flex-col w-2/3 p-4 bg-gray-50 rounded-lg ">
         <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-900"><?php echo $thread->getTitle() ?></h5>
-        <h5>Module: <?php echo $threadFetch['module_name'] ?></h5>
+        <a class="py-1 px-2 w-fit rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-xs font-semibold hover:text-gray-100 hover:from-cyan-600 hover:to-blue-600"
+        href="../?module=<?php echo $threadFetch['module_id']; ?>"><?php echo $threadFetch['module_name'] ?></a>
         <?php if ($_SESSION['user_id'] == $thread->getUserId() || $_SESSION['role'] == 'Admin') {echo '
                 <button class="text-gray-500 text-base font-bold self-end hover:text-gray-900" data-dropdown-toggle="thread-dropdown" data-dropdown-placement="bottom">...</button>
                 <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg border border-gray-100" id="thread-dropdown">
@@ -164,9 +165,9 @@ else {
                                         ?></h2>
                 </a>
             </div>
-            <?php
-            // if the user is the owner of the thread then display delete and edit method
-            if ($thread->getUserId() == $_SESSION['user_id'])
+            <?php 
+            // if the user is the owner of the thread or is an admin then display delete form
+            if ($thread->getUserId() == $_SESSION['user_id'] || $_SESSION['role'] == 'Admin')
                 echo '<div class="flex self-start">
                     <!-- Delete form -->
                     <div id="popup-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -177,7 +178,6 @@ else {
                                 <div class="p-4 md:p-5 text-center">
                                     <h3 class="mb-5 text-lg font-normal text-gray-500">Are you sure you want to delete this thread?</h3>
                                     <form action="delete-thread.php" method="post">
-                                        <input class="hidden" name="user_id" value="'.$thread->getUserId().'">
                                         <input class="hidden" name="thread_id" value="'.$_GET['threadId'].'">
                                         <button data-modal-hide="popup-modal" type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                                             Yes, I\'m sure

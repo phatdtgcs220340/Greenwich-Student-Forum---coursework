@@ -16,9 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare('SELECT * FROM `user` WHERE email = ?');
         $stmt->execute([$email]);
         $existingUser = $stmt->fetch();
-        if ($existingUser) {
-            header("Location: register.php");
-            $error = "authentication failed";
+        if (!empty($existingUser)) {
+            header("Location: register.php?error=Email existed");
         } else {
             // Insert the new user
             $stmt = $pdo->prepare('INSERT INTO `user` (firstName, lastName, email, password, role) VALUES (?, ?, ?, ?, ?)');
@@ -143,9 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 />
               </div>
               <div>
-                <p id="check-matching-errors" class="text-red-300"></p>
-                <?php echo isset($error) ? '<p class="text-sm font-lg text-red-700">authentication failed</p>' : ""?>
-
+                <p id="check-matching-errors" class="text-red-500"><?php echo isset($_GET['error']) ? $_GET['error'] : ""?></p>
               </div>
               <button
                 id="submit-button"

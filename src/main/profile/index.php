@@ -21,6 +21,7 @@ try {
     $stmt->execute([$userId]);
     $userFetch = $stmt->fetch(PDO::FETCH_ASSOC);
     if (empty($userFetch)) {
+        http_response_code(404);
         header("Location: ../error/404.php");
         exit;
     }
@@ -136,8 +137,8 @@ try {
 
                 $threadList = thread\threadListByUser($userId);
                 foreach ($threadList["thread_list"] as $threadNode) {
-                    $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], "", "", $threadNode['user_id'], $threadNode['creation_date']);
-                    echo $thread->toCard(false, "../Thread");
+                    $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], "", "", $threadNode['user_id'], $threadNode['creation_date'], $threadNode['module_id'], $threadNode['module_name']);
+                    echo $thread->toCard(false, "../");
                 }
                 echo '<ul class="inline-flex -space-x-px text-sm">';
                 for ($i = 1; $i <= $threadList['total_pages']; $i++) {
@@ -149,7 +150,7 @@ try {
                 ?>
             </div>
         </div>
-        <div class="h-96"></div>
+        <div class="h-64"></div>
     </div>
     <div id="update-info-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-md max-h-full">

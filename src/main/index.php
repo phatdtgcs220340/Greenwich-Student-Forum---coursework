@@ -1,12 +1,30 @@
 <?php
 
 namespace Src;
-
+use Src\Module as module;
 session_start();
 if (!isset($_SESSION['user_id'])) {
   header('Location: ./auth/login.php');
   exit;
 }
+require_once("module/module-list.php");
+$moduleList = module\moduleList();
+$flag = 1;
+if (isset($_GET['module'])) {
+  $flag = 0;
+  foreach($moduleList as $module) 
+    if ($module['module_id'] == $_GET['module']) {
+      $flag = 1;
+      break;
+  }
+  }
+if (isset($_GET['orderBy']))
+  if ($_GET['orderBy'] != 'latest' && $_GET['orderBy'] != 'oldest')
+    $flag = 0;
+if ($flag == 0) {
+  header("Location: error/404.php");
+  exit(404);
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -105,8 +123,6 @@ if (!isset($_SESSION['user_id'])) {
               <label for="module" class="block text-sm font-medium text-gray-900">Select an option</label>
               <select required id="module" name="module" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/3 p-1">
                   <?php
-                    require_once("module/module-list.php");
-                    use Src\Module as module;
                     $moduleList = module\moduleList();
                     foreach($moduleList as $node) { 
                         echo '<option value='.$node['module_id'].'>'.$node['module_name'].'</option>';
@@ -141,7 +157,6 @@ if (!isset($_SESSION['user_id'])) {
           if (!isset($_GET['module']))
             echo "<option selected>Default</option>";
           else echo "<option>Default</option>";
-          $moduleList = module\moduleList();
           foreach($moduleList as $node) { 
           if ($node['module_id'] == $_GET['module'])
             echo '<option selected value='.$node['module_id'].'>'.$node['module_name'].'</option>';
@@ -169,6 +184,7 @@ if (!isset($_SESSION['user_id'])) {
       </div>
       <a id="filter_link" href="#" onclick="filter()" class="mt-4 p-2 bg-yellow-100 hover:bg-blue-100 shadow rounded-lg font-semibold text-gray-700 col-span-2 text-center hover:text-gray-900">Filter</a>
       </div>
+      
       <?php
       require_once("Thread/thread.php");
       require_once("Thread/thread-list.php");
@@ -192,8 +208,8 @@ if (!isset($_SESSION['user_id'])) {
       <div class="w-1/2 flex flex-col items-center justify-center gap-5">';
       // display thread list 
       foreach ($threadList['thread_list'] as $threadNode) {
-        $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], $threadNode['image'], $threadNode['content'], $threadNode['user_id'], $threadNode['creation_date']);
-        echo $thread->toCard(true, "Thread");
+        $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], $threadNode['image'], $threadNode['content'], $threadNode['user_id'], $threadNode['creation_date'], $threadNode['module_id'], $threadNode['module_name']);
+        echo $thread->toCard(true, "");
       }
       echo '</div>';
       echo '<ul class="inline-flex -space-x-px text-sm">';
@@ -208,8 +224,9 @@ if (!isset($_SESSION['user_id'])) {
       $page = isset($_GET['page']) ? $_GET['page'] : 1;
       echo $page?>
       </h5>
+      
+    <div class="h-48"></div>
   </div>
-  
   <script src="https://flowbite.com/docs/flowbite.min.js?v=2.3.0a"></script>
   <script>
     function filter() {

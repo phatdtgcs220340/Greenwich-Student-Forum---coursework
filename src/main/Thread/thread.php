@@ -12,8 +12,9 @@ class Thread
     private $userId;
     private $image;
     private $creationDate;
-
-    public function __construct($threadId, $title, $image, $content, $userId, $creationDate)
+    private $moduleId;
+    private $moduleName;
+    public function __construct($threadId, $title, $image, $content, $userId, $creationDate, $moduleId, $moduleName)
     {
         $this->threadId = $threadId;
         $this->title = $title;
@@ -21,10 +22,12 @@ class Thread
         $this->image = $image;
         $this->userId = $userId;
         $this->creationDate = $creationDate;
+        $this->moduleId = $moduleId;
+        $this->moduleName = $moduleName;
     }
     public function toThreadViewUrl()
     {
-        return "?threadId=" . $this->threadId;
+        return "Thread/?threadId=" . $this->threadId;
     }
     public function extraInfo()
     {
@@ -159,6 +162,8 @@ class Thread
                         <div class="p-5">
                             <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900">' . $this->title. '</h5>
                             <p class="mb-3 font-normal text-gray-700">' . $trimmedContent . '</p>
+                            <a class="py-1 px-2 w-fit rounded-full bg-cyan-500 text-white text-xs font-semibold hover:text-gray-100"
+                            href="'.$currentPath.'?module='.$this->moduleId.'">'.$this->moduleName.'</a>
                         </div>
                     </div>
                 </a>';
