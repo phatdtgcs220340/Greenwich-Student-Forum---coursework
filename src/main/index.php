@@ -213,17 +213,42 @@ if ($flag == 0) {
         echo $thread->toCard(true, "");
       }
       echo '</div>';
-      echo '<ul class="inline-flex -space-x-px text-sm">';
-      for ($i = 1; $i <= $threadList['total_pages']; $i++) {
-        echo '<li>
-        <a href="?page='.$i.$uriParam.'" class="mr-1 font-semibold rounded-lg flex items-center justify-center px-3 h-8 leading-tight text-gray-800 bg-yellow-100 border border-gray-300 hover:bg-yellow-200 hover:text-gray-900">'.$i.'</a>
-      </li>';
-      }
+      if (!isset($_GET['page']))
+        $page = 1;
+      else $page = $_GET['page'];
+      $nextPage = $page == $threadList['total_pages']? 1 : $page + 1;
+      $prevPage = $page == 1 ? $threadList['total_pages'] : $page - 1;
       ?>
   </ul>
+  <div class="inline-flex mt-2 xs:mt-0">
+     <form action="index.php" method="get"> 
+        <?php 
+          if (isset($_GET['module']))
+            echo '<input type="hidden" name="page" value="'.$_GET['module'].'">';
+            if (isset($_GET['orderBy']))
+            echo '<input type="hidden" name="page" value="'.$_GET['orderBy'].'">'
+        ?>
+        <input type="hidden" name="page" value="<?php echo $prevPage?>">
+        <button class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-800 bg-gray-50 rounded-l-lg hover:bg-gray-200 mr-0.5">
+          Prev
+        </button>
+      </form>
+      <form action="index.php" method="get"> 
+        <?php 
+          if (isset($_GET['module']))
+            echo '<input type="hidden" name="module" value="'.$_GET['module'].'">';
+            if (isset($_GET['orderBy']))
+            echo '<input type="hidden" name="orderBy" value="'.$_GET['orderBy'].'">'
+        ?>
+        <input type="hidden" name="page" value="<?php echo $nextPage?>">
+        <button class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-800 bg-gray-50 rounded-r-lg hover:bg-gray-200">
+          Next
+        </button>
+      </form>
+    </div>
       <h5 class="text-sm font-semibold">Page <?php 
       $page = isset($_GET['page']) ? $_GET['page'] : 1;
-      echo $page?>
+      echo $page ."/". $threadList['total_pages']?>
       </h5>
       
     <div class="h-48"></div>
