@@ -19,9 +19,19 @@ function threadListAll($latest = true)
         // Calculate the starting limit for the query
         $start_limit = ($page - 1) * $results_per_page;
         if ($latest)
-            $stmt = $pdo->prepare('SELECT m.module_name, t.* FROM `thread` t JOIN `module` m ON t.module_id = m.module_id ORDER BY creation_date DESC LIMIT :start_limit, :results_per_page');
+            $stmt = $pdo->prepare('SELECT m.module_name, u.firstName, u.lastName, u.email, u.image AS avatar, t.* 
+            FROM `thread` t 
+            LEFT JOIN `module` m ON t.module_id = m.module_id 
+            LEFT JOIN `user` u ON u.user_id = t.user_id
+            ORDER BY creation_date DESC 
+            LIMIT :start_limit, :results_per_page');
         else
-            $stmt = $pdo->prepare('SELECT m.module_name, t.* FROM `thread` t JOIN `module` m ON t.module_id = m.module_id ORDER BY creation_date ASC LIMIT :start_limit, :results_per_page');
+            $stmt = $pdo->prepare('SELECT m.module_name, u.firstName, u.lastName, u.email, u.image AS avatar, t.* 
+            FROM `thread` t 
+            LEFT JOIN `module` m ON t.module_id = m.module_id 
+            LEFT JOIN `user` u ON u.user_id = t.user_id
+            ORDER BY creation_date 
+            LIMIT :start_limit, :results_per_page');
         $stmt->bindParam(':start_limit', $start_limit, PDO::PARAM_INT);
         $stmt->bindParam(':results_per_page', $results_per_page, PDO::PARAM_INT);
         $stmt->execute();
@@ -50,7 +60,11 @@ function threadListByUser($userId)
         }
         // Calculate the starting limit for the query
         $start_limit = ($page - 1) * $results_per_page;
-        $stmt = $pdo->prepare('SELECT m.module_name, t.* FROM `thread` t JOIN `module` m ON t.module_id = m.module_id WHERE t.user_id = :user_id ORDER BY creation_date DESC LIMIT :start_limit, :results_per_page');
+        $stmt = $pdo->prepare('SELECT m.module_name, u.firstName, u.lastName, u.email, u.image AS avatar, t.* 
+        FROM `thread` t 
+        LEFT JOIN `module` m ON t.module_id = m.module_id 
+        LEFT JOIN `user` u ON u.user_id = t.user_id 
+        WHERE t.user_id = :user_id ORDER BY creation_date DESC LIMIT :start_limit, :results_per_page');
         $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
         $stmt->bindParam(':start_limit', $start_limit, PDO::PARAM_INT);
         $stmt->bindParam(':results_per_page', $results_per_page, PDO::PARAM_INT);
@@ -83,9 +97,17 @@ function threadListCategory($latest = true)
         // Calculate the starting limit for the query
         $start_limit = ($page - 1) * $results_per_page;
         if ($latest)
-            $stmt = $pdo->prepare('SELECT m.module_name, t.* FROM `thread` t JOIN `module` m ON t.module_id = m.module_id WHERE t.module_id = :module_id ORDER BY creation_date DESC LIMIT :start_limit, :results_per_page');
+            $stmt = $pdo->prepare('SELECT m.module_name, u.firstName, u.lastName, u.email, u.image AS avatar, t.* 
+            FROM `thread` t 
+            LEFT JOIN `module` m ON t.module_id = m.module_id 
+            LEFT JOIN `user` u ON u.user_id = t.user_id 
+            WHERE t.module_id = :module_id ORDER BY creation_date DESC LIMIT :start_limit, :results_per_page');
         else 
-            $stmt = $pdo->prepare('SELECT m.module_name, t.* FROM `thread` t JOIN `module` m ON t.module_id = m.module_id WHERE t.module_id = :module_id ORDER BY creation_date ASC LIMIT :start_limit, :results_per_page');
+            $stmt = $pdo->prepare('SELECT m.module_name, u.firstName, u.lastName, u.email, u.image AS avatar, t.* 
+            FROM `thread` t 
+            LEFT JOIN `module` m ON t.module_id = m.module_id 
+            LEFT JOIN `user` u ON u.user_id = t.user_id 
+            WHERE t.module_id = :module_id ORDER BY creation_date ASC LIMIT :start_limit, :results_per_page');
         $stmt->bindParam(':module_id', $module_id, PDO::PARAM_STR);
         $stmt->bindParam(':start_limit', $start_limit, PDO::PARAM_INT);
         $stmt->bindParam(':results_per_page', $results_per_page, PDO::PARAM_INT);

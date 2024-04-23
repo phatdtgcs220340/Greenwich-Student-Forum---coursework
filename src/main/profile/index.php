@@ -2,7 +2,7 @@
 
 namespace Src;
 
-use PDO, PDOException;
+use PDO, PDOException, Src\Thread as thread, Src\User\User;
 
 session_start();
 if (!isset($_SESSION['user_id'])) {
@@ -132,12 +132,11 @@ try {
 
                 require_once("../Thread/thread-list.php");
                 require_once("../Thread/thread.php");
-
-                use Src\Thread as thread;
-
+                require_once("user.php");
                 $threadList = thread\threadListByUser($userId);
                 foreach ($threadList["thread_list"] as $threadNode) {
-                    $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], "", "", $threadNode['user_id'], $threadNode['creation_date'], $threadNode['module_id'], $threadNode['module_name']);
+                    $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], "", "", $threadNode['user_id'], $threadNode['creation_date'], $threadNode['module_id'], $threadNode['module_name'],
+                    new User($threadNode['user_id'],$threadNode['firstName'],$threadNode['lastName'],$threadNode['email'],$threadNode['avatar']));
                     echo $thread->toCard(false, "../");
                 }
                 echo '<ul class="inline-flex -space-x-px text-sm">';

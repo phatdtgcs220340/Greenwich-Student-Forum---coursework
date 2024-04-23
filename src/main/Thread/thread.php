@@ -1,8 +1,7 @@
 <?php
 
 namespace Src\Thread;
-
-use UnexpectedValueException, PDO, PDOException, DateTime;
+use DateTime, Src\User\User;
 
 class Thread
 {
@@ -14,7 +13,8 @@ class Thread
     private $creationDate;
     private $moduleId;
     private $moduleName;
-    public function __construct($threadId, $title, $image, $content, $userId, $creationDate, $moduleId, $moduleName)
+    private User $user;
+    public function __construct($threadId, $title, $image, $content, $userId, $creationDate, $moduleId, $moduleName, User $user)
     {
         $this->threadId = $threadId;
         $this->title = $title;
@@ -24,89 +24,56 @@ class Thread
         $this->creationDate = $creationDate;
         $this->moduleId = $moduleId;
         $this->moduleName = $moduleName;
-    }
-    public function toThreadViewUrl()
-    {
-        return "Thread/?threadId=" . $this->threadId;
-    }
-    public function extraInfo()
-    {
-        try {
-            $pdo = new PDO('mysql:host=localhost;dbname=cw-student-forum-db', 'root', '');
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $stmt = $pdo->prepare('SELECT * FROM `user` WHERE user_id = ?');
-            $stmt->execute([$this->userId]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            $stmt = $pdo->prepare('SELECT COUNT(*) AS comments FROM `post` WHERE thread_id = ?');
-            $stmt->execute([$this->threadId]);
-            $totalComment = $stmt->fetch(PDO::FETCH_ASSOC)['comments'];
-            return ["user" => $user, "comment" => $totalComment];
-        } catch (PDOException $e) {
-            header("Location: ../error/database-connection-failed.php");
-            exit;
-        }
-    }
-    public function setTitle($title)
-    {
-        if (!is_string($title)) {
-            echo "Invalid setTitle() param";
-        } else {
-            $this->title = $title;
-        }
-    }
-    public function getTitle()
-    {
-        return $this->title;
-    }
-    public function setContent($content)
-    {
-        if (!is_string($content)) {
-            throw new UnexpectedValueException();
-        } else {
-            $this->content = $content;
-        }
-    }
-    public function getContent()
-    {
-        return $this->content;
-    }
-    public function setUserId($userId)
-    {
-        if (!is_int($userId)) {
-            throw new UnexpectedValueException();
-        } else {
-            $this->userId = $userId;
-        }
-    }
-    public function getUserId()
-    {
-        return $this->userId;
-    }
-
-    public function setThreadId($id)
-    {
-        if (!is_int($id)) {
-            throw new UnexpectedValueException();
-        } else {
-            $this->threadId = $id;
-        }
+        $this->user = $user;
     }
     public function getThreadId()
     {
         return $this->threadId;
     }
-    public function setImage($path)
+
+    public function getTitle()
     {
-        $this->image = $path;
+        return $this->title;
     }
+
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
     public function getImage()
     {
         return $this->image;
     }
+
     public function getCreationDate()
     {
         return $this->creationDate;
-    }   
+    }
+
+    public function getModuleId()
+    {
+        return $this->moduleId;
+    }
+
+    public function getModuleName()
+    {
+        return $this->moduleName;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+    public function toThreadViewUrl()
+    {
+        return "Thread/?threadId=" . $this->threadId;
+    }
     public function timeDifference()
     {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
@@ -142,43 +109,31 @@ class Thread
     public function toCard($displayUser="true", $currentPath)
     {   
         if ($displayUser == true) {
-        $extraInfo = $this->extraInfo();
-        $user_card = '
-        <a href="./profile?userId='.$this->userId.'" class="flex gap-3">
-        <img class="rounded-lg h-8" src="../'.$extraInfo['user']['image'].'">
-        <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700">' . $extraInfo['user']['firstName'] . " " . $extraInfo['user']['lastName'].'</h5>
-        </a>';
-        }
+            $user_card = '
+            <a href="./profile?userId='.$this->user->getUserId().'" class="flex gap-3">
+            <img class="rounded-lg h-8" src="../'.$this->user->getImage().'">
+            <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700">' . $this->user->getFirstName() . " " . $this->user->getLastName().'</h5>
+            </a>';
+            }
         else $user_card = "";
         $trimmedContent = $this->content;
         if (strlen($trimmedContent) > 50) {
             $trimmedContent = substr($trimmedContent,0, 50)."...";
         }
         echo '
-            <div class= "p-4 flex-initial w-full mb-4 bg-red-200 rounded-lg shadow">'.$user_card.'
+            <div class= "p-4 flex-initial flex flex-col w-full mb-4 bg-red-200 rounded-lg shadow">'.$user_card.'
                 <a href="' .$currentPath.$this->toThreadViewUrl() . '">
                     <div class="w-full bg-yellow-100 hover:bg-blue-100 rounded-lg shadow hover:bg-gray-100">
                         <img class="rounded-t-lg" src="../' . $this->image . '" alt="" />
                         <div class="p-5">
                             <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900">' . $this->title. '</h5>
                             <p class="mb-3 font-normal text-gray-700">' . $trimmedContent . '</p>
-                            <a class="py-1 px-2 w-fit rounded-full bg-cyan-500 text-white text-xs font-semibold hover:text-gray-100"
-                            href="'.$currentPath.'?module='.$this->moduleId.'">'.$this->moduleName.'</a>
+                           
                         </div>
                     </div>
-                </a>';
-            if ($displayUser)
-                if ($extraInfo['comment'] > 0)
-                    echo '
-                    <div class="flex rounded-lg items-center justify-center p-1 mt-2 gap-2 bg-green-300 w-1/5">
-                        <img class="h-4" src="../resource/static/images/icon/checked.png">
-                        <h5 class="text-sm text-white font-medium">'.$extraInfo['comment'].' answers</h5>
-                    </div>';
-                else 
-                    echo '
-                    <div class="flex items-center justify-center rounded-lg p-1 mt-2 gap-2 bg-gray-400 w-1/5">
-                        <h5 class="text-sm text-white font-medium">Unsolved</h5>
-                    </div>';
-            echo '</div> ';
+                </a>
+                <a class="py-1 px-2 mt-2 w-fit rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-sm font-semibold hover:text-gray-100 hover:from-cyan-600 hover:to-blue-600"
+                href="'.$currentPath.'?module='.$this->moduleId.'">'.$this->moduleName.'</a>
+            </div> ';
     }
 }

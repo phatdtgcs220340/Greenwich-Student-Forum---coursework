@@ -1,7 +1,7 @@
 <?php
 
 namespace Src;
-use Src\Module as module;
+use Src\Module as module, Src\User\User;
 session_start();
 if (!isset($_SESSION['user_id'])) {
   header('Location: ./auth/login.php');
@@ -188,7 +188,7 @@ if ($flag == 0) {
       <?php
       require_once("Thread/thread.php");
       require_once("Thread/thread-list.php");
-
+      require_once("profile/user.php");
       use Src\Thread as thread;
       $uriParam = '';
       $latest = true;
@@ -208,7 +208,8 @@ if ($flag == 0) {
       <div class="w-1/2 flex flex-col items-center justify-center gap-5">';
       // display thread list 
       foreach ($threadList['thread_list'] as $threadNode) {
-        $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], $threadNode['image'], $threadNode['content'], $threadNode['user_id'], $threadNode['creation_date'], $threadNode['module_id'], $threadNode['module_name']);
+        $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], $threadNode['image'], $threadNode['content'], $threadNode['user_id'], $threadNode['creation_date'], $threadNode['module_id'], $threadNode['module_name'],
+      new User($threadNode['user_id'],$threadNode['firstName'],$threadNode['lastName'],$threadNode['email'],$threadNode['avatar']));
         echo $thread->toCard(true, "");
       }
       echo '</div>';

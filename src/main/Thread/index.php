@@ -4,8 +4,8 @@ namespace Src\Thread;
 
 session_start();
 require_once("thread.php");
-
-use PDO, PDOException;
+require_once("../profile/user.php");
+use PDO, PDOException, Src\User\User;
 
 if (!isset($_SESSION['user_id'])) {
   header('Location: ./auth/login.php');
@@ -19,14 +19,19 @@ if (isset($_GET['threadId'])) {
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Retrieve the thread content based on the threadId
-        $stmt = $pdo->prepare("SELECT m.module_name, m.module_id, t.* FROM `module` m RIGHT JOIN `thread` t ON t.module_id = m.module_id WHERE thread_id = ?");
+        $stmt = $pdo->prepare("SELECT m.module_name, u.firstName, u.lastName, u.email, u.image AS avatar, t.* 
+        FROM `thread` t 
+        LEFT JOIN `module` m ON t.module_id = m.module_id 
+        LEFT JOIN `user` u ON u.user_id = t.user_id
+        WHERE thread_id = ?");
         $stmt->execute([$threadId]);
         $threadFetch = $stmt->fetch(PDO::FETCH_ASSOC);
         if (empty($threadFetch)) {
             header("Location: ../error/404.php");
             exit;
         }
-        $thread = new Thread($threadFetch['thread_id'], $threadFetch['title'], $threadFetch['image'], $threadFetch['content'], $threadFetch['user_id'], $threadFetch['creation_date'], $threadFetch['module_id'], $threadFetch['module_name']);
+        $thread = new Thread($threadFetch['thread_id'], $threadFetch['title'], $threadFetch['image'], $threadFetch['content'], $threadFetch['user_id'], $threadFetch['creation_date'], $threadFetch['module_id'], $threadFetch['module_name'], 
+        new User($threadFetch['user_id'],$threadFetch['firstName'],$threadFetch['lastName'],$threadFetch['email'],$threadFetch['avatar']));
     } catch (PDOException $e) {
         header("Location: ../error/database-connection-failed.php");
         exit;
@@ -157,11 +162,11 @@ else {
             <div class="bg-gray-100 p-2 border boreder-gray-400 self-end">
                 <h2 class="text-xs mb-2">asked <?php echo $thread->timeDifference() ?> ago</h2>
                 <a href="../profile/?userId=<?php echo $thread->getUserId()?>" class="flex gap-2">
-                    <img class="w-8 h-8 rounded-lg" src="<?php $user = $thread->extraInfo()['user'];
-                     echo "../../".$user['image'] ?>" 
+                    <img class="w-8 h-8 rounded-lg" src="<?php $user = $thread->getUser();
+                     echo "../../".$user->getImage() ?>" 
                     alt="user photo">
                     <h2 class="text-sm"><?php
-                                        echo $user['firstName'] . " " . $user['lastName'];
+                                        echo $user->getFirstName() . " " . $user->getLastName();
                                         ?></h2>
                 </a>
             </div>
@@ -209,8 +214,8 @@ else {
         $postList = post\postList($thread->getThreadId());
         // display thread list 
         foreach ($postList as $postNode) {
-            $post = new post\Post($postNode['post_id'], $postNode['content'], $postNode['user_id'], $postNode['thread_id'], $postNode['creation_date']);
-            echo $post->toCard();
+            $post = new post\Post($postNode['post_id'], $postNode['content'], $postNode['user_id'], $postNode['thread_id'], $postNode['creation_date'], new User($postNode['user_id'],$postNode['firstName'],$postNode['lastName'],$postNode['email'],$postNode['avatar']));
+            echo $post->toCard($thread->getUserId());
         }
         ?>
     </div>

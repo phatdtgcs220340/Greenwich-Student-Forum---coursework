@@ -2,7 +2,7 @@
 
 namespace Src\Post;
 
-use PDO, PDOException;
+use PDO, PDOException, Src\User\User;
 
 class Post
 {
@@ -11,14 +11,15 @@ class Post
     private $userId;
     private $threadId;
     private $creationDate;
-    
-    public function __construct($postId, $content, $userId, $threadId, $creationDate)
+    private User $user;
+    public function __construct($postId, $content, $userId, $threadId, $creationDate, $user)
     {
         $this->postId = $postId;
         $this->content = $content;
         $this->userId = $userId;
         $this->threadId = $threadId;
         $this->creationDate = $creationDate;
+        $this->user = $user;
     }
     // Getter methods
     public function getPostId()
@@ -71,36 +72,8 @@ class Post
     {
         $this->creationDate = $creationDate;
     }
-    public function userInfo()
+    public function toCard($threadUserId)
     {
-        try {
-            $pdo = new PDO('mysql:host=localhost;dbname=cw-student-forum-db', 'root', '');
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $stmt = $pdo->prepare('SELECT * FROM `user` WHERE user_id = ?');
-            $stmt->execute([$this->userId]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $user;
-        } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
-        }
-    }
-    public function threadInfo()
-    {
-        try {
-            $pdo = new PDO('mysql:host=localhost;dbname=cw-student-forum-db', 'root', '');
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $stmt = $pdo->prepare('SELECT * FROM `thread` WHERE thread_id = ?');
-            $stmt->execute([$this->threadId]);
-            $thread = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $thread;
-        } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
-        }
-    }
-    public function toCard()
-    {
-        $user = $this->userInfo();
-        $thread = $this->threadInfo();
         $edit = '
         <button class="text-base text-gray-500 font-bold hover:text-gray-900" id="post' . $this->postId . '-menu-button" aria-expanded="false" data-dropdown-toggle="post' . $this->postId . '-dropdown" data-dropdown-placement="bottom">...</button>
         <div class="z-50 hidden my-4 text-base list-none bg-white rounded-lg border border-gray-100" id="post' . $this->postId . '-dropdown">
@@ -121,7 +94,7 @@ class Post
                             </ul>
                 </div>';
         }
-        else if ($_SESSION['user_id'] == $thread['user_id'] || $_SESSION['role'] == 'Admin') 
+        else if ($_SESSION['user_id'] == $threadUserId || $_SESSION['role'] == 'Admin') 
                     $edit = $edit.'</ul>
                 </div>';
         else $edit = "";
@@ -129,11 +102,11 @@ class Post
             <div class="my-2">
             <div class="flex items-start gap-2.5">
             <a href="../profile/?userId=' . $this->userId . '">
-            <img class="w-8 h-8 rounded-full" src="../../' . $user['image'] . '" alt="user image">
+            <img class="w-8 h-8 rounded-full" src="../../' . $this->user->getImage(). '" alt="user image">
             </a>
             <div class="flex flex-col w-2/3 py-2 px-4 border-gray-200 bg-gray-100 rounded-lg rounded-es-xl shadow">
                <div class="flex items-center gap-2 w-full">
-                  <span class="text-sm font-semibold text-gray-900">' . $user['firstName'] . " " . $user['lastName'] . '</span>
+                  <span class="text-sm font-semibold text-gray-900">' . $this->user->getFirstName() . " " . $this->user->getLastName() . '</span>
                   <span class="text-sm font-normal text-gray-500">' . $this->creationDate . '</span>
                   
                 </div>
