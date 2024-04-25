@@ -66,7 +66,7 @@ else {
 </head>
 
 <body id="body">
-<nav class="border-b-2 border-white bg-green-50">
+<nav class="border-b-2 border-white fixed z-20 w-full top-0 start-0 bg-green-50">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="../index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
               <h5 class="mb-2 text-2xl tracking-tight text-blue-400" style="font-family: 'Cherry Swash', serif; font-weight: 700; font-style: normal;">Student Forum</h5>
@@ -116,7 +116,7 @@ else {
         </div>
     </nav>
 
-    <div id="plate" class="p-6 gap-2">
+    <div id="plate" class="p-6 py-20 gap-2">
         <div class="flex flex-col w-2/3 p-4 bg-gray-50 rounded-lg ">
         <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-900"><?php echo $thread->getTitle() ?></h5>
         <a class="py-1 px-2 w-fit rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-xs font-semibold hover:text-gray-100 hover:from-cyan-600 hover:to-blue-600"
@@ -145,7 +145,12 @@ else {
                 <input name="thread_id" type="text" class="hidden" value="<?php echo $threadId?>">
                 <textarea rows="4" class="block p-2.5 w-full font-lg rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" id="edit-content" name="content"></textarea>
                 <h5 id="note" class="hidden text-xs font-lg italic">Leave nothing for delete</h5>
-                <input disabled id="edit-image" class="hidden block w-full text-sm text-gray-900 border border-gray-300 cusor-pointer bg-white focus:outline-none" accept="image/png, image/jpeg, image/svg" placeholder="Leave nothing for delete" raria-describedby="file_input_help" id="thread-image" name="image" type="file">
+                <input disabled id="edit-image" class="hidden block w-full bg-white mt-1 rounded-full text-sm text-slate-500 
+                  file:py-2 file:px-4
+                  file:rounded-full file:border-0
+                  file:text-sm file:font-semibold
+                  file:bg-violet-50 file:text-blue-400
+                  hover:file:bg-violet-100 focus:outline-none" accept="image/png, image/jpeg, image/svg" placeholder="Leave nothing for delete" raria-describedby="file_input_help" id="thread-image" name="image" type="file">
                 <br>
                 <button type="button" onclick="changeImage()" class="py-2.5 px-5 me-2 mx-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Update Image</button>
                 <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mx-8">Save</button>

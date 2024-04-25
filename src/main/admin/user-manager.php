@@ -26,7 +26,7 @@
     <title>Greenwich Student Forum</title>
 </head>
 <body>
-<nav class="border-b-2 border-white bg-green-50">
+<nav class="border-b-2 fixed z-20 w-full top-0 start-0 border-white bg-green-50">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="../index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
               <h5 class="mb-2 text-2xl tracking-tight text-blue-400" style="font-family: 'Cherry Swash', serif; font-weight: 700; font-style: normal;">Student Forum</h5>
@@ -75,7 +75,7 @@
             </div>
         </div>
     </nav>
-    <div class="w-full flex flex-wrap items-center justify-center mt-4">
+    <div class="w-full py-20 flex flex-wrap items-center justify-center mt-4">
         <div class="flex flex-col w-full bg-blue-200 shadow mx-4">
         <h1 class="self-center m-2 bg-blue-100 px-3 py-1 shadow rounded-lg text-white text-3xl font-semibold font-sans">I'm god</h1>
         <div class="m-4">

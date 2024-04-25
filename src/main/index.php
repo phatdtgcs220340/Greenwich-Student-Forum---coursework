@@ -50,7 +50,7 @@ if ($flag == 0) {
 </head>
 
 <body>
-<nav class="border-b-2 border-white bg-green-50">
+<nav class="border-b-2 fixed z-20 w-full top-0 start-0 border-white bg-green-50">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
               <h5 class="mb-2 text-2xl tracking-tight text-blue-400" style="font-family: 'Cherry Swash', serif; font-weight: 700; font-style: normal;">Student Forum</h5>
@@ -101,7 +101,7 @@ if ($flag == 0) {
         </div>
     </nav>
 
-  <div id="plate" class="p-12 flex items-center justify-center flex-col gap-3 bg-white">
+  <div id="plate" class="px-12 py-24 flex items-center justify-center flex-col gap-3 bg-white">
 
     <div class="w-3/5 h-1/2 mx-auto mb-8 <?php if ($_SESSION['role'] == 'Admin') echo "hidden";?>">
       <button id="question-button" onclick="displayForm()" 
@@ -133,7 +133,7 @@ if ($flag == 0) {
                 <label for="title" class="block mt-2 text-sm font-medium text-gray-900">Title</label>
                 <div class="flex gap-4">
                 <input required oninput="countWord('title', 'title-limit')" type="text" id="title" name="title" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-white text-sm">
-                <p class="text-xs">Word counts: <span id="title-limit">0/10</span></p>
+                <p class="text-xs">Word counts: <span id="title-limit">0/20</span></p>
                 </div>
               </div>
             </div>

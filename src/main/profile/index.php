@@ -53,7 +53,7 @@ try {
 </head>
 
 <body>
-    <nav class="border-b-2 border-white bg-green-50">
+    <nav class="border-b-2 fixed z-20 w-full top-0 start-0 border-white bg-green-50">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="../index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <h5 class="mb-2 text-2xl tracking-tight text-blue-400" style="font-family: 'Cherry Swash', serif; font-weight: 700; font-style: normal;">Student Forum</h5>
@@ -102,7 +102,7 @@ try {
             </div>
         </div>
     </nav>
-    <div id="plate" class="flex flex-col items-center">
+    <div id="plate" class="flex py-20 flex-col items-center">
         <div class="mt-8 w-2/3 grid grid-cols-2 grid-flow-col gap-4">
 
             <div class="row-span-2">
@@ -169,9 +169,8 @@ try {
                 </form>
             </div>
         </div>
-            </div>
         </div>
-        <div class="h-64"></div>
+        </div>
     </div>
     <div id="update-info-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-md max-h-full">
