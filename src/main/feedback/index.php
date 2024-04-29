@@ -1,11 +1,18 @@
 <?php
     namespace Src\Message;
-    use Src\Message;
-use Src\Message\Message as MessageMessage;
-
+    use Src\Message\Message as MessageMessage;
     require_once("message-list.php");
     require_once("message.php");
     session_start();
+    if (!isset($_SESSION['user_id'])) {
+        header('Location: ../auth/login.php');
+        exit;
+    }
+
+    if($_SESSION['role'] == 'Admin') {
+        header('Location: ../error/access-denied.php');
+        exit;
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -85,7 +92,7 @@ use Src\Message\Message as MessageMessage;
                 }
             ?>
         </div>
-        <div class="flex flex-col items-center mb-1">
+        <div class="<?php if ($messageMap['total_pages'] == 0) echo "hidden"?> flex flex-col items-center mb-1">
             <span class="text-sm text-gray-700">
                 
                 Page <?php  

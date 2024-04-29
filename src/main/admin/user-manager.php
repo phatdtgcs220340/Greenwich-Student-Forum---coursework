@@ -77,7 +77,7 @@
     </nav>
     <div class="w-full py-20 flex flex-wrap items-center justify-center mt-4">
         <div class="flex flex-col w-full bg-blue-200 shadow mx-4">
-        <h1 class="self-center m-2 bg-blue-100 px-3 py-1 shadow rounded-lg text-white text-3xl font-semibold font-sans">I'm god</h1>
+        <h1 class="self-center m-2 bg-blue-100 px-3 py-1 shadow rounded-lg text-white text-3xl font-semibold font-sans">User manager</h1>
         <div class="m-4">
             <?php 
                 require_once("../profile/user-list.php");

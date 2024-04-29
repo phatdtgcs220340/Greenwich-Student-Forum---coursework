@@ -115,7 +115,7 @@
                     </div>
             </div> 
         <h4 class="text-red-600 font-semibold ml-2">Caution: Remove module lead to removing all related threads and posts</h4>
-        <div class="m-4">
+        <div class="m-4 grid grid-cols-3 gap-1">
             <?php 
                 require_once("../module/module-list.php");
                 foreach(moduleList() as $module) {

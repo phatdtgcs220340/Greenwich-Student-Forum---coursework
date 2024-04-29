@@ -143,7 +143,7 @@ else {
             <form id="update-form" class="hidden" action="update-thread.php" method="post" enctype="multipart/form-data">
                 <input name="user_id" class="hidden" value="<?php echo $thread->getUserId()?>">
                 <input name="thread_id" type="text" class="hidden" value="<?php echo $threadId?>">
-                <textarea rows="4" class="block p-2.5 w-full font-lg rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" id="edit-content" name="content"></textarea>
+                <textarea rows="4" class="block p-2.5 w-full font-lg rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" id="edit-content" name="content" required></textarea>
                 <h5 id="note" class="hidden text-xs font-lg italic">Leave nothing for delete</h5>
                 <input disabled id="edit-image" class="hidden block w-full bg-white mt-1 rounded-full text-sm text-slate-500 
                   file:py-2 file:px-4

@@ -114,7 +114,7 @@ class Post
                <form id="edit-form-' . $this->postId . '" class="hidden" action="../Post/update-post.php" method="post"> 
                <input name="post_id" class="hidden" value="' . $this->postId . '">
                <input name="thread_id" class="hidden" value="' . $this->threadId . '">
-               <textarea name="content" id="edit-content-' . $this->postId . '" class="block mb-2 p-2.5 w-full text-sm font-lg rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"></textarea>
+               <textarea name="content" id="edit-content-' . $this->postId . '" class="block mb-2 p-2.5 w-full text-sm font-lg rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" required></textarea>
                <button type="submit" class="focus:outline-none w-full text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-base px-5 py-2.5 me-2 mb-2">Save</button>
                </form>
             </div>
