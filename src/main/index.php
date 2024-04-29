@@ -21,6 +21,11 @@ if (isset($_GET['module'])) {
 if (isset($_GET['orderBy']))
   if ($_GET['orderBy'] != 'latest' && $_GET['orderBy'] != 'oldest')
     $flag = 0;
+if (isset($_GET['page'])) {
+  if (!is_int($_GET['page'])) {
+    $flag = 0;
+  }
+}
 if ($flag == 0) {
   header("Location: error/404.php");
   exit(404);
@@ -220,37 +225,38 @@ if ($flag == 0) {
       $prevPage = $page == 1 ? $threadList['total_pages'] : $page - 1;
       ?>
   </ul>
-  <div class="inline-flex mt-2 xs:mt-0">
-     <form action="index.php" method="get"> 
-        <?php 
-          if (isset($_GET['module']))
-            echo '<input type="hidden" name="page" value="'.$_GET['module'].'">';
-            if (isset($_GET['orderBy']))
-            echo '<input type="hidden" name="page" value="'.$_GET['orderBy'].'">'
-        ?>
-        <input type="hidden" name="page" value="<?php echo $prevPage?>">
-        <button class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-800 bg-gray-50 rounded-l-lg hover:bg-gray-200 mr-0.5">
-          Prev
-        </button>
-      </form>
+  <div class="<?php if ($threadList['total_pages'] == 0) echo "hidden"?>  flex flex-col items-center gap-2">
+    <div class="inline-flex mt-2 xs:mt-0">
       <form action="index.php" method="get"> 
-        <?php 
-          if (isset($_GET['module']))
-            echo '<input type="hidden" name="module" value="'.$_GET['module'].'">';
-            if (isset($_GET['orderBy']))
-            echo '<input type="hidden" name="orderBy" value="'.$_GET['orderBy'].'">'
-        ?>
-        <input type="hidden" name="page" value="<?php echo $nextPage?>">
-        <button class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-800 bg-gray-50 rounded-r-lg hover:bg-gray-200">
-          Next
-        </button>
-      </form>
-    </div>
+          <?php 
+            if (isset($_GET['module']))
+              echo '<input type="hidden" name="module" value="'.$_GET['module'].'">';
+              if (isset($_GET['orderBy']))
+              echo '<input type="hidden" name="orderBy" value="'.$_GET['orderBy'].'">'
+          ?>
+          <input type="hidden" name="page" value="<?php echo $prevPage?>">
+          <button class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-800 bg-gray-50 rounded-l-lg hover:bg-gray-200 mr-0.5">
+            Prev
+          </button>
+        </form>
+        <form action="index.php" method="get"> 
+          <?php 
+            if (isset($_GET['module']))
+              echo '<input type="hidden" name="module" value="'.$_GET['module'].'">';
+              if (isset($_GET['orderBy']))
+              echo '<input type="hidden" name="orderBy" value="'.$_GET['orderBy'].'">'
+          ?>
+          <input type="hidden" name="page" value="<?php echo $nextPage?>">
+          <button class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-800 bg-gray-50 rounded-r-lg hover:bg-gray-200">
+            Next
+          </button>
+        </form>
+      </div>
       <h5 class="text-sm font-semibold">Page <?php 
       $page = isset($_GET['page']) ? $_GET['page'] : 1;
       echo $page ."/". $threadList['total_pages']?>
       </h5>
-      
+    </div>
     <div class="h-48"></div>
   </div>
   <script src="https://flowbite.com/docs/flowbite.min.js?v=2.3.0a"></script>

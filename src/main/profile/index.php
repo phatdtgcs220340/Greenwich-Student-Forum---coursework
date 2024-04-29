@@ -140,7 +140,7 @@ try {
                     echo $thread->toCard(false, "../");
                 }
                 ?>
-            <div class="flex flex-col items-center mb-1">
+            <div class="<?php if ($threadList['total_pages'] == 0) echo "hidden"?> flex flex-col items-center mb-1">
             <span class="text-sm text-gray-700">
                 
                 Page <?php  
@@ -156,12 +156,14 @@ try {
             </span>
             <div class="inline-flex mt-2 xs:mt-0">
                 <form action="index.php" method="get"> 
+                    <input type="hidden" name="userId" value="<?php echo $_GET['userId']?>">
                     <input type="hidden" name="page" value="<?php echo $prevPage?>">
                     <button class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-800 bg-gray-50 rounded-l-lg hover:bg-gray-200 mr-0.5">
                     Prev
                     </button>
                 </form>
                 <form action="index.php" method="get"> 
+                    <input type="hidden" name="userId" value="<?php echo $_GET['userId']?>">
                     <input type="hidden" name="page" value="<?php echo $nextPage?>">
                     <button class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-800 bg-gray-50 rounded-r-lg hover:bg-gray-200">
                     Next
@@ -171,6 +173,7 @@ try {
         </div>
         </div>
         </div>
+        <div class="h-32"></div>
     </div>
     <div id="update-info-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-md max-h-full">
@@ -217,6 +220,7 @@ try {
             </div>
         </div>
     </div>
+    
     <script>
         function displayForm() {
             var image = document.getElementById("update-avatar");

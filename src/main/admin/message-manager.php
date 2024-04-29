@@ -89,7 +89,7 @@
                 }
             ?>
         </div>
-        <div class="flex flex-col items-center mb-1">
+        <div class="<?php if ($messageMap['total_pages'] == 0) echo "hidden"?> flex flex-col items-center mb-1">
             <span class="text-sm text-gray-700">
                 Page <?php  
                     if (!isset($_GET['page'])) {
