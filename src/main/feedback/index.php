@@ -13,6 +13,12 @@
         header('Location: ../error/access-denied.php');
         exit;
     }
+    if (isset($_GET['page'])) {
+        if (!is_numeric($_GET['page'])) {
+          header("Location: ../error/404.php");
+          exit;
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

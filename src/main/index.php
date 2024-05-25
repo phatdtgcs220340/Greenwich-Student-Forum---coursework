@@ -22,7 +22,7 @@ if (isset($_GET['orderBy']))
   if ($_GET['orderBy'] != 'latest' && $_GET['orderBy'] != 'oldest')
     $flag = 0;
 if (isset($_GET['page'])) {
-  if (!is_int($_GET['page'])) {
+  if (!is_numeric($_GET['page'])) {
     $flag = 0;
   }
 }
@@ -154,9 +154,9 @@ if ($flag == 0) {
       </form>
     </div>
     
-    <div class="mb-4 w-1/2 p-4 grid grid-cols-2 bg-red-100 rounded-lg shadow">
-      <div>
-      <h5 class="mb-2 font-semibold">Filter By</h5>
+    <div class="mb-4 w-auto sm:w-1/2 p-4 sm:grid sm:grid-cols-2 bg-red-100 rounded-lg shadow">
+      <div class="mb-2">
+      <h5 class="font-semibold">Filter By</h5>
       <select id="filter_category" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-auto p-1">
         <?php
           if (!isset($_GET['module']))
@@ -170,9 +170,9 @@ if ($flag == 0) {
         ?>
       </select>
       </div>
-      <div>
-      <h5 class="mb-2 font-semibold">Sort By</h5>
-      <select id="sort" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-auto p-1">
+      <div class="mb-2">
+      <h5 class="font-semibold">Sort By</h5>
+      <select id="sort" class="mb-2 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-auto p-1">
         <?php
           $flag = 0;
           if (isset($_GET['orderBy'])) {
@@ -210,7 +210,7 @@ if ($flag == 0) {
       }
 
       echo '
-      <div class="w-1/2 flex flex-col items-center justify-center gap-5">';
+      <div class="w-auto sm:w-1/2 flex flex-col items-center justify-center gap-5">';
       // display thread list 
       foreach ($threadList['thread_list'] as $threadNode) {
         $thread = new thread\Thread($threadNode['thread_id'], $threadNode['title'], $threadNode['image'], $threadNode['content'], $threadNode['user_id'], $threadNode['creation_date'], $threadNode['module_id'], $threadNode['module_name'],

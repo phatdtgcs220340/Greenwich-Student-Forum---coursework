@@ -117,7 +117,7 @@ else {
     </nav>
 
     <div id="plate" class="p-6 py-20 gap-2">
-        <div class="flex flex-col w-2/3 p-4 bg-gray-50 rounded-lg ">
+        <div class="flex flex-col w-auto sm:w-2/3 p-4 bg-gray-50 rounded-lg ">
         <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-900"><?php echo $thread->getTitle() ?></h5>
         <a class="py-1 px-2 w-fit rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-xs font-semibold hover:text-gray-100 hover:from-cyan-600 hover:to-blue-600"
         href="../?module=<?php echo $threadFetch['module_id']; ?>"><?php echo $threadFetch['module_name'] ?></a>
@@ -139,7 +139,7 @@ else {
             }
         ?>
         </div>
-        <div class="flex flex-col p-6 w-2/3 h-auto rounded-lg bg-white border-t border-b border-gray-400 gap-2">
+        <div class="flex flex-col p-6 w-auto sm:w-2/3 h-auto rounded-lg bg-white border-t border-b border-gray-400 gap-2">
             <form id="update-form" class="hidden" action="update-thread.php" method="post" enctype="multipart/form-data">
                 <input name="user_id" class="hidden" value="<?php echo $thread->getUserId()?>">
                 <input name="thread_id" type="text" class="hidden" value="<?php echo $threadId?>">
@@ -202,7 +202,7 @@ else {
             ?>
         </div>
 
-        <div class="w-2/3 bg-white rounded-lg p-4 mt-2 shadow">
+        <div class="w-auto sm:w-2/3 bg-white rounded-lg p-4 mt-2 shadow">
         <form action="../Post/create-post.php" method="post" >
             <input class="hidden" id="thread_id" name="thread_id" value="<?php echo $thread->getThreadId() ?>">
             <label for="content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your answer</label>

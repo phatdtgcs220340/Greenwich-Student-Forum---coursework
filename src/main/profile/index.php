@@ -103,7 +103,7 @@ try {
         </div>
     </nav>
     <div id="plate" class="flex py-20 flex-col items-center">
-        <div class="mt-8 w-2/3 grid grid-cols-2 grid-flow-col gap-4">
+        <div class="mt-8 w-2/3 sm:grid sm:grid-cols-2 grid-flow-col gap-4">
 
             <div class="row-span-2">
                 <img class="w-64 h-64 rounded-lg mb-4 bg-white p-1" src="../../<?php echo $userFetch['image'] ?>" alt="">

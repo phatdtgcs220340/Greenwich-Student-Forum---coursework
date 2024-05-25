@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 29, 2024 at 12:51 PM
+-- Generation Time: May 04, 2024 at 03:20 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -61,14 +61,12 @@ INSERT INTO `module` (`module_id`, `module_name`, `description`) VALUES
 (9, 'Web Development', 'Web development refers to the tasks associated with developing websites or web applications.'),
 (10, 'Computer Networking', 'Computer networking is the practice of interfacing computing devices together to share resources.'),
 (11, 'Operating Systems', 'An operating system is system software that manages computer hardware, software resources, and provides common services for computer programs.'),
-(14, 'Cybersecurity', 'Cybersecurity refers to the practice of protecting computer systems, networks, and data from digital attacks.'),
 (15, 'Cloud Computing', 'Cloud computing is the delivery of computing services over the Internet, including servers, storage, databases, networking, software, and analytics.'),
 (16, 'Mobile Development', 'Mobile development is the process of creating software applications that run on mobile devices, such as smartphones and tablets.'),
 (17, 'Game Development', 'Game development is the process of creating video games for consoles, PCs, mobile devices, and other platforms.'),
 (18, 'Computer Graphics', 'Computer graphics is a sub-field of computer science that focuses on the generation, manipulation, and representation of visual images.'),
 (20, 'Internet of Things (IoT)', 'The Internet of Things (IoT) is a network of interconnected devices that communicate and exchange data over the internet without human intervention.'),
-(21, 'Blockchain', 'Blockchain is a decentralized, distributed ledger technology that records transactions across multiple computers in a way that is tamper-resistant and transparent.'),
-(22, 'Quantum Computing', 'Quantum computing is a type of computing that uses quantum-mechanical phenomena, such as superposition and entanglement, to perform operations on data.');
+(21, 'Blockchain', 'Blockchain is a decentralized, distributed ledger technology that records transactions across multiple computers in a way that is tamper-resistant and transparent.');
 
 -- --------------------------------------------------------
 
@@ -90,9 +88,9 @@ CREATE TABLE `post` (
 
 INSERT INTO `post` (`post_id`, `content`, `creation_date`, `user_id`, `thread_id`) VALUES
 (1, 'hahah', '2024-04-23 11:07:32', 2, 1),
-(2, 'conconaoncoa', '2024-04-23 11:55:43', 2, 2),
 (6, 'a reply\r\n', '2024-04-28 12:29:23', 2, 13),
-(7, 'another reply by another student', '2024-04-28 12:31:40', 3, 13);
+(7, 'another reply by another student', '2024-04-28 12:31:40', 3, 13),
+(9, 'bai nay giai theo cach nay abc...xyz', '2024-05-04 13:07:18', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -116,7 +114,6 @@ CREATE TABLE `thread` (
 
 INSERT INTO `thread` (`thread_id`, `title`, `content`, `image`, `creation_date`, `user_id`, `module_id`) VALUES
 (1, 'hahahah', 'hahhahaha', 'resource/static/images/thread/21699372374639.png', '2024-04-23 09:04:52', 2, 1),
-(2, 'terraria hahaha', 'con me no chu', 'resource/static/images/thread/2Screenshot 2023-07-10 231002.png', '2024-04-23 11:18:59', 2, 1),
 (3, 'a database question', 'content', 'resource/static/images/thread/2Screenshot 2023-06-26 160228.png', '2024-04-23 12:11:22', 2, 8),
 (13, 'A question ', 'A content', 'resource/static/images/thread/2Screenshot 2023-10-23 211727.png', '2024-04-28 08:50:32', 2, 8),
 (14, 'java question', 'new content', '', '2024-04-28 09:22:05', 2, 1),
@@ -199,7 +196,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `message`
 --
 ALTER TABLE `message`
-  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `module`
@@ -211,7 +208,7 @@ ALTER TABLE `module`
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `thread`

@@ -19,36 +19,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $uploadOk = 1;
         $targetFile = $targetDir . basename("user".$userId."_"."avatar".".".$imageFileType);
         if (!empty($file["name"])) {
-            // Check if image file is a actual image or fake image
-            $check = getimagesize($file["tmp_name"]);
-            if ($check !== false) {
+            if (getimagesize($file["tmp_name"]) !== false) {
                 echo "File is an image - " . $check["mime"] . ".";
                 $uploadOk = 1;
             } else {
-                echo "File is not an image.";
                 $uploadOk = 0;
             }
-
-            // Allow certain file formats
             if (
                 $imageFileType != "jpg" && $imageFileType != "png"
                 && $imageFileType != "svg"
             ) {
-                echo "Sorry, only JPG, PNG & SVG files are allowed.";
                 $uploadOk = 0;
             }
 
             // Check if $uploadOk is set to 0 by an error
-            if ($uploadOk == 0) {
-                echo "Sorry, your file was not uploaded.";
-                // if everything is ok, try to upload file
-            } else {
-                if (move_uploaded_file($file["tmp_name"], "../../" . $targetFile)) {
-                    echo "The file " . htmlspecialchars(basename($file["name"])) . " has been uploaded.";
-                } else {
-                    echo "Sorry, there was an error uploading your file.";
-                }
-            }
+            if ($uploadOk == 1) move_uploaded_file($file["tmp_name"], "../../" . $targetFile);
         } else $targetFile = "resource/static/images/user/default_avatar.jpg";
     } else $updateImage = false;
 

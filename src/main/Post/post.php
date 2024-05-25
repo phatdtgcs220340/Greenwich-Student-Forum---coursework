@@ -107,7 +107,7 @@ class Post
             <div class="flex flex-col w-2/3 py-2 px-4 border-gray-200 bg-gray-100 rounded-lg rounded-es-xl shadow">
                <div class="flex items-center gap-2 w-full">
                   <span class="text-sm font-semibold text-gray-900">' . $this->user->getFirstName() . " " . $this->user->getLastName() . '</span>
-                  <span class="text-sm font-normal text-gray-500">' . $this->creationDate . '</span>
+                  <span class="text-sm font-normal text-gray-500 hidden sm:block">' . $this->creationDate . '</span>
                   
                 </div>
                <p id="content-' . $this->postId . '" class="text-sm font-normal text-gray-900">' . nl2br($this->content) . '</p>

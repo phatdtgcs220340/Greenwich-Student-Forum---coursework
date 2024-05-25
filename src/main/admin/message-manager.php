@@ -9,10 +9,15 @@
         header('Location: ../auth/login.php');
         exit;
     }
-
     if($_SESSION['role'] != 'Admin') {
         header('Location: ../error/access-denied.php');
         exit;
+    }
+    if (isset($_GET['page'])) {
+        if (!is_numeric($_GET['page'])) {
+          header("Location: ../error/404.php");
+          exit;
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -91,31 +96,31 @@
         </div>
         <div class="<?php if ($messageMap['total_pages'] == 0) echo "hidden"?> flex flex-col items-center mb-1">
             <span class="text-sm text-gray-700">
+                
                 Page <?php  
                     if (!isset($_GET['page'])) {
                         $page = 1;
                     } else {
                         $page = $_GET['page'];
                     }
+                    $nextPage = $page == $messageMap['total_pages']? 1 : $page + 1;
+                    $prevPage = $page == 1 ? $messageMap['total_pages'] : $page - 1;
                     echo $page.'/'.$messageMap['total_pages'];
                 ?>
             </span>
             <div class="inline-flex mt-2 xs:mt-0">
-                <a class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-800 bg-gray-50 rounded-s hover:bg-gray-200" href="./<?php 
-                    
-                    if ($page > 1 && $page < $messageMap['total_pages']) 
-                        echo '?page='.$page - 1;
-                    else echo '';
-                ?>">
+                <form action="index.php" method="get"> 
+                    <input type="hidden" name="page" value="<?php echo $prevPage?>">
+                    <button class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-800 bg-gray-50 rounded-l-lg hover:bg-gray-200 mr-0.5">
                     Prev
-                </a>
-                <a class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-800 bg-gray-50 rounded-e hover:bg-gray-200" href="./<?php 
-                    if ($page >= 1 && $page < $messageMap['total_pages'] && $messageMap['total_pages'] > 1) 
-                        echo '?page='.$page + 1;
-                    else echo '';
-                ?>">
+                    </button>
+                </form>
+                <form action="index.php" method="get"> 
+                    <input type="hidden" name="page" value="<?php echo $nextPage?>">
+                    <button class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-800 bg-gray-50 rounded-r-lg hover:bg-gray-200">
                     Next
-                </a>
+                    </button>
+                </form>
             </div>
         </div>
     </div> 
